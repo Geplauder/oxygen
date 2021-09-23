@@ -1,9 +1,27 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getAxios } from '../utility/api';
 
-const Channels = ({ channels, selectedChannel, setSelectedChannel }) => {
+const Channels = ({ selectedServer, selectedChannel, setSelectedChannel }) => {
+    const bearerToken = useSelector(state => state.auth.bearerToken);
+
+    const [channels, setChannels] = useState(null);
+
+    useEffect(() => {
+        setChannels(null);
+
+        const axios = getAxios(bearerToken);
+
+        axios.get(`servers/${selectedServer.id}/channels`)
+            .then(x => {
+                setSelectedChannel(x.data[0]);
+                setChannels(x.data);
+            });
+    }, [selectedServer]);
+
     return (
-        <div className='flex flex-col space-y-2 mx-2 my-2'>
+        <div className='flex flex-grow flex-col space-y-2 mx-2 my-2'>
             {channels && channels.map((channel, idx) => (
                 <div key={idx} onClick={() => setSelectedChannel(channel)}
                     className={classNames('rounded-md cursor-pointer font-semibold px-2 py-1 hover:bg-channels-highlight',

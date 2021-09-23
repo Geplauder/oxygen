@@ -1,16 +1,28 @@
-import React from 'react';
-import MessageLoader from '../contentLoaders/message-loader';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getAxios } from '../utility/api';
 
-const Messages = ({ messages }) => {
-    if (messages === null) {
-        return (<div className='mx-4 my-2 overflow-y-scroll'>
-            {Array(10).fill().map(_ => <MessageLoader />)}
-        </div>);
-    };
+const Messages = ({ selectedChannel, updateMessages }) => {
+    const bearerToken = useSelector(state => state.auth.bearerToken);
+
+    const [messages, setMessages] = useState(null);
+
+    useEffect(() => {
+        setMessages(null);
+
+        if (selectedChannel === null) {
+            return;
+        }
+
+        const axios = getAxios(bearerToken);
+
+        axios.get(`channels/${selectedChannel.id}/messages`)
+            .then(x => setMessages(x.data));
+    }, [selectedChannel, updateMessages]);
 
     return (
         <div className='flex-grow'>
-            {messages.map((message, idx) => (
+            {messages && messages.map((message, idx) => (
                 <div key={idx} className='flex space-x-4 px-4 py-2'>
                     <div>
                         <div className='w-12 h-12 bg-red-500 rounded-full'></div>
