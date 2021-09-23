@@ -65,22 +65,22 @@ const Content = ({ user, selectedServer }) => {
 
     return (
         <div className="flex w-full">
-            <div className="bg-gray-500 w-64 flex flex-col">
-                <div className="flex items-center h-12 border-b border-gray-600">
+            <div className="bg-channels w-64 flex flex-col">
+                <div className="flex items-center h-12 border-b border-gray-800">
                     <p className='mx-4 text-white text-xl font-semibold select-none'>{selectedServer?.name}</p>
                 </div>
                 <div className="flex-grow">
                     <Channels channels={channels} selectedChannel={selectedChannel} setSelectedChannel={setSelectedChannel} />
                 </div>
-                <div className="h-12 bg-gray-600 flex items-center">
+                <div className="h-12 bg-userinfo flex items-center">
                     <p className='mx-4 text-white text-lg font-semibold select-none'>
                         {user.username}
                     </p>
                 </div>
             </div>
-            <div className="bg-gray-400 flex flex-col flex-grow h-screen">
+            <div className="bg-messages flex flex-col flex-grow h-screen">
                 <div className="h-12 border-b border-gray-600">
-                    <div className="flex items-center h-12 border-b border-gray-600">
+                    <div className="flex items-center h-12 border-b border-gray-800">
                         <p className='mx-4 text-white text-xl font-semibold select-none'>
                             <span># </span>
                             {selectedChannel?.name}
@@ -90,11 +90,11 @@ const Content = ({ user, selectedServer }) => {
                 <Messages messages={messages} />
                 <div className="h-20 flex items-center">
                     <div className='mx-4 w-full'>
-                        <input type="text" className='w-full rounded-lg' placeholder={'Message #' + selectedChannel?.name} value={message} onChange={e => setMessage(e.target.value)} onKeyDown={sendMessage} />
+                        <input type="text" className='w-full rounded-lg bg-textbox text-white border-none focus:ring-transparent placeholder-[#909399]' placeholder={'Message #' + selectedChannel?.name} value={message} onChange={e => setMessage(e.target.value)} onKeyDown={sendMessage} />
                     </div>
                 </div>
             </div>
-            <div className="bg-gray-500 w-64">
+            <div className="bg-userlist w-64">
                 <UserList users={users} />
             </div>
         </div>

@@ -15,9 +15,9 @@ const Messages = ({ messages }) => {
                     <div>
                         <div className='w-12 h-12 bg-red-500 rounded-full'></div>
                     </div>
-                    <div>
-                        <p className='text-white'>
-                            {message.user.username} <span className='font-thin text-xs text-gray-200'>({message.created_at})</span>
+                    <div className='text-white'>
+                        <p className='font-semibold'>
+                            {message.user.username} <span className='font-thin text-[8pt] text-gray-300'>({message.created_at})</span>
                         </p>
                         <p>
                             {message.content}
