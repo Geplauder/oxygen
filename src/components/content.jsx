@@ -1,7 +1,6 @@
-import axios from 'axios';
-import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { getAxios } from '../utility/api';
 import Channels from './channels';
 import UserList from './user-list';
 
@@ -21,9 +20,11 @@ const Content = ({ user, selectedServer }) => {
             return;
         }
 
-        axios.post(`http://localhost:8000/channels/${selectedChannel.id}/messages`, {
+        const axios = getAxios(bearerToken);
+
+        axios.post(`channels/${selectedChannel.id}/messages`, {
             content: message,
-        }, { headers: { authorization: `Bearer ${bearerToken}` } })
+        })
             .then(_ => {
                 setUpdateMessages(updateMessages === false);
             });
@@ -32,13 +33,15 @@ const Content = ({ user, selectedServer }) => {
     };
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/servers/${selectedServer.id}/channels`, { headers: { authorization: `Bearer ${bearerToken}` } })
+        const axios = getAxios(bearerToken);
+
+        axios.get(`servers/${selectedServer.id}/channels`)
             .then(x => {
                 setSelectedChannel(x.data[0]);
                 setChannels(x.data);
             });
 
-        axios.get(`http://localhost:8000/servers/${selectedServer.id}/users`, { headers: { authorization: `Bearer ${bearerToken}` } })
+        axios.get(`servers/${selectedServer.id}/users`)
             .then(x => {
                 setUsers(x.data);
             });
@@ -49,7 +52,9 @@ const Content = ({ user, selectedServer }) => {
             return;
         }
 
-        axios.get(`http://localhost:8000/channels/${selectedChannel.id}/messages`, { headers: { authorization: `Bearer ${bearerToken}` } })
+        const axios = getAxios(bearerToken);
+
+        axios.get(`channels/${selectedChannel.id}/messages`)
             .then(x => setMessages(x.data));
     }, [selectedChannel, updateMessages]);
 

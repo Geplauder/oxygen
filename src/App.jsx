@@ -1,9 +1,9 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Content from './components/content';
 import Login from './components/login';
 import Servers from './components/servers';
+import { getAxios } from './utility/api';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -16,9 +16,10 @@ const App = () => {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:8000/users', { headers: { authorization: `Bearer ${bearerToken}` } })
-      .then(x => setUser(x.data));
-    axios.get('http://localhost:8000/users/servers', { headers: { authorization: `Bearer ${bearerToken}` } })
+    const axios = getAxios(bearerToken);
+
+    axios.get('users').then(x => setUser(x.data));
+    axios.get('users/servers')
       .then(x => {
         setSelectedServer(x.data[0]);
         setServers(x.data);
