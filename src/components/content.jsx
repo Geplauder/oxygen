@@ -2,13 +2,16 @@ import axios from 'axios';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import Channels from './channels';
+import UserList from './user-list';
 
 const Content = ({ user, selectedServer }) => {
     const bearerToken = useSelector(state => state.auth.bearerToken);
 
+    const [users, setUsers] = useState(null);
     const [channels, setChannels] = useState(null);
     const [messages, setMessages] = useState(null);
-    const [selectedChannel, setSelectedChannels] = useState(null);
+    const [selectedChannel, setSelectedChannel] = useState(null);
 
     const [message, setMessage] = useState('');
     const [updateMessages, setUpdateMessages] = useState(false);
@@ -31,8 +34,13 @@ const Content = ({ user, selectedServer }) => {
     useEffect(() => {
         axios.get(`http://localhost:8000/servers/${selectedServer.id}/channels`, { headers: { authorization: `Bearer ${bearerToken}` } })
             .then(x => {
-                setSelectedChannels(x.data[0]);
+                setSelectedChannel(x.data[0]);
                 setChannels(x.data);
+            });
+
+        axios.get(`http://localhost:8000/servers/${selectedServer.id}/users`, { headers: { authorization: `Bearer ${bearerToken}` } })
+            .then(x => {
+                setUsers(x.data);
             });
     }, [selectedServer]);
 
@@ -52,16 +60,7 @@ const Content = ({ user, selectedServer }) => {
                     <p className='mx-4 text-white text-xl font-semibold select-none'>{selectedServer?.name}</p>
                 </div>
                 <div className="flex-grow">
-                    <div className='flex flex-col space-y-2 mx-2 my-2'>
-                        {channels && channels.map((channel, idx) => (
-                            <div key={idx} onClick={() => setSelectedChannels(channel)} className={classNames('hover:bg-gray-400 rounded-md cursor-pointer px-2 py-1', { 'bg-gray-400': selectedChannel.id === channel.id })}>
-                                <p className='text-white text-lg font-semibold select-none'>
-                                    <span># </span>
-                                    {channel.name}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
+                    <Channels channels={channels} selectedChannel={selectedChannel} setSelectedChannel={setSelectedChannel} />
                 </div>
                 <div className="h-12 bg-gray-600 flex items-center">
                     <p className='mx-4 text-white text-lg font-semibold select-none'>
@@ -102,7 +101,7 @@ const Content = ({ user, selectedServer }) => {
                 </div>
             </div>
             <div className="bg-gray-500 w-64">
-
+                <UserList users={users} />
             </div>
         </div>
     );
