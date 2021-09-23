@@ -31,7 +31,7 @@ const App = () => {
       {user === null || servers === null ? (
         <div>Loading...</div>
       ) : (
-        <div className='flex h-screen w-full'>
+        <div className='flex max-h-screen w-full'>
           <Servers servers={servers} selectedServer={selectedServer} setSelectedServer={setSelectedServer} />
           <Content selectedServer={selectedServer} user={user} />
         </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getAxios } from '../utility/api';
 import Channels from './channels';
+import Messages from './messages';
 import UserList from './user-list';
 
 const Content = ({ user, selectedServer }) => {
@@ -35,6 +36,8 @@ const Content = ({ user, selectedServer }) => {
     useEffect(() => {
         const axios = getAxios(bearerToken);
 
+        setChannels(null);
+
         axios.get(`servers/${selectedServer.id}/channels`)
             .then(x => {
                 setSelectedChannel(x.data[0]);
@@ -48,6 +51,8 @@ const Content = ({ user, selectedServer }) => {
     }, [selectedServer]);
 
     useEffect(() => {
+        setMessages(null);
+
         if (selectedChannel === null) {
             return;
         }
@@ -73,7 +78,7 @@ const Content = ({ user, selectedServer }) => {
                     </p>
                 </div>
             </div>
-            <div className="bg-gray-400 flex flex-col flex-grow">
+            <div className="bg-gray-400 flex flex-col flex-grow h-screen">
                 <div className="h-12 border-b border-gray-600">
                     <div className="flex items-center h-12 border-b border-gray-600">
                         <p className='mx-4 text-white text-xl font-semibold select-none'>
@@ -82,23 +87,7 @@ const Content = ({ user, selectedServer }) => {
                         </p>
                     </div>
                 </div>
-                <div className="flex-grow">
-                    {messages && messages.map((message, idx) => (
-                        <div key={idx} className='flex space-x-4 px-4 py-2'>
-                            <div>
-                                <div className='w-12 h-12 bg-red-500 rounded-full'></div>
-                            </div>
-                            <div>
-                                <p className='text-white'>
-                                    {message.user.username} <span className='font-thin text-xs text-gray-200'>({message.created_at})</span>
-                                </p>
-                                <p>
-                                    {message.content}
-                                </p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                <Messages messages={messages} />
                 <div className="h-20 flex items-center">
                     <div className='mx-4 w-full'>
                         <input type="text" className='w-full rounded-lg' placeholder={'Message #' + selectedChannel?.name} value={message} onChange={e => setMessage(e.target.value)} onKeyDown={sendMessage} />
