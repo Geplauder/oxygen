@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getAxios } from '../utility/api';
+import PropTypes from 'prop-types';
 
 const UserList = ({ selectedServer }) => {
     const bearerToken = useSelector(state => state.auth.bearerToken);
@@ -29,7 +30,11 @@ const UserList = ({ selectedServer }) => {
                 </div>
             ))}
         </div>
-    )
+    );
+};
+
+UserList.propTypes = {
+    selectedServer: PropTypes.object
 };
 
 export default UserList;

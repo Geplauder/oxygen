@@ -6,6 +6,7 @@ import Messages from './messages';
 import ServerName from './server-name';
 import UserInfo from './user-info';
 import UserList from './user-list';
+import PropTypes from 'prop-types';
 
 const Content = ({ user, selectedServer }) => {
     const [selectedChannel, setSelectedChannel] = useState(null);
@@ -26,6 +27,11 @@ const Content = ({ user, selectedServer }) => {
             <UserList selectedServer={selectedServer} />
         </div>
     );
+};
+
+Content.propTypes = {
+    user: PropTypes.object,
+    selectedServer: PropTypes.object
 };
 
 export default Content;

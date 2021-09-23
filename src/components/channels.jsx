@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getAxios } from '../utility/api';
+import PropTypes from 'prop-types';
 
 const Channels = ({ selectedServer, selectedChannel, setSelectedChannel }) => {
     const bearerToken = useSelector(state => state.auth.bearerToken);
@@ -33,7 +34,13 @@ const Channels = ({ selectedServer, selectedChannel, setSelectedChannel }) => {
                 </div>
             ))}
         </div>
-    )
+    );
+};
+
+Channels.propTypes = {
+    selectedServer: PropTypes.object,
+    selectedChannel: PropTypes.object,
+    setSelectedChannel: PropTypes.func
 };
 
 export default Channels;

@@ -10,7 +10,7 @@ const App = () => {
   const [servers, setServers] = useState(null);
   const [selectedServer, setSelectedServer] = useState(null);
 
-  const bearerToken = useSelector(state => state.auth.bearerToken);
+  const bearerToken = useSelector((state) => state.auth.bearerToken);
   if (!bearerToken) {
     return <Login />;
   }
@@ -18,9 +18,9 @@ const App = () => {
   useEffect(() => {
     const axios = getAxios(bearerToken);
 
-    axios.get('users').then(x => setUser(x.data));
+    axios.get('users').then((x) => setUser(x.data));
     axios.get('users/servers')
-      .then(x => {
+      .then((x) => {
         setSelectedServer(x.data[0]);
         setServers(x.data);
       });
@@ -31,8 +31,12 @@ const App = () => {
       {user === null || servers === null ? (
         <div>Loading...</div>
       ) : (
-        <div className='flex max-h-screen w-full'>
-          <Servers servers={servers} selectedServer={selectedServer} setSelectedServer={setSelectedServer} />
+        <div className="flex max-h-screen w-full">
+          <Servers
+            servers={servers}
+            selectedServer={selectedServer}
+            setSelectedServer={setSelectedServer}
+          />
           <Content selectedServer={selectedServer} user={user} />
         </div>
       )}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getAxios } from '../utility/api';
+import PropTypes from 'prop-types';
 
 const MessageBox = ({ selectedChannel, setUpdateMessages }) => {
     const bearerToken = useSelector(state => state.auth.bearerToken);
@@ -17,7 +18,7 @@ const MessageBox = ({ selectedChannel, setUpdateMessages }) => {
         axios.post(`channels/${selectedChannel.id}/messages`, {
             content: message,
         })
-            .then(_ => {
+            .then(() => {
                 setUpdateMessages(x => !x);
             });
 
@@ -30,7 +31,12 @@ const MessageBox = ({ selectedChannel, setUpdateMessages }) => {
                 <input type="text" className='w-full rounded-lg bg-textbox text-white border-none focus:ring-transparent placeholder-[#909399]' placeholder={'Message #' + selectedChannel?.name} value={message} onChange={e => setMessage(e.target.value)} onKeyDown={sendMessage} />
             </div>
         </div>
-    )
+    );
+};
+
+MessageBox.propTypes = {
+    selectedChannel: PropTypes.object,
+    setUpdateMessages: PropTypes.func
 };
 
 export default MessageBox;

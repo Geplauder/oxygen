@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 const Servers = ({ servers, selectedServer, setSelectedServer }) => {
     return (
@@ -10,7 +11,13 @@ const Servers = ({ servers, selectedServer, setSelectedServer }) => {
                 </div>
             ))}
         </div>
-    )
-}
+    );
+};
+
+Servers.propTypes = {
+    servers: PropTypes.array,
+    selectedServer: PropTypes.object,
+    setSelectedServer: PropTypes.func,
+};
 
 export default Servers;

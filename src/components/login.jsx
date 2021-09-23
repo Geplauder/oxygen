@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { LockClosedIcon } from '@heroicons/react/solid';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setBearerToken } from '../store/reducers/auth'
+import { setBearerToken } from '../store/reducers/auth';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -84,7 +84,7 @@ const Login = () => {
                 </form>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Login;

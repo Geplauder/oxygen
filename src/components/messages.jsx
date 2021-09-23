@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getAxios } from '../utility/api';
+import PropTypes from 'prop-types';
 
 const Messages = ({ selectedChannel, updateMessages }) => {
     const bearerToken = useSelector(state => state.auth.bearerToken);
@@ -38,7 +39,12 @@ const Messages = ({ selectedChannel, updateMessages }) => {
                 </div>
             ))}
         </div>
-    )
+    );
+};
+
+Messages.propTypes = {
+    selectedChannel: PropTypes.object,
+    updateMessages: PropTypes.bool
 };
 
 export default Messages;

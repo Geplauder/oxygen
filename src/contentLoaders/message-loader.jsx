@@ -1,5 +1,5 @@
-import React from "react"
-import ContentLoader from "react-content-loader"
+import React from 'react';
+import ContentLoader from 'react-content-loader';
 
 const MessageLoader = (props) => (
     <ContentLoader
@@ -17,6 +17,6 @@ const MessageLoader = (props) => (
         <rect x="48" y="46" rx="3" ry="3" width="178" height="6" />
         <circle cx="20" cy="20" r="20" />
     </ContentLoader>
-)
+);
 
-export default MessageLoader
+export default MessageLoader;

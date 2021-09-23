@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ChannelName = ({ selectedChannel }) => {
     return (
@@ -10,7 +11,11 @@ const ChannelName = ({ selectedChannel }) => {
                 </p>
             </div>
         </div>
-    )
+    );
+};
+
+ChannelName.propTypes = {
+    selectedChannel: PropTypes.object
 };
 
 export default ChannelName;

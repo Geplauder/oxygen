@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const UserInfo = ({ user }) => {
     return (
@@ -7,7 +8,11 @@ const UserInfo = ({ user }) => {
                 {user.username}
             </p>
         </div>
-    )
+    );
+};
+
+UserInfo.propTypes = {
+    user: PropTypes.object
 };
 
 export default UserInfo;
