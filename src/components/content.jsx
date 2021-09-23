@@ -85,7 +85,7 @@ const Content = ({ user, selectedServer }) => {
                             </div>
                             <div>
                                 <p className='text-white'>
-                                    {message.user_id} <span className='font-thin text-xs text-gray-200'>({message.created_at})</span>
+                                    {message.user.username} <span className='font-thin text-xs text-gray-200'>({message.created_at})</span>
                                 </p>
                                 <p>
                                     {message.content}
