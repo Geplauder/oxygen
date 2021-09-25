@@ -1,25 +1,13 @@
-import React, { useState } from 'react';
-import { LockClosedIcon } from '@heroicons/react/solid';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { setBearerToken } from '../store/reducers/auth';
+import React, { useState } from "react";
+import { LockClosedIcon } from "@heroicons/react/solid";
+import { useAppDispatch } from "../../app/hooks";
+import { loginAsync } from "./loginSlice";
 
-const Login = () => {
+export default function Login(): JSX.Element {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const dispatch = useDispatch();
-
-    const login = async (event) => {
-        event.preventDefault();
-
-        const response = await axios.post('http://127.0.0.1:8000/login', {
-            email,
-            password,
-        });
-
-        dispatch(setBearerToken(response.data.token));
-    };
+    const dispatch = useAppDispatch();
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -72,7 +60,7 @@ const Login = () => {
                     <div>
                         <button
                             type="submit"
-                            onClick={login}
+                            onClick={(e) => { e.preventDefault(); dispatch(loginAsync({ email, password })) }}
                             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             <span className="absolute left-0 inset-y-0 flex items-center pl-3">
@@ -85,6 +73,4 @@ const Login = () => {
             </div>
         </div>
     );
-};
-
-export default Login;
+}

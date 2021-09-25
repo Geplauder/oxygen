@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Channel } from '../types';
 
-const ChannelName = ({ selectedChannel }) => {
+export default function ChannelName({ selectedChannel }: { selectedChannel: Channel | null }): JSX.Element {
     return (
         <div className="h-12 border-b border-gray-600">
             <div className="flex items-center h-12 border-b border-gray-800">
@@ -12,10 +12,4 @@ const ChannelName = ({ selectedChannel }) => {
             </div>
         </div>
     );
-};
-
-ChannelName.propTypes = {
-    selectedChannel: PropTypes.object
-};
-
-export default ChannelName;
+}
