@@ -1,15 +1,17 @@
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 import React from 'react';
 import { Redirect } from 'react-router';
 import { useAppSelector } from '../../app/hooks';
 import ChannelName from '../../components/ChannelName';
 import { useGetMessagesQuery } from '../../services/backend';
-import { Channel } from '../../types';
+import { selectChannels } from '../channels/channelsSlice';
 import { selectToken } from '../login/loginSlice';
 
-export default function Messages({ selectedChannel }: { selectedChannel: Channel }): JSX.Element {
+export default function Messages(): JSX.Element {
     const token = useAppSelector(selectToken);
 
-    const { data } = useGetMessagesQuery(selectedChannel.id);
+    const { selectedChannel } = useAppSelector(selectChannels);
+    const { data } = useGetMessagesQuery(selectedChannel?.id ?? skipToken);
 
     if (token === null) {
         return <Redirect to='/login' />;

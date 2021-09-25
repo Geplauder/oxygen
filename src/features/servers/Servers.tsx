@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useGetServersQuery } from '../../services/backend';
@@ -12,6 +12,15 @@ export default function Servers(): JSX.Element {
     const { data, error, isLoading } = useGetServersQuery('');
 
     const { selectedServer } = useAppSelector(selectServers);
+
+    useEffect(() => {
+        if (!data || selectedServer !== null) {
+            return;
+        }
+
+        dispatch(selectServer(data[0]));
+    }, [data]);
+
     const token = useAppSelector(selectToken);
 
     if (token === null) {

@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import Channels from "../features/channels/Channels";
 import { selectToken } from "../features/login/loginSlice";
 import Servers from "../features/servers/Servers";
-import { selectServers } from "../features/servers/serversSlice";
 import { getUserAsync, selectUser } from "../features/user/userSlice";
 
 export default function Index(): JSX.Element {
@@ -12,8 +11,6 @@ export default function Index(): JSX.Element {
 
     const token = useAppSelector(selectToken);
     const user = useAppSelector(selectUser);
-
-    const { selectedServer } = useAppSelector(selectServers);
 
     if (token === null) {
         return <Redirect to='/login' />;
@@ -30,9 +27,7 @@ export default function Index(): JSX.Element {
             ) : (
                 <div className="flex max-h-screen w-full">
                     <Servers />
-                    {selectedServer !== null && (
-                        <Channels selectedServer={selectedServer} />
-                    )}
+                    <Channels />
                 </div>
             )}
         </>
