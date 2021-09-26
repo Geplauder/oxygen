@@ -6,6 +6,7 @@ import MessageBox from '../../components/MessageBox';
 import { selectChannels } from '../channels/channelsSlice';
 import { selectToken } from '../login/loginSlice';
 import { selectMessages } from './messagesSlice';
+import moment from 'moment';
 
 export default function Messages(): JSX.Element {
     const { selectedChannel } = useAppSelector(selectChannels);
@@ -28,7 +29,7 @@ export default function Messages(): JSX.Element {
                         </div>
                         <div className='text-white'>
                             <p className='font-semibold'>
-                                {message.user.username} <span className='font-thin text-[8pt] text-gray-300'>({message.created_at})</span>
+                                {message.user.username} <span className='ml-1 font-normal text-[8pt] text-gray-300'>{moment(message.created_at).calendar()}</span>
                             </p>
                             <p>
                                 {message.content}
