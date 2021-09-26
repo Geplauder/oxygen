@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Redirect } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ChannelName from '../../components/ChannelName';
+import MessageBox from '../../components/MessageBox';
 import { selectChannels } from '../channels/channelsSlice';
 import { selectToken } from '../login/loginSlice';
 import { getMessagesAsync, selectMessages } from './messagesSlice';
@@ -46,6 +47,9 @@ export default function Messages(): JSX.Element {
                     </div>
                 ))}
             </div>
+            {selectedChannel && (
+                <MessageBox token={token} selectedChannel={selectedChannel} />
+            )}
         </div>
     );
 }

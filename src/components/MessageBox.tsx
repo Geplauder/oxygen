@@ -1,0 +1,34 @@
+import React, { KeyboardEvent, useState } from 'react';
+import { useAppDispatch } from '../app/hooks';
+import { postMessageAsync } from '../features/messages/messagesSlice';
+import { Channel } from '../types';
+
+export default function MessageBox({ token, selectedChannel }: { token: string, selectedChannel: Channel }): JSX.Element {
+    const dispatch = useAppDispatch();
+
+    const [message, setMessage] = useState('');
+
+    const sendMessage = async (event: KeyboardEvent) => {
+        if (event.key !== 'Enter' || message.length === 0) {
+            return;
+        }
+
+        dispatch(postMessageAsync({ token, channelId: selectedChannel.id, content: message }));
+
+        setMessage('');
+    }
+
+    return (
+        <div className="h-20 flex items-center">
+            <div className='mx-4 w-full'>
+                <input type="text"
+                    className='w-full rounded-lg bg-textbox text-white border-none focus:ring-transparent placeholder-[#909399]'
+                    placeholder={'Message #' + selectedChannel.name}
+                    value={message}
+                    onChange={e => setMessage(e.target.value)}
+                    onKeyDown={sendMessage}
+                />
+            </div>
+        </div>
+    );
+}

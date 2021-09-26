@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { string } from "prop-types";
 import { RootState } from "../../app/store";
 import { Message } from "../../types";
-import { fetchMessages } from "./messagesAPI";
+import { fetchMessages, postMessage } from "./messagesAPI";
 
 export interface MessageState {
     messages: Message[],
@@ -19,6 +20,13 @@ export const getMessagesAsync = createAsyncThunk(
         return response.data;
     }
 );
+
+export const postMessageAsync = createAsyncThunk(
+    "messages/postMessageAsync",
+    async ({ token, channelId, content }: { token: string, channelId: string, content: string }) => {
+        await postMessage(token,  channelId, content);
+    }
+)
 
 export const messagesSlice = createSlice({
     name: "messages",
