@@ -1,5 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { string } from "prop-types";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { Message } from "../../types";
 import { fetchMessages, postMessage } from "./messagesAPI";
@@ -31,7 +30,11 @@ export const postMessageAsync = createAsyncThunk(
 export const messagesSlice = createSlice({
     name: "messages",
     initialState,
-    reducers: {},
+    reducers: {
+        addMessage: (state, action: PayloadAction<Message>) => {
+            state.messages.push(action.payload);
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getMessagesAsync.fulfilled, (state, action) => {
@@ -41,5 +44,7 @@ export const messagesSlice = createSlice({
 });
 
 export const selectMessages = (state: RootState): { messages: Message[] } => state.messages;
+
+export const { addMessage } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

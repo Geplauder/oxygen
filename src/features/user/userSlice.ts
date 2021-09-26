@@ -1,14 +1,16 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { User } from "../../types";
 import { fetchUser } from "./userAPI";
 
 export interface UserState {
     user: User | null;
+    isConnected: boolean;
 }
 
 const initialState: UserState = {
     user: null,
+    isConnected: false,
 };
 
 export const getUserAsync = createAsyncThunk(
@@ -23,7 +25,11 @@ export const getUserAsync = createAsyncThunk(
 export const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {},
+    reducers: {
+        setIsConnected: (state, action: PayloadAction<boolean>) => {
+            state.isConnected = action.payload;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getUserAsync.fulfilled, (state, action) => {
@@ -32,6 +38,8 @@ export const userSlice = createSlice({
     }
 });
 
-export const selectUser = (state: RootState): User | null => state.user.user;
+export const selectUser = (state: RootState): { user: User | null, isConnected: boolean } => state.user;
+
+export const { setIsConnected } = userSlice.actions;
 
 export default userSlice.reducer;
