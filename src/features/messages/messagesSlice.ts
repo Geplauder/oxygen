@@ -4,11 +4,11 @@ import { Message } from "../../types";
 import { fetchMessages, postMessage } from "./messagesAPI";
 
 export interface MessageState {
-    messages: Message[],
+    messages: { [channelId: string]: Message[] },
 }
 
 const initialState: MessageState = {
-    messages: [],
+    messages: {},
 };
 
 export const getMessagesAsync = createAsyncThunk(
@@ -16,14 +16,14 @@ export const getMessagesAsync = createAsyncThunk(
     async ({ token, channelId }: { token: string, channelId: string }) => {
         const response = await fetchMessages(token, channelId);
 
-        return response.data;
+        return { channelId, data: response.data };
     }
 );
 
 export const postMessageAsync = createAsyncThunk(
     "messages/postMessageAsync",
     async ({ token, channelId, content }: { token: string, channelId: string, content: string }) => {
-        await postMessage(token,  channelId, content);
+        await postMessage(token, channelId, content);
     }
 )
 
@@ -32,18 +32,18 @@ export const messagesSlice = createSlice({
     initialState,
     reducers: {
         addMessage: (state, action: PayloadAction<Message>) => {
-            state.messages.push(action.payload);
+            state.messages[action.payload.channel_id].push(action.payload);
         }
     },
     extraReducers: (builder) => {
         builder
             .addCase(getMessagesAsync.fulfilled, (state, action) => {
-                state.messages = action.payload;
+                state.messages[action.payload.channelId] = action.payload.data;
             });
     }
 });
 
-export const selectMessages = (state: RootState): { messages: Message[] } => state.messages;
+export const selectMessages = (state: RootState): { messages: { [channelId: string]: Message[] } } => state.messages;
 
 export const { addMessage } = messagesSlice.actions;
 

@@ -8,7 +8,7 @@ import { Channel } from "../types";
 
 // TODO: Add typings for websocket related data
 
-export const websocketMiddleware: Middleware<{}, RootState> = storeApi => {
+export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
     let socket: WebSocket | null = null;
 
     return next => action => {
