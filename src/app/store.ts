@@ -3,17 +3,16 @@ import loginReducer from '../features/login/loginSlice';
 import userReducer from '../features/user/userSlice';
 import serversReducer from '../features/servers/serversSlice';
 import channelsReducer from '../features/channels/channelsSlice';
-import { backendApi } from '../services/backend';
+import messagesReducer from '../features/messages/messagesSlice';
 
 export const store = configureStore({
   reducer: {
-    [backendApi.reducerPath]: backendApi.reducer,
     login: loginReducer,
     user: userReducer,
     servers: serversReducer,
     channels: channelsReducer,
+    messages: messagesReducer,
   },
-  middleware: (gDM) => gDM().concat(backendApi.middleware),
 });
 
 store.subscribe(() => {

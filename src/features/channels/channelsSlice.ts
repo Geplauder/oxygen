@@ -1,14 +1,26 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { Channel } from "../../types";
+import { fetchChannels } from "./channelsAPI";
 
 export interface ChannelState {
+    channels: Channel[],
     selectedChannel: Channel | null,
 }
 
 const initialState: ChannelState = {
+    channels: [],
     selectedChannel: null,
 };
+
+export const getChannelsAsync = createAsyncThunk(
+    "channels/getChannelsAsync",
+    async ({ token, serverId }: { token: string, serverId: string }) => {
+        const response = await fetchChannels(token, serverId);
+
+        return response.data;
+    }
+);
 
 export const channelsSlice = createSlice({
     name: "channels",
@@ -18,10 +30,17 @@ export const channelsSlice = createSlice({
             state.selectedChannel = action.payload;
         }
     },
+    extraReducers: (builder) => {
+        builder
+            .addCase(getChannelsAsync.fulfilled, (state, action) => {
+                state.selectedChannel = action.payload[0];
+                state.channels = action.payload;
+            });
+    }
 });
 
 export const { selectChannel } = channelsSlice.actions;
 
-export const selectChannels = (state: RootState): { selectedChannel: Channel | null } => state.channels;
+export const selectChannels = (state: RootState): { channels: Channel[], selectedChannel: Channel | null } => state.channels;
 
 export default channelsSlice.reducer;

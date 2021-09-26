@@ -1,27 +1,36 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ChannelName from '../../components/ChannelName';
-import { useGetMessagesQuery } from '../../services/backend';
 import { selectChannels } from '../channels/channelsSlice';
 import { selectToken } from '../login/loginSlice';
+import { getMessagesAsync, selectMessages } from './messagesSlice';
 
 export default function Messages(): JSX.Element {
-    const token = useAppSelector(selectToken);
+    const dispatch = useAppDispatch();
 
     const { selectedChannel } = useAppSelector(selectChannels);
-    const { data } = useGetMessagesQuery(selectedChannel?.id ?? skipToken);
+    const { messages } = useAppSelector(selectMessages);
+
+    const token = useAppSelector(selectToken);
 
     if (token === null) {
         return <Redirect to='/login' />;
     }
 
+    useEffect(() => {
+        if (selectedChannel === null) {
+            return;
+        }
+
+        dispatch(getMessagesAsync({ token, channelId: selectedChannel.id }))
+    }, [selectedChannel]);
+
     return (
         <div className='flex bg-messages flex-col flex-grow h-screen'>
             <ChannelName selectedChannel={selectedChannel} />
             <div className='flex-grow'>
-                {data && data.map((message, idx) => (
+                {messages && messages.map((message, idx) => (
                     <div key={idx} className='flex space-x-4 px-4 py-2'>
                         <div>
                             <div className='w-12 h-12 bg-red-500 rounded-full'></div>

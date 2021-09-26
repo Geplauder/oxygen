@@ -1,44 +1,33 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query';
 import classNames from 'classnames';
 import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ServerName from '../../components/ServerName';
-import { useGetChannelsQuery } from '../../services/backend';
 import { selectToken } from '../login/loginSlice';
 import Messages from '../messages/Messages';
 import { selectServers } from '../servers/serversSlice';
 import User from '../user/User';
-import { selectChannel, selectChannels } from './channelsSlice';
+import { getChannelsAsync, selectChannel, selectChannels } from './channelsSlice';
 
 export default function Channels(): JSX.Element {
     const dispatch = useAppDispatch();
 
     const { selectedServer } = useAppSelector(selectServers);
-    const { selectedChannel } = useAppSelector(selectChannels);
-    const { data: channels } = useGetChannelsQuery(selectedServer?.id ?? skipToken);
-
-    useEffect(() => {
-        if (!channels || selectedChannel !== null) {
-            return;
-        }
-
-        dispatch(selectChannel(channels[0]));
-    }, [channels]);
-
-    useEffect(() => {
-        if (!channels) {
-            return;
-        }
-
-        dispatch(selectChannel(channels[0]));
-    }, [selectedServer]);
+    const { selectedChannel, channels } = useAppSelector(selectChannels);
 
     const token = useAppSelector(selectToken);
 
     if (token === null) {
         return <Redirect to='/login' />;
     }
+
+    useEffect(() => {
+        if (selectedServer === null) {
+            return;
+        }
+
+        dispatch(getChannelsAsync({ token, serverId: selectedServer.id }))
+    }, [selectedServer]);
 
     return (
         <div className='flex w-full'>
