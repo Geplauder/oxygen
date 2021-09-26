@@ -1,11 +1,11 @@
 import { Middleware } from "redux";
 import { RootState } from "../app/store";
+import { getChannelsAsync } from "../features/channels/channelsSlice";
+import { hydrate, loginAsync } from "../features/login/loginSlice";
 import { addMessage } from "../features/messages/messagesSlice";
 import { setIsConnected } from "../features/user/userSlice";
 import { Channel } from "../types";
 
-// TODO: Cleanup login flow
-// TODO: Improve action handling in websocketMiddleware
 // TODO: Add typings for websocket related data
 
 export const websocketMiddleware: Middleware<{}, RootState> = storeApi => {
@@ -13,8 +13,14 @@ export const websocketMiddleware: Middleware<{}, RootState> = storeApi => {
 
     return next => action => {
         switch (action.type) {
-            case "login/connectToWebsocket": {
-                socket = new WebSocket(`ws://localhost:8000/ws?bearer=${storeApi.getState().login.token}`);
+            // Connect websocket when either
+            //   - the user logs in
+            //   - the user is already logged in and the token is added to the store
+            case loginAsync.fulfilled.type:
+            case hydrate.type: {
+                const token = action.payload.token;
+
+                socket = new WebSocket(`ws://localhost:8000/ws?bearer=${token}`);
 
                 socket.onmessage = (event) => {
                     const data = JSON.parse(event.data);
@@ -22,6 +28,7 @@ export const websocketMiddleware: Middleware<{}, RootState> = storeApi => {
                     storeApi.dispatch(addMessage(data));
                 };
 
+                // Update store to reflect that websocket is in proper state
                 const waitForSocketConnection = () => {
                     setTimeout(() => {
                         if (socket === null || socket.readyState !== WebSocket.OPEN) {
@@ -36,7 +43,7 @@ export const websocketMiddleware: Middleware<{}, RootState> = storeApi => {
 
                 break;
             }
-            case "channels/getChannelsAsync/fulfilled": {
+            case getChannelsAsync.fulfilled.type: {
                 const payload = action.payload as Channel[];
 
                 socket?.send(JSON.stringify({

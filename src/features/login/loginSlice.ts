@@ -26,7 +26,6 @@ export const loginSlice = createSlice({
         hydrate: (state, action: PayloadAction<{ token: string }>) => {
             state.token = action.payload.token;
         },
-        connectToWebsocket: () => { }
     },
     extraReducers: (builder) => {
         builder
@@ -38,6 +37,6 @@ export const loginSlice = createSlice({
 
 export const selectToken = (state: RootState): string | null => state.login.token;
 
-export const { hydrate, connectToWebsocket } = loginSlice.actions;
+export const { hydrate } = loginSlice.actions;
 
 export default loginSlice.reducer;

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Redirect } from "react-router";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import Channels from "../features/channels/Channels";
-import { connectToWebsocket, selectToken } from "../features/login/loginSlice";
+import { selectToken } from "../features/login/loginSlice";
 import Servers from "../features/servers/Servers";
 import { getUserAsync, selectUser } from "../features/user/userSlice";
 
@@ -17,7 +17,6 @@ export default function Index(): JSX.Element {
     }
 
     useEffect(() => {
-        dispatch(connectToWebsocket());
         dispatch(getUserAsync({ token }));
     }, []);
 
