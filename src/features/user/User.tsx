@@ -3,7 +3,7 @@ import { useAppSelector } from '../../app/hooks';
 import { selectUser } from './userSlice';
 
 export default function User(): JSX.Element {
-    const user = useAppSelector(selectUser);
+    const { user } = useAppSelector(selectUser);
 
     return (
         <div className="h-12 bg-userinfo flex items-center">
