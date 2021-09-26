@@ -1,4 +1,5 @@
 import { Middleware } from "redux";
+import { RootState } from "../app/store";
 import { addMessage } from "../features/messages/messagesSlice";
 import { setIsConnected } from "../features/user/userSlice";
 import { Channel } from "../types";
@@ -7,7 +8,7 @@ import { Channel } from "../types";
 // TODO: Improve action handling in websocketMiddleware
 // TODO: Add typings for websocket related data
 
-export const websocketMiddleware: Middleware = storeApi => {
+export const websocketMiddleware: Middleware<{}, RootState> = storeApi => {
     let socket: WebSocket | null = null;
 
     return next => action => {
