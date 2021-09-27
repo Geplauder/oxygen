@@ -4,9 +4,29 @@ import { getChannelsAsync } from "../features/channels/channelsSlice";
 import { hydrate, loginAsync } from "../features/login/loginSlice";
 import { addMessage } from "../features/messages/messagesSlice";
 import { setIsConnected } from "../features/user/userSlice";
-import { Channel } from "../types";
+import { Channel, Message } from "../types";
 
-// TODO: Add typings for websocket related data
+enum WebsocketMessageType {
+    Bootstrap = "Bootstrap",
+    NewMessage = "NewMessage",
+}
+
+type WebsocketMessage = {
+    type: WebsocketMessageType.Bootstrap,
+    payload: WebsocketBootstrap
+} | {
+    type: WebsocketMessageType.NewMessage,
+    payload: WebsocketNewMessage
+}
+
+type WebsocketBootstrap = {
+    channels: string[],
+}
+
+type WebsocketNewMessage = {
+    message: Message,
+}
+
 
 export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
     let socket: WebSocket | null = null;
@@ -23,9 +43,15 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
                 socket = new WebSocket(`ws://localhost:8000/ws?bearer=${token}`);
 
                 socket.onmessage = (event) => {
-                    const data = JSON.parse(event.data);
+                    const message: WebsocketMessage = JSON.parse(event.data);
 
-                    storeApi.dispatch(addMessage(data));
+                    switch (message.type) {
+                        case WebsocketMessageType.NewMessage: {
+                            storeApi.dispatch(addMessage(message.payload.message));
+
+                            break;
+                        }
+                    }
                 };
 
                 // Update store to reflect that websocket is in proper state
@@ -46,9 +72,14 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
             case getChannelsAsync.fulfilled.type: {
                 const payload = action.payload as Channel[];
 
-                socket?.send(JSON.stringify({
-                    channels: payload.map(x => x.id),
-                }));
+                const message: WebsocketMessage = {
+                    type: WebsocketMessageType.Bootstrap,
+                    payload: {
+                        channels: payload.map(x => x.id),
+                    }
+                };
+
+                socket?.send(JSON.stringify(message));
 
                 break;
             }
