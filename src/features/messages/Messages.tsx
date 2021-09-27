@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Redirect } from 'react-router';
 import { useAppSelector } from '../../app/hooks';
 import ChannelName from '../../components/ChannelName';
@@ -11,8 +11,17 @@ import Message from './Message';
 export default function Messages(): JSX.Element {
     const { selectedChannel } = useAppSelector(selectChannels);
     const { messages } = useAppSelector(selectMessages);
-
     const token = useAppSelector(selectToken);
+
+    const messagesEnd = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (messagesEnd.current === null) {
+            return;
+        }
+
+        messagesEnd.current.scrollIntoView();
+    }, [messages, selectedChannel]);
 
     if (token === null) {
         return <Redirect to='/login' />;
@@ -25,6 +34,7 @@ export default function Messages(): JSX.Element {
                 {selectedChannel && messages[selectedChannel.id] && messages[selectedChannel.id].map((message, idx) => (
                     <Message key={idx} message={message} />
                 ))}
+                <div ref={messagesEnd} className='float-left clear-both'></div>
             </div>
             {selectedChannel && (
                 <MessageBox token={token} selectedChannel={selectedChannel} />
