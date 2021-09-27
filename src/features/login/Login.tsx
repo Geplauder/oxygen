@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { useAppDispatch } from "../../app/hooks";
-import { loginAsync } from "./loginSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { loginAsync, selectToken } from "./loginSlice";
+import { Redirect } from "react-router-dom";
 
 export default function Login(): JSX.Element {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const token = useAppSelector(selectToken);
+
+    if (token !== null) {
+        return  <Redirect to='/' />;
+    }
 
     const dispatch = useAppDispatch();
 
