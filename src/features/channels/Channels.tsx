@@ -8,7 +8,6 @@ import Messages from '../messages/Messages';
 import { selectServers } from '../servers/serversSlice';
 import User from '../user/User';
 import { getChannelsAsync, selectChannel, selectChannels } from './channelsSlice';
-import CreateChannel from './CreateChannel';
 
 export default function Channels(): JSX.Element {
     const dispatch = useAppDispatch();

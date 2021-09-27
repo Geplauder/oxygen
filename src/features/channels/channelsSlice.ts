@@ -29,8 +29,10 @@ export const getChannelsAsync = createAsyncThunk(
 
 export const postChannelAsync = createAsyncThunk(
     "channels/postChannelAsync",
-    async ({ token, serverId, name }: { token: string, serverId: string, name: string }) => {
+    async ({ token, serverId, name }: { token: string, serverId: string, name: string }, { dispatch }) => {
         await postChannel(token, serverId, name);
+
+        dispatch(getChannelsAsync({ token, serverId }));
     }
 )
 

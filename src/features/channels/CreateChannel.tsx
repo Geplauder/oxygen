@@ -1,7 +1,7 @@
 import React, { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useAppDispatch } from '../../app/hooks';
-import { PlusIcon, PlusSmIcon } from '@heroicons/react/solid';
+import { PlusIcon } from '@heroicons/react/solid';
 import { postChannelAsync } from './channelsSlice';
 import { Server } from '../../types';
 
