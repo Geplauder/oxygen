@@ -6,7 +6,7 @@ import MessageBox from '../../components/MessageBox';
 import { selectChannels } from '../channels/channelsSlice';
 import { selectToken } from '../login/loginSlice';
 import { selectMessages } from './messagesSlice';
-import moment from 'moment';
+import Message from './Message';
 
 export default function Messages(): JSX.Element {
     const { selectedChannel } = useAppSelector(selectChannels);
@@ -21,21 +21,9 @@ export default function Messages(): JSX.Element {
     return (
         <div className='flex bg-messages flex-col flex-grow h-screen'>
             <ChannelName selectedChannel={selectedChannel} />
-            <div className='flex-grow overflow-y-scroll'>
+            <div className='flex-1 overflow-y-scroll space-y-2 pb-2'>
                 {selectedChannel && messages[selectedChannel.id] && messages[selectedChannel.id].map((message, idx) => (
-                    <div key={idx} className='flex space-x-4 px-4 py-2'>
-                        <div>
-                            <div className='w-12 h-12 bg-red-500 rounded-full'></div>
-                        </div>
-                        <div className='text-white'>
-                            <p className='font-semibold'>
-                                {message.user.username} <span className='ml-1 font-normal text-[8pt] text-gray-300'>{moment(message.created_at).calendar()}</span>
-                            </p>
-                            <p>
-                                {message.content}
-                            </p>
-                        </div>
-                    </div>
+                    <Message key={idx} message={message} />
                 ))}
             </div>
             {selectedChannel && (

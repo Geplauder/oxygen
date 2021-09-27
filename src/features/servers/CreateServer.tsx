@@ -14,7 +14,7 @@ export default function CreateServer({ token }: { token: string }): JSX.Element 
     return (
         <>
             <div className='cursor-pointer' onClick={() => setOpen(true)}>
-                <div className='flex items-center justify-center bg-messages w-16 h-16 rounded-full'>
+                <div className='flex items-center justify-center transition bg-messages hover:bg-channels w-16 h-16 rounded-full'>
                     <PlusSmIcon className='text-white w-10 h-10' />
                 </div>
             </div>

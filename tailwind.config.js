@@ -16,7 +16,7 @@ module.exports = {
         },
         messages: {
           DEFAULT: '#4b4e52',
-          highlight: '',
+          highlight: '#45474a',
         },
         userinfo: {
           DEFAULT: '#383a3d',
