@@ -8,6 +8,7 @@ import Messages from '../messages/Messages';
 import { selectServers } from '../servers/serversSlice';
 import User from '../user/User';
 import { getChannelsAsync, selectChannel, selectChannels } from './channelsSlice';
+import CreateChannel from './CreateChannel';
 
 export default function Channels(): JSX.Element {
     const dispatch = useAppDispatch();
@@ -32,7 +33,7 @@ export default function Channels(): JSX.Element {
     return (
         <div className='flex w-full'>
             <div className='bg-channels w-64 flex flex-col'>
-                <ServerName selectedServer={selectedServer} />
+                <ServerName />
                 <div className='flex flex-grow flex-col space-y-2 mx-2 my-2'>
                     {channels && channels.map((channel, idx) => (
                         <div key={idx} onClick={() => dispatch(selectChannel(channel))}
