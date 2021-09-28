@@ -1,26 +1,33 @@
 import { Middleware } from "redux";
 import { RootState } from "../app/store";
-import { getChannelsAsync } from "../features/channels/channelsSlice";
 import { hydrate, loginAsync } from "../features/login/loginSlice";
 import { addMessage } from "../features/messages/messagesSlice";
 import { setIsConnected } from "../features/user/userSlice";
-import { Channel, Message } from "../types";
+import { Message } from "../types";
 
 enum WebsocketMessageType {
-    Bootstrap = "Bootstrap",
+    Identify = "Identify",
+    Ready = "Ready",
     NewMessage = "NewMessage",
 }
 
 type WebsocketMessage = {
-    type: WebsocketMessageType.Bootstrap,
-    payload: WebsocketBootstrap
+    type: WebsocketMessageType.Identify,
+    payload: WebsocketIdentify
+} | {
+    type: WebsocketMessageType.Ready,
+    payload: WebsocketReady
 } | {
     type: WebsocketMessageType.NewMessage,
     payload: WebsocketNewMessage
 }
 
-type WebsocketBootstrap = {
-    channels: string[],
+type WebsocketIdentify = {
+    bearer: string,
+}
+
+
+type WebsocketReady = {
 }
 
 type WebsocketNewMessage = {
@@ -40,7 +47,7 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
             case hydrate.type: {
                 const token = action.payload.token;
 
-                socket = new WebSocket(`ws://localhost:8000/ws?bearer=${token}`);
+                socket = new WebSocket('ws://localhost:8000/ws');
 
                 socket.onmessage = (event) => {
                     const message: WebsocketMessage = JSON.parse(event.data);
@@ -48,6 +55,11 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
                     switch (message.type) {
                         case WebsocketMessageType.NewMessage: {
                             storeApi.dispatch(addMessage(message.payload.message));
+
+                            break;
+                        }
+                        case WebsocketMessageType.Ready: {
+                            storeApi.dispatch(setIsConnected(true));
 
                             break;
                         }
@@ -60,26 +72,19 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
                         if (socket === null || socket.readyState !== WebSocket.OPEN) {
                             waitForSocketConnection();
                         } else {
-                            storeApi.dispatch(setIsConnected(true));
+                            const message: WebsocketMessage = {
+                                type: WebsocketMessageType.Identify,
+                                payload: {
+                                    bearer: token,
+                                }
+                            };
+            
+                            socket?.send(JSON.stringify(message));
                         }
                     }, 100);
                 };
 
                 waitForSocketConnection();
-
-                break;
-            }
-            case getChannelsAsync.fulfilled.type: {
-                const payload = action.payload as Channel[];
-
-                const message: WebsocketMessage = {
-                    type: WebsocketMessageType.Bootstrap,
-                    payload: {
-                        channels: payload.map(x => x.id),
-                    }
-                };
-
-                socket?.send(JSON.stringify(message));
 
                 break;
             }
