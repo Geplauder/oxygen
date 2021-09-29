@@ -1,6 +1,7 @@
 import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
 import loginReducer from '../features/login/loginSlice';
 import userReducer from '../features/user/userSlice';
+import usersReducer from '../features/users/usersSlice';
 import serversReducer from '../features/servers/serversSlice';
 import channelsReducer from '../features/channels/channelsSlice';
 import messagesReducer from '../features/messages/messagesSlice';
@@ -9,6 +10,7 @@ import { websocketMiddleware } from '../middlewares/websocket';
 const rootReducer = combineReducers({
   login: loginReducer,
   user: userReducer,
+  users: usersReducer,
   servers: serversReducer,
   channels: channelsReducer,
   messages: messagesReducer,

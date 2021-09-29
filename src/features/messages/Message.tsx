@@ -4,7 +4,7 @@ import { Message as MessageObject } from '../../types';
 
 export default function Message({ message }: { message: MessageObject }): JSX.Element {
     return (
-        <div className='flex space-x-4 px-4 py-2 mr-12 hover:bg-messages-highlight'>
+        <div className='flex space-x-4 px-4 py-2 mr-1 hover:bg-messages-highlight'>
             <div>
                 <div className='w-12 h-12 bg-red-500 rounded-full'></div>
             </div>
