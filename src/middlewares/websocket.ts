@@ -7,6 +7,8 @@ import { setIsConnected } from "../features/user/userSlice";
 import { Channel, Message } from "../types";
 
 enum WebsocketMessageType {
+    Ping = "Ping",
+    Pong = "Pong",
     Identify = "Identify",
     Ready = "Ready",
     NewMessage = "NewMessage",
@@ -14,6 +16,10 @@ enum WebsocketMessageType {
 }
 
 type WebsocketMessage = {
+    type: WebsocketMessageType.Ping,
+} | {
+    type: WebsocketMessageType.Pong,
+} | {
     type: WebsocketMessageType.Identify,
     payload: WebsocketIdentify
 } | {
@@ -42,7 +48,6 @@ type WebsocketNewMessage = {
 type WebsocketNewChannel = {
     channel: Channel,
 }
-
 
 export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
     let socket: WebSocket | null = null;
@@ -80,25 +85,24 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
                     }
                 };
 
-                // Update store to reflect that websocket is in proper state
-                const waitForSocketConnection = () => {
-                    setTimeout(() => {
-                        if (socket === null || socket.readyState !== WebSocket.OPEN) {
-                            waitForSocketConnection();
-                        } else {
-                            const message: WebsocketMessage = {
-                                type: WebsocketMessageType.Identify,
-                                payload: {
-                                    bearer: token,
-                                }
-                            };
-            
-                            socket?.send(JSON.stringify(message));
+                socket.onopen = () => {
+                    const message: WebsocketMessage = {
+                        type: WebsocketMessageType.Identify,
+                        payload: {
+                            bearer: token,
                         }
-                    }, 100);
-                };
+                    };
 
-                waitForSocketConnection();
+                    socket?.send(JSON.stringify(message));
+
+                    setInterval(() => {
+                        const message: WebsocketMessage = {
+                            type: WebsocketMessageType.Ping
+                        };
+
+                        socket?.send(JSON.stringify(message));
+                    }, 15 * 1000);
+                };
 
                 break;
             }
