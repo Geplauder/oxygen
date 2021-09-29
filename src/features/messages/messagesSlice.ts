@@ -13,8 +13,8 @@ const initialState: MessageState = {
 
 export const getMessagesAsync = createAsyncThunk(
     "messages/getMessagesAsync",
-    async ({ token, channelId }: { token: string, channelId: string }) => {
-        const response = await fetchMessages(token, channelId);
+    async ({ channelId }: { channelId: string }) => {
+        const response = await fetchMessages(channelId);
 
         return { channelId, data: response.data };
     }
@@ -22,8 +22,8 @@ export const getMessagesAsync = createAsyncThunk(
 
 export const postMessageAsync = createAsyncThunk(
     "messages/postMessageAsync",
-    async ({ token, channelId, content }: { token: string, channelId: string, content: string }) => {
-        await postMessage(token, channelId, content);
+    async ({ channelId, content }: { channelId: string, content: string }) => {
+        await postMessage(channelId, content);
     }
 )
 

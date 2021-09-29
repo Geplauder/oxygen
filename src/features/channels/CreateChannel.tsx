@@ -5,7 +5,7 @@ import { PlusIcon } from '@heroicons/react/solid';
 import { postChannelAsync } from './channelsSlice';
 import { Server } from '../../types';
 
-export default function CreateChannel({ token, selectedServer }: { token: string, selectedServer: Server | null }): JSX.Element {
+export default function CreateChannel({ selectedServer }: { selectedServer: Server | null }): JSX.Element {
     const dispatch = useAppDispatch();
 
     const [open, setOpen] = useState(false);
@@ -82,7 +82,7 @@ export default function CreateChannel({ token, selectedServer }: { token: string
                                     <button
                                         type="button"
                                         className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                        onClick={() => { dispatch(postChannelAsync({ token, serverId: selectedServer?.id, name: channelName })); setOpen(false); }}
+                                        onClick={() => { dispatch(postChannelAsync({ serverId: selectedServer?.id, name: channelName })); setOpen(false); }}
                                     >
                                         Create
                                     </button>

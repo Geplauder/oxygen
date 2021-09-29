@@ -3,7 +3,7 @@ import { useAppDispatch } from '../app/hooks';
 import { postMessageAsync } from '../features/messages/messagesSlice';
 import { Channel } from '../types';
 
-export default function MessageBox({ token, selectedChannel }: { token: string, selectedChannel: Channel }): JSX.Element {
+export default function MessageBox({ selectedChannel }: { selectedChannel: Channel }): JSX.Element {
     const dispatch = useAppDispatch();
 
     const [message, setMessage] = useState('');
@@ -13,7 +13,7 @@ export default function MessageBox({ token, selectedChannel }: { token: string, 
             return;
         }
 
-        dispatch(postMessageAsync({ token, channelId: selectedChannel.id, content: message }));
+        dispatch(postMessageAsync({ channelId: selectedChannel.id, content: message }));
 
         setMessage('');
     }

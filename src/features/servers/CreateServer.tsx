@@ -4,7 +4,7 @@ import { useAppDispatch } from '../../app/hooks';
 import { PlusSmIcon } from '@heroicons/react/solid';
 import { postServerAsync } from './serversSlice';
 
-export default function CreateServer({ token }: { token: string }): JSX.Element {
+export default function CreateServer(): JSX.Element {
     const dispatch = useAppDispatch();
 
     const [open, setOpen] = useState(false);
@@ -75,7 +75,7 @@ export default function CreateServer({ token }: { token: string }): JSX.Element 
                                     <button
                                         type="button"
                                         className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                        onClick={() => { dispatch(postServerAsync({ token, name: serverName })); setOpen(false); }}
+                                        onClick={() => { dispatch(postServerAsync({ name: serverName })); setOpen(false); }}
                                     >
                                         Create
                                     </button>

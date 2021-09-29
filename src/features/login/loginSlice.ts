@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
 import { RootState } from "../../app/store";
 import { fetchLogin } from "./loginAPI";
 
@@ -24,12 +25,18 @@ export const loginSlice = createSlice({
     initialState,
     reducers: {
         hydrate: (state, action: PayloadAction<{ token: string }>) => {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
             state.token = action.payload.token;
         },
+        invalidateToken: (state) => {
+            axios.defaults.headers.common['Authorization'] = null;
+            state.token = null;
+        }
     },
     extraReducers: (builder) => {
         builder
             .addCase(loginAsync.fulfilled, (state, action) => {
+                axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
                 state.token = action.payload.token;
             });
     }
@@ -37,6 +44,6 @@ export const loginSlice = createSlice({
 
 export const selectToken = (state: RootState): string | null => state.login.token;
 
-export const { hydrate } = loginSlice.actions;
+export const { hydrate, invalidateToken } = loginSlice.actions;
 
 export default loginSlice.reducer;

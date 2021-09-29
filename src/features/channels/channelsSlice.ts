@@ -16,11 +16,11 @@ const initialState: ChannelState = {
 
 export const getChannelsAsync = createAsyncThunk(
     "channels/getChannelsAsync",
-    async ({ token, serverId }: { token: string, serverId: string }, { dispatch }) => {
-        const response = await fetchChannels(token, serverId);
+    async ({ serverId }: { serverId: string }, { dispatch }) => {
+        const response = await fetchChannels(serverId);
 
         for (const channel of response.data) {
-            dispatch(getMessagesAsync({ token, channelId: channel.id }));
+            dispatch(getMessagesAsync({ channelId: channel.id }));
         }
 
         return response.data;
@@ -29,8 +29,8 @@ export const getChannelsAsync = createAsyncThunk(
 
 export const postChannelAsync = createAsyncThunk(
     "channels/postChannelAsync",
-    async ({ token, serverId, name }: { token: string, serverId: string, name: string }, { dispatch }) => {
-        await postChannel(token, serverId, name);
+    async ({ serverId, name }: { serverId: string, name: string }, { dispatch }) => {
+        await postChannel(serverId, name);
     }
 )
 

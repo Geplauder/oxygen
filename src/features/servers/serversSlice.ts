@@ -16,8 +16,8 @@ const initialState: ServerState = {
 
 export const getServersAsync = createAsyncThunk(
     "servers/getServersAsync",
-    async ({ token }: { token: string }) => {
-        const response = await fetchServers(token);
+    async () => {
+        const response = await fetchServers();
 
         return response.data;
     }
@@ -25,10 +25,10 @@ export const getServersAsync = createAsyncThunk(
 
 export const postServerAsync = createAsyncThunk(
     "servers/postServerAsync",
-    async ({ token, name }: { token: string, name: string }, { dispatch }) => {
-        await postServer(token, name);
+    async ({ name }: { name: string }, { dispatch }) => {
+        await postServer(name);
 
-        dispatch(getServersAsync({ token }));
+        dispatch(getServersAsync());
     }
 )
 

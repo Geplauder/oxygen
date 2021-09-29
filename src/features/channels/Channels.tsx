@@ -1,9 +1,7 @@
 import classNames from 'classnames';
 import React, { useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ServerName from '../../components/ServerName';
-import { selectToken } from '../login/loginSlice';
 import Messages from '../messages/Messages';
 import { selectServers } from '../servers/serversSlice';
 import User from '../user/User';
@@ -17,19 +15,13 @@ export default function Channels(): JSX.Element {
     const { selectedServer } = useAppSelector(selectServers);
     const { selectedChannel, channels } = useAppSelector(selectChannels);
 
-    const token = useAppSelector(selectToken);
-
-    if (token === null) {
-        return <Redirect to='/login' />;
-    }
-
     useEffect(() => {
         if (selectedServer === null) {
             return;
         }
 
-        dispatch(getChannelsAsync({ token, serverId: selectedServer.id }));
-        dispatch(getUsersAsync({ token, serverId: selectedServer.id }));
+        dispatch(getChannelsAsync({ serverId: selectedServer.id }));
+        dispatch(getUsersAsync({ serverId: selectedServer.id }));
     }, [selectedServer]);
 
     return (

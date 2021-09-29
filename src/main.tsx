@@ -5,6 +5,7 @@ import App from "./App";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import { hydrate } from "./features/login/loginSlice";
+import { setupAxios } from "./utility/api";
 
 function getTokenFromStorage(): { token: string } | null {
   const persistedState = localStorage.getItem('geplauderState');
@@ -20,6 +21,8 @@ const token = getTokenFromStorage();
 if (token) {
   store.dispatch(hydrate(token));
 }
+
+setupAxios(store, token?.token ?? null);
 
 ReactDOM.render(
   <React.StrictMode>

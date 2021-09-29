@@ -13,8 +13,8 @@ const initialState: UsersState = {
 
 export const getUsersAsync = createAsyncThunk(
     "users/getUsersAsync",
-    async ({ token, serverId }: { token: string, serverId: string }) => {
-        const response = await fetchUsers(token, serverId);
+    async ({ serverId }: { serverId: string }) => {
+        const response = await fetchUsers(serverId);
 
         return response.data;
     }

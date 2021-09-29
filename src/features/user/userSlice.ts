@@ -15,8 +15,8 @@ const initialState: UserState = {
 
 export const getUserAsync = createAsyncThunk(
     "login/getUserAsync",
-    async ({ token }: { token: string }) => {
-        const response = await fetchUser(token);
+    async () => {
+        const response = await fetchUser();
 
         return response.data;
     }
