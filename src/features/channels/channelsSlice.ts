@@ -31,8 +31,6 @@ export const postChannelAsync = createAsyncThunk(
     "channels/postChannelAsync",
     async ({ token, serverId, name }: { token: string, serverId: string, name: string }, { dispatch }) => {
         await postChannel(token, serverId, name);
-
-        dispatch(getChannelsAsync({ token, serverId }));
     }
 )
 
@@ -42,6 +40,9 @@ export const channelsSlice = createSlice({
     reducers: {
         selectChannel: (state, action: PayloadAction<Channel>) => {
             state.selectedChannel = action.payload;
+        },
+        addChannel: (state, action: PayloadAction<Channel>) => {
+            state.channels.push(action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -53,7 +54,7 @@ export const channelsSlice = createSlice({
     }
 });
 
-export const { selectChannel } = channelsSlice.actions;
+export const { selectChannel, addChannel } = channelsSlice.actions;
 
 export const selectChannels = (state: RootState): { channels: Channel[], selectedChannel: Channel | null } => state.channels;
 

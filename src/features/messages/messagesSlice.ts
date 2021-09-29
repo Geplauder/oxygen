@@ -32,7 +32,11 @@ export const messagesSlice = createSlice({
     initialState,
     reducers: {
         addMessage: (state, action: PayloadAction<Message>) => {
-            state.messages[action.payload.channel_id].push(action.payload);
+            if (state.messages[action.payload.channel_id]) {
+                state.messages[action.payload.channel_id].push(action.payload);
+            } else {
+                state.messages[action.payload.channel_id] = [action.payload];
+            }
         }
     },
     extraReducers: (builder) => {

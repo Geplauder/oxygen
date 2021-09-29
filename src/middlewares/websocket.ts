@@ -1,14 +1,16 @@
 import { Middleware } from "redux";
 import { RootState } from "../app/store";
+import { addChannel } from "../features/channels/channelsSlice";
 import { hydrate, loginAsync } from "../features/login/loginSlice";
 import { addMessage } from "../features/messages/messagesSlice";
 import { setIsConnected } from "../features/user/userSlice";
-import { Message } from "../types";
+import { Channel, Message } from "../types";
 
 enum WebsocketMessageType {
     Identify = "Identify",
     Ready = "Ready",
     NewMessage = "NewMessage",
+    NewChannel = "NewChannel",
 }
 
 type WebsocketMessage = {
@@ -20,6 +22,9 @@ type WebsocketMessage = {
 } | {
     type: WebsocketMessageType.NewMessage,
     payload: WebsocketNewMessage
+} | {
+    type: WebsocketMessageType.NewChannel,
+    payload: WebsocketNewChannel
 }
 
 type WebsocketIdentify = {
@@ -32,6 +37,10 @@ type WebsocketReady = {
 
 type WebsocketNewMessage = {
     message: Message,
+}
+
+type WebsocketNewChannel = {
+    channel: Channel,
 }
 
 
@@ -53,13 +62,18 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
                     const message: WebsocketMessage = JSON.parse(event.data);
 
                     switch (message.type) {
+                        case WebsocketMessageType.Ready: {
+                            storeApi.dispatch(setIsConnected(true));
+
+                            break;
+                        }
                         case WebsocketMessageType.NewMessage: {
                             storeApi.dispatch(addMessage(message.payload.message));
 
                             break;
                         }
-                        case WebsocketMessageType.Ready: {
-                            storeApi.dispatch(setIsConnected(true));
+                        case WebsocketMessageType.NewChannel: {
+                            storeApi.dispatch(addChannel(message.payload.channel));
 
                             break;
                         }
