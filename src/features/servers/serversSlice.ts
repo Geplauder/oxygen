@@ -43,7 +43,7 @@ export const serversSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getServersAsync.fulfilled, (state, action) => {
-                if (state.selectedServer === null) {
+                if (action.payload.length > 0 && state.selectedServer === null) {
                     state.selectedServer = action.payload[0];
                 }
 
