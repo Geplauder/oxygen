@@ -25,10 +25,8 @@ export const getServersAsync = createAsyncThunk(
 
 export const postServerAsync = createAsyncThunk(
     "servers/postServerAsync",
-    async ({ name }: { name: string }, { dispatch }) => {
+    async ({ name }: { name: string }) => {
         await postServer(name);
-
-        dispatch(getServersAsync());
     }
 )
 
@@ -38,6 +36,9 @@ export const serversSlice = createSlice({
     reducers: {
         selectServer: (state, action: PayloadAction<Server>) => {
             state.selectedServer = action.payload;
+        },
+        addServer: (state, action: PayloadAction<Server>) => {
+            state.servers.push(action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -52,7 +53,7 @@ export const serversSlice = createSlice({
     }
 });
 
-export const { selectServer } = serversSlice.actions;
+export const { selectServer, addServer } = serversSlice.actions;
 
 export const selectServers = (state: RootState): { servers: Server[], selectedServer: Server | null } => state.servers;
 
