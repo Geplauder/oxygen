@@ -1,12 +1,13 @@
 import React from 'react';
 import moment from 'moment';
 import { Message as MessageObject } from '../../types';
+import UserAvatar from '../user/UserAvatar';
 
 export default function Message({ message }: { message: MessageObject }): JSX.Element {
     return (
         <div className='flex space-x-4 px-4 py-2 mr-1 hover:bg-messages-highlight'>
             <div>
-                <div className='w-12 h-12 bg-red-500 rounded-full'></div>
+                <UserAvatar user={message.user} size='normal' />
             </div>
             <div className='text-white'>
                 <p className='font-semibold'>

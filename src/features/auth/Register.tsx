@@ -1,12 +1,18 @@
 import { LockClosedIcon, XCircleIcon } from '@heroicons/react/solid';
 import React, { useState } from 'react';
 import { Link, Redirect, useHistory } from 'react-router-dom';
-import { useAppDispatch } from '../../app/hooks';
-import { registerAsync } from './authSlice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { registerAsync, selectToken } from './authSlice';
 
 export default function Register(): JSX.Element {
     const dispatch = useAppDispatch();
     const history = useHistory();
+
+    const token = useAppSelector(selectToken);
+
+    if (token !== null) {
+        return <Redirect to='/' />;
+    }
 
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
