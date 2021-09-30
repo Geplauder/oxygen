@@ -1,18 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../../app/store";
-import { fetchLogin } from "./loginAPI";
+import { fetchLogin } from "./authAPI";
 
-export interface LoginState {
+export interface AuthState {
     token: string | null;
 }
 
-const initialState: LoginState = {
+const initialState: AuthState = {
     token: null,
 };
 
 export const loginAsync = createAsyncThunk(
-    "login/loginAsync",
+    "auth/loginAsync",
     async ({ email, password }: { email: string, password: string }) => {
         const response = await fetchLogin(email, password);
 
@@ -21,7 +21,7 @@ export const loginAsync = createAsyncThunk(
 );
 
 export const loginSlice = createSlice({
-    name: "login",
+    name: "auth",
     initialState,
     reducers: {
         hydrate: (state, action: PayloadAction<{ token: string }>) => {
@@ -42,7 +42,7 @@ export const loginSlice = createSlice({
     }
 });
 
-export const selectToken = (state: RootState): string | null => state.login.token;
+export const selectToken = (state: RootState): string | null => state.auth.token;
 
 export const { hydrate, invalidateToken } = loginSlice.actions;
 

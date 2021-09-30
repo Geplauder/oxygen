@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
-import { hydrate } from "./features/login/loginSlice";
+import { hydrate } from "./features/auth/authSlice";
 import { setupAxios } from "./utility/api";
 
 function getTokenFromStorage(): { token: string } | null {

@@ -1,7 +1,7 @@
 import { Middleware } from "redux";
 import { RootState } from "../app/store";
 import { addChannel } from "../features/channels/channelsSlice";
-import { hydrate, loginAsync } from "../features/login/loginSlice";
+import { hydrate, loginAsync } from "../features/auth/authSlice";
 import { addMessage } from "../features/messages/messagesSlice";
 import { addServer } from "../features/servers/serversSlice";
 import { setIsConnected } from "../features/user/userSlice";

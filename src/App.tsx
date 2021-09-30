@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AuthenticatedRoute } from "./app/router";
-import Login from "./features/login/Login";
+import Login from "./features/auth/Login";
 import Index from "./pages/Index";
 
 function App(): JSX.Element {

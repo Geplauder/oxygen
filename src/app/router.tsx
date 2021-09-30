@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect, Route } from "react-router";
-import { selectToken } from "../features/login/loginSlice";
+import { selectToken } from "../features/auth/authSlice";
 import { useAppSelector } from "./hooks";
 
 export function AuthenticatedRoute({ children, path }: { children: React.ReactNode, path: string }): JSX.Element {

@@ -1,6 +1,6 @@
 import { EnhancedStore } from "@reduxjs/toolkit";
 import axios from "axios";
-import { invalidateToken } from "../features/login/loginSlice";
+import { invalidateToken } from "../features/auth/authSlice";
 
 export const setupAxios = (store: EnhancedStore, bearer: string | null) => {
     axios.defaults.baseURL = import.meta.env.VITE_BACKEND_BASE_URL;

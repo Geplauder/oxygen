@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
-import loginReducer from '../features/login/loginSlice';
+import authReducer from '../features/auth/authSlice';
 import userReducer from '../features/user/userSlice';
 import usersReducer from '../features/users/usersSlice';
 import serversReducer from '../features/servers/serversSlice';
@@ -8,7 +8,7 @@ import messagesReducer from '../features/messages/messagesSlice';
 import { websocketMiddleware } from '../middlewares/websocket';
 
 const rootReducer = combineReducers({
-  login: loginReducer,
+  auth: authReducer,
   user: userReducer,
   users: usersReducer,
   servers: serversReducer,
@@ -22,7 +22,7 @@ export const store = configureStore({
 });
 
 store.subscribe(() => {
-  localStorage.setItem('geplauderState', JSON.stringify(store.getState().login));
+  localStorage.setItem('geplauderState', JSON.stringify(store.getState().auth));
 });
 
 export type AppDispatch = typeof store.dispatch;
