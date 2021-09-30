@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { loginAsync, selectToken } from "./authSlice";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 export default function Login(): JSX.Element {
     const [email, setEmail] = useState('');
@@ -11,7 +11,7 @@ export default function Login(): JSX.Element {
     const token = useAppSelector(selectToken);
 
     if (token !== null) {
-        return  <Redirect to='/' />;
+        return <Redirect to='/' />;
     }
 
     const dispatch = useAppDispatch();
@@ -26,9 +26,14 @@ export default function Login(): JSX.Element {
                         alt=""
                     />
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+                    <p className="mt-2 text-center text-sm text-gray-600">
+                        Or{' '}
+                        <Link to="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
+                            Sign up
+                        </Link>
+                    </p>
                 </div>
                 <form className="mt-8 space-y-6">
-                    <input type="hidden" name="remember" defaultValue="true" />
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
                             <label htmlFor="email-address" className="sr-only">

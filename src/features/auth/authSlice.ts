@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../../app/store";
-import { fetchLogin } from "./authAPI";
+import { fetchLogin, postRegister } from "./authAPI";
 
 export interface AuthState {
     token: string | null;
@@ -19,6 +19,13 @@ export const loginAsync = createAsyncThunk(
         return response.data;
     }
 );
+
+export const registerAsync = createAsyncThunk(
+    "auth/registerAsync",
+    async ({ name, email, password }: { name: string, email: string, password: string }) => {
+        await postRegister(name, email, password);
+    }
+)
 
 export const loginSlice = createSlice({
     name: "auth",
