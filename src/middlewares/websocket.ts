@@ -1,7 +1,7 @@
 import { Middleware } from "redux";
 import { RootState } from "../app/store";
 import { addChannel } from "../features/channels/channelsSlice";
-import { hydrate, loginAsync } from "../features/auth/authSlice";
+import { hydrate, invalidateToken, loginAsync } from "../features/auth/authSlice";
 import { addMessage } from "../features/messages/messagesSlice";
 import { addServer } from "../features/servers/serversSlice";
 import { setIsConnected } from "../features/user/userSlice";
@@ -117,6 +117,11 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
                 };
 
                 break;
+            }
+            case invalidateToken.type: {
+                if (socket?.readyState === WebSocket.OPEN) {
+                    socket.close();
+                }
             }
         }
 
