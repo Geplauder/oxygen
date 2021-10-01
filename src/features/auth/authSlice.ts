@@ -26,8 +26,12 @@ export const loginAsync = createAsyncThunk(
 
 export const registerAsync = createAsyncThunk(
     "auth/registerAsync",
-    async ({ name, email, password }: { name: string, email: string, password: string }) => {
-        await postRegister(name, email, password);
+    async ({ name, email, password }: { name: string, email: string, password: string }, { rejectWithValue }) => {
+        try {
+            await postRegister(name, email, password);
+        } catch (error: any) {
+            return rejectWithValue({ status: error.response.status, data: error.response.data });
+        }
     }
 )
 

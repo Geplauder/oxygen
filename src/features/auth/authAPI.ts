@@ -4,6 +4,6 @@ export function fetchLogin(email: string, password: string): Promise<AxiosRespon
     return axios.post('login', { email, password });
 }
 
-export function postRegister(name: string, email: string, password: string): Promise<AxiosResponse> {
-    return axios.post('register', { name, email, password });
+export async function postRegister(name: string, email: string, password: string): Promise<AxiosResponse> {
+    return await axios.post('register', { name, email, password });
 }

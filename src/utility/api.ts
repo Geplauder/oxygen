@@ -12,10 +12,8 @@ export const setupAxios = (store: EnhancedStore, bearer: string | null) => {
     axios.interceptors.response.use(response => response, error => {
         if (error.response.status === 401) {
             store.dispatch(invalidateToken());
-
-            return Promise.reject(error);
         }
 
-        return Promise.resolve(error);
+        return Promise.reject(error);
     });
 }

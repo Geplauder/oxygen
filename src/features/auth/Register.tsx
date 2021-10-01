@@ -21,7 +21,7 @@ export default function Register(): JSX.Element {
 
     const [error, setError] = useState<string | null>(null);
 
-    const executeSignup = (event: React.MouseEvent) => {
+    const executeSignup = async (event: React.MouseEvent) => {
         event.preventDefault();
 
         setError(null);
@@ -38,8 +38,22 @@ export default function Register(): JSX.Element {
             return;
         }
 
-        // TODO: Handle register errors
-        dispatch(registerAsync({ name: username, email, password }));
+        const status = await dispatch(registerAsync({ name: username, email, password }));
+
+        if (status.type === registerAsync.rejected.type) {
+            switch ((status.payload as any).status) {
+                case 400: {
+                    setError((status.payload as any).data);
+
+                    return;
+                }
+                case 500: {
+                    setError('Whoops, something went wrong. Please try again later.');
+
+                    return;
+                }
+            }
+        }
 
         history.push('/login');
     };

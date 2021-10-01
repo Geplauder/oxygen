@@ -29,11 +29,11 @@ export default function Login(): JSX.Element {
             switch ((status.payload as any).status) {
                 case 401: {
                     setError('Wrong email and/or password.');
-                    break;
+                    return;
                 }
                 case 500: {
                     setError('Whoops, something went wrong. Please try again later.');
-                    break;
+                    return;
                 }
             }
         }
