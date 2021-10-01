@@ -1,18 +1,21 @@
 import React, { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { PlusIcon } from '@heroicons/react/solid';
 import { postChannelAsync } from './channelsSlice';
 import { Server } from '../../types';
+import { selectUser } from '../user/userSlice';
 
 export default function CreateChannel({ selectedServer }: { selectedServer: Server | null }): JSX.Element {
     const dispatch = useAppDispatch();
+
+    const { user } = useAppSelector(selectUser);
 
     const [open, setOpen] = useState(false);
     const [channelName, setChannelName] = useState('New Channel');
     const cancelButtonRef = useRef(null);
 
-    if (selectedServer === null) {
+    if (selectedServer === null || user?.id !== selectedServer.owner_id) {
         return <div />;
     }
 
