@@ -13,10 +13,14 @@ const initialState: AuthState = {
 
 export const loginAsync = createAsyncThunk(
     "auth/loginAsync",
-    async ({ email, password }: { email: string, password: string }) => {
-        const response = await fetchLogin(email, password);
+    async ({ email, password }: { email: string, password: string }, { rejectWithValue }) => {
+        try {
+            const response = await fetchLogin(email, password);
 
-        return response.data;
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue({ status: error.response.status });
+        }
     }
 );
 

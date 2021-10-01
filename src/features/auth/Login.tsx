@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { LockClosedIcon } from "@heroicons/react/solid";
+import { LockClosedIcon, XCircleIcon } from "@heroicons/react/solid";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { loginAsync, selectToken } from "./authSlice";
 import { Link, Redirect } from "react-router-dom";
 
 export default function Login(): JSX.Element {
+    const [error, setError] = useState<string | null>(null);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -15,6 +17,27 @@ export default function Login(): JSX.Element {
     }
 
     const dispatch = useAppDispatch();
+
+    const executeLogin = async (event: React.MouseEvent) => {
+        event.preventDefault();
+
+        setError(null);
+
+        const status = await dispatch(loginAsync({ email, password }));
+
+        if (status.type === loginAsync.rejected.type) {
+            switch ((status.payload as any).status) {
+                case 401: {
+                    setError('Wrong email and/or password.');
+                    break;
+                }
+                case 500: {
+                    setError('Whoops, something went wrong. Please try again later.');
+                    break;
+                }
+            }
+        }
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -33,6 +56,20 @@ export default function Login(): JSX.Element {
                         </Link>
                     </p>
                 </div>
+
+                {error && (
+                    <div className="rounded-md bg-red-50 p-4">
+                        <div className="flex">
+                            <div className="flex-shrink-0">
+                                <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
+                            </div>
+                            <div className="ml-3">
+                                <h3 className="text-sm font-medium text-red-800">{error}</h3>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <form className="mt-8 space-y-6">
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
@@ -72,7 +109,7 @@ export default function Login(): JSX.Element {
                     <div>
                         <button
                             type="submit"
-                            onClick={(e) => { e.preventDefault(); dispatch(loginAsync({ email, password })) }}
+                            onClick={executeLogin}
                             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             <span className="absolute left-0 inset-y-0 flex items-center pl-3">
