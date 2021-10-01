@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
+import ConnectionState from "../components/ConnectionState";
 import Loading from "../components/Loading";
 import Channels from "../features/channels/Channels";
 import Servers from "../features/servers/Servers";
@@ -24,6 +25,7 @@ export default function Index(): JSX.Element {
                     <Channels />
                 </div>
             )}
+            <ConnectionState />
         </>
     );
 }

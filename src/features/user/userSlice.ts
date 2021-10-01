@@ -6,11 +6,13 @@ import { fetchUser } from "./userAPI";
 export interface UserState {
     user: User | null;
     isConnected: boolean;
+    isWebsocketClosed: boolean;
 }
 
 const initialState: UserState = {
     user: null,
     isConnected: false,
+    isWebsocketClosed: false,
 };
 
 export const getUserAsync = createAsyncThunk(
@@ -27,7 +29,14 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         setIsConnected: (state, action: PayloadAction<boolean>) => {
+            if (action.payload) {
+                state.isWebsocketClosed = false;
+            }
+
             state.isConnected = action.payload;
+        },
+        setWebsocketClosed: (state, action: PayloadAction<boolean>) => {
+            state.isWebsocketClosed = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -38,8 +47,8 @@ export const userSlice = createSlice({
     }
 });
 
-export const selectUser = (state: RootState): { user: User | null, isConnected: boolean } => state.user;
+export const selectUser = (state: RootState): { user: User | null, isConnected: boolean, isWebsocketClosed: boolean } => state.user;
 
-export const { setIsConnected } = userSlice.actions;
+export const { setIsConnected, setWebsocketClosed } = userSlice.actions;
 
 export default userSlice.reducer;

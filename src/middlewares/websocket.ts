@@ -4,7 +4,7 @@ import { addChannel } from "../features/channels/channelsSlice";
 import { hydrate, invalidateToken, loginAsync } from "../features/auth/authSlice";
 import { addMessage } from "../features/messages/messagesSlice";
 import { addServer } from "../features/servers/serversSlice";
-import { setIsConnected } from "../features/user/userSlice";
+import { setIsConnected, setWebsocketClosed as setIsWebsocketClosed } from "../features/user/userSlice";
 import { Channel, Message, Server, User } from "../types";
 import { addUser } from "../features/users/usersSlice";
 
@@ -138,6 +138,10 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
                         socket?.send(JSON.stringify(message));
                     }, 15 * 1000);
                 };
+
+                socket.onclose = () => {
+                    store.dispatch(setIsWebsocketClosed(true));
+                }
 
                 break;
             }
