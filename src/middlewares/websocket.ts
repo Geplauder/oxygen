@@ -5,7 +5,8 @@ import { hydrate, invalidateToken, loginAsync } from "../features/auth/authSlice
 import { addMessage } from "../features/messages/messagesSlice";
 import { addServer } from "../features/servers/serversSlice";
 import { setIsConnected } from "../features/user/userSlice";
-import { Channel, Message, Server } from "../types";
+import { Channel, Message, Server, User } from "../types";
+import { addUser } from "../features/users/usersSlice";
 
 enum WebsocketMessageType {
     Ping = "Ping",
@@ -15,6 +16,7 @@ enum WebsocketMessageType {
     NewMessage = "NewMessage",
     NewChannel = "NewChannel",
     NewServer = "NewServer",
+    NewUser = "NewUser",
 }
 
 type WebsocketMessage = {
@@ -36,6 +38,9 @@ type WebsocketMessage = {
 } | {
     type: WebsocketMessageType.NewServer,
     payload: WebsocketNewServer,
+} | {
+    type: WebsocketMessageType.NewUser,
+    payload: WebsocketNewUser,
 }
 
 type WebsocketIdentify = {
@@ -56,6 +61,10 @@ type WebsocketNewChannel = {
 
 type WebsocketNewServer = {
     server: Server,
+}
+
+type WebsocketNewUser = {
+    user: User,
 }
 
 export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
@@ -93,6 +102,13 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
                         }
                         case WebsocketMessageType.NewServer: {
                             storeApi.dispatch(addServer(message.payload.server));
+
+                            break;
+                        }
+                        case WebsocketMessageType.NewUser: {
+                            storeApi.dispatch(addUser(message.payload.user));
+
+                            break;
                         }
                     }
                 };
