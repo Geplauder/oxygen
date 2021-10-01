@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { Server } from "../../types";
-import { fetchServers, postServer } from "./serversAPI";
+import { fetchServers, postServer, putJoinServer } from "./serversAPI";
 
 export interface ServerState {
     servers: Server[];
@@ -27,6 +27,13 @@ export const postServerAsync = createAsyncThunk(
     "servers/postServerAsync",
     async ({ name }: { name: string }) => {
         await postServer(name);
+    }
+);
+
+export const putJoinServerAsync = createAsyncThunk(
+    "servers/putJoinServerAsync",
+    async ({ serverId }: { serverId: string }) => {
+        await putJoinServer(serverId);
     }
 )
 

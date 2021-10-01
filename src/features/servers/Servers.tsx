@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import CreateServer from './CreateServer';
 import { getServersAsync, selectServer, selectServers } from './serversSlice';
 import Jdenticon from '../../components/Jdenticon';
+import AddServer from './AddServer';
 
 export default function Servers(): JSX.Element {
     const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ export default function Servers(): JSX.Element {
                         <Jdenticon value={server.id} className={classNames('w-16 h-16 rounded-full', { 'border-2': server.id === selectedServer?.id })} />
                     </div>
                 ))}
-                <CreateServer />
+                <AddServer />
             </div>
         </>
     );

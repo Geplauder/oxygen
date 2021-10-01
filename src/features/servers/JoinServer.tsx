@@ -1,12 +1,12 @@
 import React, { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useAppDispatch } from '../../app/hooks';
-import { postServerAsync } from './serversSlice';
+import { postServerAsync, putJoinServerAsync } from './serversSlice';
 
-export default function CreateServer({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
+export default function JoinServer({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
     const dispatch = useAppDispatch();
 
-    const [serverName, setServerName] = useState('New Server');
+    const [serverId, setServerId] = useState('Server Id');
     const cancelButtonRef = useRef(null);
 
     return (
@@ -45,17 +45,17 @@ export default function CreateServer({ open, setOpen }: { open: boolean, setOpen
                                         </Dialog.Title>
                                         <div className="mt-2">
                                             <div>
-                                                <label htmlFor="server-name" className="block text-sm font-medium text-gray-700">
-                                                    Server Name
+                                                <label htmlFor="server-id" className="block text-sm font-medium text-gray-700">
+                                                    Server Id
                                                 </label>
                                                 <div className="mt-1">
                                                     <input
                                                         type="text"
-                                                        name="server-name"
-                                                        id="server-name"
+                                                        name="server-id"
+                                                        id="server-id"
                                                         className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                                        value={serverName}
-                                                        onChange={e => setServerName(e.target.value)}
+                                                        value={serverId}
+                                                        onChange={e => setServerId(e.target.value)}
                                                     />
                                                 </div>
                                             </div>
@@ -67,9 +67,9 @@ export default function CreateServer({ open, setOpen }: { open: boolean, setOpen
                                 <button
                                     type="button"
                                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                    onClick={() => { dispatch(postServerAsync({ name: serverName })); setOpen(false); }}
+                                    onClick={() => { dispatch(putJoinServerAsync({ serverId })); setOpen(false); }}
                                 >
-                                    Create
+                                    Join
                                 </button>
                                 <button
                                     type="button"

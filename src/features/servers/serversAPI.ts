@@ -10,3 +10,7 @@ export function postServer(name: string): Promise<AxiosResponse> {
         name,
     });
 }
+
+export function putJoinServer(serverId: string): Promise<AxiosResponse> {
+    return axios.put(`servers/${serverId}`);
+}
