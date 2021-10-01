@@ -5,6 +5,7 @@ import { PlusIcon } from '@heroicons/react/solid';
 import { postChannelAsync } from './channelsSlice';
 import { Server } from '../../types';
 import { selectUser } from '../user/userSlice';
+import Tooltip from '../../components/Tooltip';
 
 export default function CreateChannel({ selectedServer }: { selectedServer: Server | null }): JSX.Element {
     const dispatch = useAppDispatch();
@@ -21,13 +22,15 @@ export default function CreateChannel({ selectedServer }: { selectedServer: Serv
 
     return (
         <>
-            <button
-                type="button"
-                className="inline-flex items-center p-2 mr-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white hover:bg-channels-selected"
-                onClick={() => setOpen(true)}
-            >
-                <PlusIcon className="h-3 w-4" aria-hidden="true" />
-            </button>
+            <Tooltip placement="bottom" content="Create Channel">
+                <button
+                    type="button"
+                    className="inline-flex items-center p-2 mr-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white hover:bg-channels-selected"
+                    onClick={() => setOpen(true)}
+                >
+                    <PlusIcon className="h-3 w-4" aria-hidden="true" />
+                </button>
+            </Tooltip>
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">

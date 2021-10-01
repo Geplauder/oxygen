@@ -1,7 +1,7 @@
 import React, { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useAppDispatch } from '../../app/hooks';
-import { postServerAsync, putJoinServerAsync } from './serversSlice';
+import { putJoinServerAsync } from './serversSlice';
 
 export default function JoinServer({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
     const dispatch = useAppDispatch();

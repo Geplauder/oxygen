@@ -1,4 +1,3 @@
-import { LogoutIcon } from '@heroicons/react/solid';
 import React from 'react';
 import { useAppSelector } from '../app/hooks';
 import CreateChannel from '../features/channels/CreateChannel';

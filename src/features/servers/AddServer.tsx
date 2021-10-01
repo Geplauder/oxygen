@@ -1,6 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { PlusSmIcon } from '@heroicons/react/solid';
 import React, { Fragment, useRef, useState } from 'react';
+import Tooltip from '../../components/Tooltip';
 import CreateServer from './CreateServer';
 import JoinServer from './JoinServer';
 
@@ -13,11 +14,13 @@ export default function AddServer(): JSX.Element {
 
     return (
         <>
-            <div className='cursor-pointer' onClick={() => setOpen(true)}>
-                <div className='flex items-center justify-center transition bg-messages hover:bg-channels w-16 h-16 rounded-full'>
-                    <PlusSmIcon className='text-white w-10 h-10' />
-                </div>
-            </div>
+            <Tooltip placement="right" content="Add Server">
+                <button onClick={() => setOpen(true)}>
+                    <div className='flex items-center justify-center transition bg-messages hover:bg-channels w-16 h-16 rounded-full'>
+                        <PlusSmIcon className='text-white w-10 h-10' />
+                    </div>
+                </button>
+            </Tooltip>
             <CreateServer open={openCreateServer} setOpen={setOpenCreateServer} />
             <JoinServer open={openJoinServer} setOpen={setOpenJoinServer} />
             <Transition.Root show={open} as={Fragment}>
