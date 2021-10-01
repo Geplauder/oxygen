@@ -1,5 +1,5 @@
 import { Middleware } from "redux";
-import { RootState } from "../app/store";
+import { RootState, store } from "../app/store";
 import { addChannel } from "../features/channels/channelsSlice";
 import { hydrate, invalidateToken, loginAsync } from "../features/auth/authSlice";
 import { addMessage } from "../features/messages/messagesSlice";
@@ -64,6 +64,7 @@ type WebsocketNewServer = {
 }
 
 type WebsocketNewUser = {
+    server_id: string,
     user: User,
 }
 
@@ -106,7 +107,9 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
                             break;
                         }
                         case WebsocketMessageType.NewUser: {
-                            storeApi.dispatch(addUser(message.payload.user));
+                            if (store.getState().servers.selectedServer?.id === message.payload.server_id) {
+                                storeApi.dispatch(addUser(message.payload.user));
+                            }
 
                             break;
                         }
