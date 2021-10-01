@@ -80,6 +80,10 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
             case hydrate.type: {
                 const token = action.payload.token;
 
+                if (!token) {
+                    break;
+                }
+
                 socket = new WebSocket('ws://localhost:8000/ws');
 
                 socket.onmessage = (event) => {
