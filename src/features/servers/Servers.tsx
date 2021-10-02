@@ -12,7 +12,7 @@ export default function Servers(): JSX.Element {
     const { selectedServer, servers } = useAppSelector(selectServers);
 
     useEffect(() => {
-        dispatch(getServersAsync());
+        dispatch(getServersAsync()).then(x => console.log(x));
     }, []);
 
     return (

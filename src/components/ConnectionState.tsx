@@ -31,7 +31,7 @@ export default function ConnectionState(): JSX.Element {
                                 </div>
                                 <div className="ml-3 w-0 flex-1 pt-0.5">
                                     <p className="text-sm font-medium text-gray-900">Oh no 😨</p>
-                                    <p className="mt-1 text-sm text-gray-500">You've lost connection to the WebSocket server. As we're currently not supporting reconnections, you should probably refresh the site.</p>
+                                    <p className="mt-1 text-sm text-gray-500">You&aposve lost connection to the WebSocket server. As we&aposre currently not supporting reconnections, you should probably refresh the site.</p>
                                 </div>
                             </div>
                         </div>

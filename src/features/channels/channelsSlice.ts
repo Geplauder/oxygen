@@ -5,12 +5,12 @@ import { getMessagesAsync } from "../messages/messagesSlice";
 import { fetchChannels, postChannel } from "./channelsAPI";
 
 export interface ChannelState {
-    channels: Channel[],
+    channels: { [serverId: string]: Channel[] },
     selectedChannel: Channel | null,
 }
 
 const initialState: ChannelState = {
-    channels: [],
+    channels: {},
     selectedChannel: null,
 };
 
@@ -23,7 +23,7 @@ export const getChannelsAsync = createAsyncThunk(
             dispatch(getMessagesAsync({ channelId: channel.id }));
         }
 
-        return response.data;
+        return { serverId, data: response.data };
     }
 );
 
@@ -42,20 +42,24 @@ export const channelsSlice = createSlice({
             state.selectedChannel = action.payload;
         },
         addChannel: (state, action: PayloadAction<Channel>) => {
-            state.channels.push(action.payload);
+            if (state.channels[action.payload.server_id]) {
+                state.channels[action.payload.server_id].push(action.payload);
+            } else {
+                state.channels[action.payload.server_id] = [action.payload];
+            }
         }
     },
     extraReducers: (builder) => {
         builder
             .addCase(getChannelsAsync.fulfilled, (state, action) => {
-                state.selectedChannel = action.payload[0];
-                state.channels = action.payload;
+                state.selectedChannel = action.payload.data[0];
+                state.channels[action.payload.serverId] = action.payload.data;
             });
     }
 });
 
 export const { selectChannel, addChannel } = channelsSlice.actions;
 
-export const selectChannels = (state: RootState): { channels: Channel[], selectedChannel: Channel | null } => state.channels;
+export const selectChannels = (state: RootState): { channels: { [serverId: string]: Channel[] }, selectedChannel: Channel | null } => state.channels;
 
 export default channelsSlice.reducer;

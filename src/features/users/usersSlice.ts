@@ -4,11 +4,11 @@ import { User } from "../../types";
 import { fetchUsers } from "./usersAPI";
 
 export interface UsersState {
-    users: User[],
+    users: { [serverId: string]: User[] },
 }
 
 const initialState: UsersState = {
-    users: [],
+    users: {},
 };
 
 export const getUsersAsync = createAsyncThunk(
@@ -16,7 +16,7 @@ export const getUsersAsync = createAsyncThunk(
     async ({ serverId }: { serverId: string }) => {
         const response = await fetchUsers(serverId);
 
-        return response.data;
+        return { serverId, data: response.data };
     }
 );
 
@@ -24,20 +24,24 @@ export const usersSlice = createSlice({
     name: "users",
     initialState,
     reducers: {
-        addUser: (state, action: PayloadAction<User>) => {
-            state.users.push(action.payload);
+        addUser: (state, action: PayloadAction<{ serverId: string, user: User }>) => {
+            if (state.users[action.payload.serverId]) {
+                state.users[action.payload.serverId].push(action.payload.user);
+            } else {
+                state.users[action.payload.serverId] = [action.payload.user];
+            }
         }
     },
     extraReducers: (builder) => {
         builder
             .addCase(getUsersAsync.fulfilled, (state, action) => {
-                state.users = action.payload;
+                state.users[action.payload.serverId] = action.payload.data;
             });
     }
 });
 
 export const { addUser } = usersSlice.actions;
 
-export const selectUsers = (state: RootState): { users: User[] } => state.users;
+export const selectUsers = (state: RootState): { users: { [serverId: string]: User[] } } => state.users;
 
 export default usersSlice.reducer;
