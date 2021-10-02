@@ -52,7 +52,10 @@ export const channelsSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getChannelsAsync.fulfilled, (state, action) => {
-                state.selectedChannel = action.payload.data[0];
+                if (state.selectedChannel === null) {
+                    state.selectedChannel = action.payload.data[0];
+                }
+
                 state.channels[action.payload.serverId] = action.payload.data;
             });
     }

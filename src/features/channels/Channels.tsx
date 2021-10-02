@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ServerName from '../../components/ServerName';
 import Messages from '../messages/Messages';
@@ -13,6 +13,18 @@ export default function Channels(): JSX.Element {
 
     const { selectedServer } = useAppSelector(selectServers);
     const { selectedChannel, channels } = useAppSelector(selectChannels);
+
+    useEffect(() => {
+        if (selectedServer === null) {
+            return;
+        }
+
+        console.log(channels[selectedServer.id]);
+
+        if (channels[selectedServer.id]?.length > 0) {
+            dispatch(selectChannel(channels[selectedServer.id][0]));
+        }
+    }, [selectedServer]);
 
     return (
         <div className='flex w-full'>
