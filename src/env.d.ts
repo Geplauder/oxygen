@@ -1,4 +1,4 @@
-interface ImportMetaEnv extends Readonly<Record<string, string>> {
+interface ImportMetaEnv {
     readonly VITE_BACKEND_BASE_URL: string;
 }
 
