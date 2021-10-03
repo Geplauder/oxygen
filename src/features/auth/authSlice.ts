@@ -40,18 +40,27 @@ export const loginSlice = createSlice({
     initialState,
     reducers: {
         hydrate: (state, action: PayloadAction<{ token: string }>) => {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
+            if (axios.defaults.headers) {
+                axios.defaults.headers.Authorization = `Bearer ${action.payload.token}`;
+            }
+
             state.token = action.payload.token;
         },
         invalidateToken: (state) => {
-            axios.defaults.headers.common['Authorization'] = null;
+            if (axios.defaults.headers) {
+                delete axios.defaults.headers.Authorization;
+            }
+
             state.token = null;
         }
     },
     extraReducers: (builder) => {
         builder
             .addCase(loginAsync.fulfilled, (state, action) => {
-                axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
+                if (axios.defaults.headers) {
+                    axios.defaults.headers.Authorization = `Bearer ${action.payload.token}`;
+                }
+
                 state.token = action.payload.token;
             });
     }
