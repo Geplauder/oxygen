@@ -86,7 +86,7 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
                     break;
                 }
 
-                socket = new WebSocket('ws://localhost:8000/ws');
+                socket = new WebSocket(import.meta.env.VITE_WEBSOCKET_BASE_URL + 'ws');
 
                 socket.onmessage = (event) => {
                     const message: WebsocketMessage = JSON.parse(event.data);
