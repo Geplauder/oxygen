@@ -62,6 +62,7 @@ type WebsocketNewChannel = {
 type WebsocketNewServer = {
     server: Server,
     channels: Channel[],
+    users: User[],
 }
 
 type WebsocketNewUser = {
@@ -111,6 +112,10 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
 
                             for (const channel of message.payload.channels) {
                                 storeApi.dispatch(addChannel(channel));
+                            }
+
+                            for (const user of message.payload.users) {
+                                storeApi.dispatch(addUser({ serverId: message.payload.server.id, user }));
                             }
 
                             break;
