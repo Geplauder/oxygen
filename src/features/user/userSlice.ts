@@ -35,7 +35,7 @@ export const userSlice = createSlice({
 
             state.isConnected = action.payload;
         },
-        setWebsocketClosed: (state, action: PayloadAction<boolean>) => {
+        setIsWebsocketClosed: (state, action: PayloadAction<boolean>) => {
             state.isWebsocketClosed = action.payload;
         }
     },
@@ -49,6 +49,6 @@ export const userSlice = createSlice({
 
 export const selectUser = (state: RootState): { user: User | null, isConnected: boolean, isWebsocketClosed: boolean } => state.user;
 
-export const { setIsConnected, setWebsocketClosed } = userSlice.actions;
+export const { setIsConnected, setIsWebsocketClosed } = userSlice.actions;
 
 export default userSlice.reducer;

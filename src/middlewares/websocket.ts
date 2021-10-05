@@ -1,77 +1,10 @@
 import { Middleware } from "redux";
-import { RootState, store } from "../app/store";
-import { addChannel } from "../features/channels/channelsSlice";
+import { RootState } from "../app/store";
 import { hydrate, invalidateToken, loginAsync } from "../features/auth/authSlice";
-import { addMessage } from "../features/messages/messagesSlice";
-import { addServer } from "../features/servers/serversSlice";
-import { setIsConnected, setWebsocketClosed as setIsWebsocketClosed } from "../features/user/userSlice";
-import { Channel, Message, Server, User } from "../types";
-import { addUser } from "../features/users/usersSlice";
-
-enum WebsocketMessageType {
-    Ping = "Ping",
-    Pong = "Pong",
-    Identify = "Identify",
-    Ready = "Ready",
-    NewMessage = "NewMessage",
-    NewChannel = "NewChannel",
-    NewServer = "NewServer",
-    NewUser = "NewUser",
-}
-
-type WebsocketMessage = {
-    type: WebsocketMessageType.Ping,
-} | {
-    type: WebsocketMessageType.Pong,
-} | {
-    type: WebsocketMessageType.Identify,
-    payload: WebsocketIdentify
-} | {
-    type: WebsocketMessageType.Ready,
-    payload: WebsocketReady
-} | {
-    type: WebsocketMessageType.NewMessage,
-    payload: WebsocketNewMessage
-} | {
-    type: WebsocketMessageType.NewChannel,
-    payload: WebsocketNewChannel
-} | {
-    type: WebsocketMessageType.NewServer,
-    payload: WebsocketNewServer,
-} | {
-    type: WebsocketMessageType.NewUser,
-    payload: WebsocketNewUser,
-}
-
-type WebsocketIdentify = {
-    bearer: string,
-}
-
-
-type WebsocketReady = {
-}
-
-type WebsocketNewMessage = {
-    message: Message,
-}
-
-type WebsocketNewChannel = {
-    channel: Channel,
-}
-
-type WebsocketNewServer = {
-    server: Server,
-    channels: Channel[],
-    users: User[],
-}
-
-type WebsocketNewUser = {
-    server_id: string,
-    user: User,
-}
+import { GeplauderWebsocket } from "../utility/geplauderWebsocket";
 
 export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
-    let socket: WebSocket | null = null;
+    const websocket = new GeplauderWebsocket('ws://localhost:8000/ws', storeApi);
 
     return next => action => {
         switch (action.type) {
@@ -154,9 +87,8 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
                 break;
             }
             case invalidateToken.type: {
-                if (socket?.readyState === WebSocket.OPEN) {
-                    socket.close();
-                }
+                websocket.disconnect();
+                break;
             }
         }
 
