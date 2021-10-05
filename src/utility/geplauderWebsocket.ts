@@ -41,7 +41,7 @@ export class GeplauderWebsocket {
         this.shouldReconnect = true;
 
         this.websocket = new WebSocket(this.websocketUrl);
-        this.websocket.onopen = (event) => this.onOpen(event);
+        this.websocket.onopen = () => this.onOpen();
         this.websocket.onclose = (event) => this.onClose(event);
         this.websocket.onerror = (event) => this.onError(event);
         this.websocket.onmessage = (event) => this.onMessage(event);
@@ -108,7 +108,7 @@ export class GeplauderWebsocket {
         }
     }
 
-    private onOpen(event: Event) {
+    private onOpen() {
         if (this.token === null) {
             console.error('No token provided.');
 
