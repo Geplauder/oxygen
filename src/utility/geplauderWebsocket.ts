@@ -15,25 +15,41 @@ export class GeplauderWebsocket {
 
     private heartbeatInterval: NodeJS.Timer | null = null;
 
+    private shouldReconnect: boolean = true;
+
     public constructor(websocketUrl: string, storeApi: MiddlewareAPI) {
         this.websocketUrl = websocketUrl;
         this.storeApi = storeApi;
     }
 
-    public connect(token: string): void {
+    /**
+     * Connects to the websocket server.
+     *
+     * Automatically tries to reconnect on errors, unless {@link GeplauderWebsocket.disconnect} is called.
+     */
+    public connect(): void {
         if (this.websocket !== null) {
             this.disconnect();
         }
 
-        this.token = token;
+        if (this.token === null) {
+            console.error('No token provided.');
+
+            return;
+        }
+
+        this.shouldReconnect = true;
 
         this.websocket = new WebSocket(this.websocketUrl);
         this.websocket.onopen = (event) => this.onOpen(event);
         this.websocket.onclose = (event) => this.onClose(event);
+        this.websocket.onerror = (event) => this.onError(event);
         this.websocket.onmessage = (event) => this.onMessage(event);
     }
 
     public disconnect(): void {
+        this.shouldReconnect = false;
+
         if (this.heartbeatInterval !== null) {
             clearInterval(this.heartbeatInterval);
             this.heartbeatInterval = null;
@@ -43,6 +59,10 @@ export class GeplauderWebsocket {
             this.websocket.close();
             this.websocket = null;
         }
+    }
+
+    public setToken(token: string): void {
+        this.token = token;
     }
 
     private onMessage(event: MessageEvent): void {
@@ -96,6 +116,8 @@ export class GeplauderWebsocket {
             return;
         }
 
+        this.storeApi.dispatch(setIsWebsocketClosed(false));
+
         const message: WebsocketMessage = {
             type: WebsocketMessageType.Identify,
             payload: {
@@ -115,6 +137,24 @@ export class GeplauderWebsocket {
     }
 
     private onClose(event: CloseEvent) {
+        console.error('Websocket close: ', event);
+
         this.storeApi.dispatch(setIsWebsocketClosed(true));
+
+        if (this.shouldReconnect === false) {
+            return;
+        }
+
+        // TODO: Add some kind of exponential backoff
+        setTimeout(() => {
+            this.connect();
+        }, 1 * 1000);
+    }
+
+    private onError(event: Event) {
+        console.error('Websocket error: ', event);
+
+        // Close instead of disconnect to automatically reconnect
+        this.websocket?.close();
     }
 }
