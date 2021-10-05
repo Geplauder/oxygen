@@ -19,8 +19,6 @@ export default function Channels(): JSX.Element {
             return;
         }
 
-        console.log(channels[selectedServer.id]);
-
         if (channels[selectedServer.id]?.length > 0) {
             dispatch(selectChannel(channels[selectedServer.id][0]));
         }
