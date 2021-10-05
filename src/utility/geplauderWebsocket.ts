@@ -1,8 +1,8 @@
 import { MiddlewareAPI } from "redux";
 import { addChannel } from "../features/channels/channelsSlice";
 import { addMessage } from "../features/messages/messagesSlice";
-import { addServer } from "../features/servers/serversSlice";
-import { setIsConnected, setIsWebsocketClosed } from "../features/user/userSlice";
+import { addServer, getServersAsync } from "../features/servers/serversSlice";
+import { getUserAsync, setIsConnected, setIsWebsocketClosed } from "../features/user/userSlice";
 import { addUser } from "../features/users/usersSlice";
 import { WebsocketMessage, WebsocketMessageType } from "../types";
 
@@ -15,7 +15,7 @@ export class GeplauderWebsocket {
 
     private heartbeatInterval: NodeJS.Timer | null = null;
 
-    private shouldReconnect: boolean = true;
+    private shouldReconnect = true;
 
     public constructor(websocketUrl: string, storeApi: MiddlewareAPI) {
         this.websocketUrl = websocketUrl;
@@ -71,6 +71,9 @@ export class GeplauderWebsocket {
         switch (message.type) {
             case WebsocketMessageType.Ready: {
                 this.storeApi.dispatch(setIsConnected(true));
+
+                this.storeApi.dispatch(getUserAsync() as any);
+                this.storeApi.dispatch(getServersAsync() as any);
 
                 break;
             }
