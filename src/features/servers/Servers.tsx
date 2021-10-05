@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getServersAsync, selectServer, selectServers } from './serversSlice';
+import { selectServer, selectServers } from './serversSlice';
 import Jdenticon from '../../components/Jdenticon';
 import AddServer from './AddServer';
 import Tooltip from '../../components/Tooltip';
@@ -10,10 +10,6 @@ export default function Servers(): JSX.Element {
     const dispatch = useAppDispatch();
 
     const { selectedServer, servers } = useAppSelector(selectServers);
-
-    useEffect(() => {
-        dispatch(getServersAsync());
-    }, []);
 
     return (
         <>

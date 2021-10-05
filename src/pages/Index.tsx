@@ -1,19 +1,13 @@
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import React from "react";
+import { useAppSelector } from "../app/hooks";
 import ConnectionState from "../components/ConnectionState";
 import Loading from "../components/Loading";
 import Channels from "../features/channels/Channels";
 import Servers from "../features/servers/Servers";
-import { getUserAsync, selectUser } from "../features/user/userSlice";
+import { selectUser } from "../features/user/userSlice";
 
 export default function Index(): JSX.Element {
-    const dispatch = useAppDispatch();
-
     const { user, isConnected } = useAppSelector(selectUser);
-
-    useEffect(() => {
-        dispatch(getUserAsync());
-    }, []);
 
     return (
         <>

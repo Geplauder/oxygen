@@ -2,8 +2,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { Server } from "../../types";
-import { getChannelsAsync } from "../channels/channelsSlice";
-import { getUsersAsync } from "../users/usersSlice";
+import { clearChannels, getChannelsAsync } from "../channels/channelsSlice";
+import { clearMessages } from "../messages/messagesSlice";
+import { clearUsers, getUsersAsync } from "../users/usersSlice";
 import { fetchServers, postServer, putJoinServer } from "./serversAPI";
 
 export interface ServerState {
@@ -19,6 +20,10 @@ const initialState: ServerState = {
 export const getServersAsync = createAsyncThunk(
     "servers/getServersAsync",
     async (_, { dispatch }) => {
+        dispatch(clearMessages());
+        dispatch(clearUsers());
+        dispatch(clearChannels());
+
         const response = await fetchServers();
 
         for (const server of response.data) {

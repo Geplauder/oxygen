@@ -30,6 +30,9 @@ export const usersSlice = createSlice({
             } else {
                 state.users[action.payload.serverId] = [action.payload.user];
             }
+        },
+        clearUsers: (state) => {
+            state.users = {};
         }
     },
     extraReducers: (builder) => {
@@ -40,7 +43,7 @@ export const usersSlice = createSlice({
     }
 });
 
-export const { addUser } = usersSlice.actions;
+export const { addUser, clearUsers } = usersSlice.actions;
 
 export const selectUsers = (state: RootState): { users: { [serverId: string]: User[] } } => state.users;
 
