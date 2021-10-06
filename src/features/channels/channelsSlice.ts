@@ -50,6 +50,9 @@ export const channelsSlice = createSlice({
         },
         clearChannels: (state) => {
             state.channels = {};
+        },
+        deleteChannelsForServer: (state, action: PayloadAction<string>) => {
+            delete state.channels[action.payload];
         }
     },
     extraReducers: (builder) => {
@@ -64,7 +67,7 @@ export const channelsSlice = createSlice({
     }
 });
 
-export const { selectChannel, addChannel, clearChannels } = channelsSlice.actions;
+export const { selectChannel, addChannel, clearChannels, deleteChannelsForServer } = channelsSlice.actions;
 
 export const selectChannels = (state: RootState): { channels: { [serverId: string]: Channel[] }, selectedChannel: Channel | null } => state.channels;
 

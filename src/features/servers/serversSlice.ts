@@ -5,7 +5,7 @@ import { Server } from "../../types";
 import { clearChannels, getChannelsAsync } from "../channels/channelsSlice";
 import { clearMessages } from "../messages/messagesSlice";
 import { clearUsers, getUsersAsync } from "../users/usersSlice";
-import { deleteServer, fetchServers, postServer, putJoinServer } from "./serversAPI";
+import { deleteServer as deleteServerApi, fetchServers, postServer, putJoinServer } from "./serversAPI";
 
 export interface ServerState {
     servers: Server[];
@@ -52,7 +52,7 @@ export const putJoinServerAsync = createAsyncThunk(
 export const deleteServerAsync = createAsyncThunk(
     "servers/deleteServerAsync",
     async ({ serverId }: { serverId: string }) => {
-        await deleteServer(serverId);
+        await deleteServerApi(serverId);
     }
 )
 
@@ -65,6 +65,13 @@ export const serversSlice = createSlice({
         },
         addServer: (state, action: PayloadAction<Server>) => {
             state.servers.push(action.payload);
+        },
+        deleteServer: (state, action: PayloadAction<string>) => {
+            state.servers = state.servers.filter(x => x.id !== action.payload);
+
+            if (state.selectedServer?.id === action.payload) {
+                state.selectedServer = state.servers[0];
+            }
         }
     },
     extraReducers: (builder) => {
@@ -79,7 +86,7 @@ export const serversSlice = createSlice({
     }
 });
 
-export const { selectServer, addServer } = serversSlice.actions;
+export const { selectServer, addServer, deleteServer } = serversSlice.actions;
 
 export const selectServers = (state: RootState): { servers: Server[], selectedServer: Server | null } => state.servers;
 
