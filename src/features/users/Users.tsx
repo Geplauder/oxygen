@@ -17,8 +17,8 @@ export default function Users(): JSX.Element {
                         <div>
                             <UserAvatar user={user} size='small' />
                         </div>
-                        <div className="text-white font-semibold text-lg select-none">
-                            <p>{user.username}</p>
+                        <div className="flex space-x-1.5 items-center text-white font-semibold text-lg select-none truncate">
+                            <p className='truncate'>{user.username}</p>
                         </div>
                     </div>
                 ))}
