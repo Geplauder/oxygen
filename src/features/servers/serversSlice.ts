@@ -5,7 +5,7 @@ import { Server } from "../../types";
 import { clearChannels, getChannelsAsync } from "../channels/channelsSlice";
 import { clearMessages } from "../messages/messagesSlice";
 import { clearUsers, getUsersAsync } from "../users/usersSlice";
-import { fetchServers, postServer, putJoinServer } from "./serversAPI";
+import { deleteServer, fetchServers, postServer, putJoinServer } from "./serversAPI";
 
 export interface ServerState {
     servers: Server[];
@@ -46,6 +46,13 @@ export const putJoinServerAsync = createAsyncThunk(
     "servers/putJoinServerAsync",
     async ({ serverId }: { serverId: string }) => {
         await putJoinServer(serverId);
+    }
+)
+
+export const deleteServerAsync = createAsyncThunk(
+    "servers/deleteServerAsync",
+    async ({ serverId }: { serverId: string }) => {
+        await deleteServer(serverId);
     }
 )
 

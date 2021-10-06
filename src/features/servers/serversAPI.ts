@@ -14,3 +14,7 @@ export function postServer(name: string): Promise<AxiosResponse> {
 export function putJoinServer(serverId: string): Promise<AxiosResponse> {
     return axios.put(`servers/${serverId}`);
 }
+
+export function deleteServer(serverId: string): Promise<AxiosResponse> {
+    return axios.delete(`servers/${serverId}`);
+}

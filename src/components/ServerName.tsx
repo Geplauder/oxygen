@@ -36,7 +36,7 @@ export default function ServerName(): JSX.Element {
                 </div>
             </Dropdown>
             <CreateChannel open={openCreateChannel} setOpen={setOpenCreateChannel} selectedServer={selectedServer} />
-            <DeleteServer open={openDeleteServer} setOpen={setOpenDeleteServer} />
+            <DeleteServer open={openDeleteServer} setOpen={setOpenDeleteServer} selectedServer={selectedServer} />
         </div>
     );
 }
