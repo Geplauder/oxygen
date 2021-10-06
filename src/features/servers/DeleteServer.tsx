@@ -1,9 +1,21 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationIcon } from '@heroicons/react/outline';
 import React, { Fragment, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { Server } from '../../types';
+import { selectUser } from '../user/userSlice';
+import { deleteServerAsync } from './serversSlice';
 
-export default function DeleteServer({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
+export default function DeleteServer({ selectedServer, open, setOpen }: { selectedServer: Server | null, open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
+    const dispatch = useAppDispatch();
+
+    const { user } = useAppSelector(selectUser);
+
     const cancelButtonRef = useRef(null);
+
+    if (selectedServer === null || user?.id !== selectedServer.owner_id) {
+        return <div />;
+    }
 
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -54,7 +66,7 @@ export default function DeleteServer({ open, setOpen }: { open: boolean, setOpen
                                 <button
                                     type="button"
                                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                    onClick={() => setOpen(false)}
+                                    onClick={() => { dispatch(deleteServerAsync({ serverId: selectedServer.id })); setOpen(false); }}
                                 >
                                     Delete
                                 </button>
