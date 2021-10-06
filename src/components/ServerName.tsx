@@ -22,15 +22,15 @@ export default function ServerName(): JSX.Element {
             <p className='flex-1 mx-4 text-white text-xl font-semibold select-none truncate'>{selectedServer?.name}</p>
             <Dropdown>
                 <div className='py-1'>
-                    <DropdownItem onClick={(e) => setOpenCreateChannel(true)} icon={PlusIcon}>
+                    <DropdownItem onClick={() => setOpenCreateChannel(true)} icon={PlusIcon}>
                         Create Channel
                     </DropdownItem>
-                    <DropdownItem onClick={(e) => setOpenDeleteServer(true)} icon={TrashIcon}>
+                    <DropdownItem onClick={() => setOpenDeleteServer(true)} icon={TrashIcon}>
                         Delete Server
                     </DropdownItem>
                 </div>
                 <div className="py-1">
-                    <DropdownItem onClick={(e) => { }} icon={ArrowCircleLeftIcon}>
+                    <DropdownItem onClick={() => ({})} icon={ArrowCircleLeftIcon}>
                         Leave Server
                     </DropdownItem>
                 </div>

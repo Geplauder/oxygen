@@ -1,9 +1,9 @@
 import { MiddlewareAPI } from "redux";
-import { addChannel } from "../features/channels/channelsSlice";
+import { addChannel, deleteChannelsForServer } from "../features/channels/channelsSlice";
 import { addMessage } from "../features/messages/messagesSlice";
-import { addServer, getServersAsync } from "../features/servers/serversSlice";
+import { addServer, deleteServer, getServersAsync } from "../features/servers/serversSlice";
 import { getUserAsync, setIsConnected, setIsWebsocketClosed } from "../features/user/userSlice";
-import { addUser } from "../features/users/usersSlice";
+import { addUser, deleteUsersForServer } from "../features/users/usersSlice";
 import { WebsocketMessage, WebsocketMessageType } from "../types";
 
 export class GeplauderWebsocket {
@@ -102,6 +102,14 @@ export class GeplauderWebsocket {
             }
             case WebsocketMessageType.NewUser: {
                 this.storeApi.dispatch(addUser({ serverId: message.payload.server_id, user: message.payload.user }));
+
+                break;
+            }
+            case WebsocketMessageType.DeleteServer: {
+                this.storeApi.dispatch(deleteServer(message.payload.server_id));
+                this.storeApi.dispatch(deleteChannelsForServer(message.payload.server_id));
+                this.storeApi.dispatch(deleteUsersForServer(message.payload.server_id));
+                // TODO: Delete messages in store
 
                 break;
             }
