@@ -24,7 +24,7 @@ export default function User(): JSX.Element {
             {user && (
                 <div className="h-12 bg-userinfo flex items-center">
                     <UserAvatar className='ml-2' user={user} size='small' />
-                    <p className='ml-2 flex-1 text-white text-lg font-semibold select-none'>
+                    <p className='ml-2 flex-1 text-white text-lg font-semibold select-none truncate'>
                         {user?.username}
                     </p>
                     <Tooltip placement="top" content="Logout">
