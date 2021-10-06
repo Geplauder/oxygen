@@ -10,17 +10,16 @@ export default function DropdownItem({ children, icon, onClick }: { children: Re
     return (
         <Menu.Item>
             {({ active }) => (
-                <a
+                <button
                     onClick={onClick}
-                    href="#"
                     className={classNames(
                         active ? 'bg-[#26282e] text-white' : 'text-white',
-                        'group flex items-center px-4 py-2 text-sm'
+                        'group flex items-center px-4 py-2 w-full text-sm'
                     )}
                 >
                     {iconElement}
                     {children}
-                </a>
+                </button>
             )}
         </Menu.Item>
     );
