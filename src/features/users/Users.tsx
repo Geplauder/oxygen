@@ -1,3 +1,4 @@
+import { StarIcon } from '@heroicons/react/solid';
 import React from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { selectServers } from '../servers/serversSlice';
@@ -19,6 +20,9 @@ export default function Users(): JSX.Element {
                         </div>
                         <div className="flex space-x-1.5 items-center text-white font-semibold text-lg select-none truncate">
                             <p className='truncate'>{user.username}</p>
+                            {selectedServer.owner_id === user.id && (
+                                <StarIcon className='flex-shrink-0 text-yellow-400 w-4 h-4 mt-1' />
+                            )}
                         </div>
                     </div>
                 ))}
