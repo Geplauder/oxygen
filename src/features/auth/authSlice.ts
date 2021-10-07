@@ -57,11 +57,13 @@ export const loginSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(loginAsync.fulfilled, (state, action) => {
+                const payload = action.payload as { token: string };
+
                 if (axios.defaults.headers) {
-                    axios.defaults.headers.Authorization = `Bearer ${action.payload.token}`;
+                    axios.defaults.headers.Authorization = `Bearer ${payload.token}`;
                 }
 
-                state.token = action.payload.token;
+                state.token = payload.token;
             });
     }
 });
