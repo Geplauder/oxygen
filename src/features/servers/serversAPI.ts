@@ -18,3 +18,7 @@ export function putJoinServer(serverId: string): Promise<AxiosResponse> {
 export function deleteServer(serverId: string): Promise<AxiosResponse> {
     return axios.delete(`servers/${serverId}`);
 }
+
+export function deleteLeaveServer(serverId: string): Promise<AxiosResponse> {
+    return axios.delete(`servers/${serverId}/users`);
+}
