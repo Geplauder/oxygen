@@ -10,12 +10,14 @@ import {
     TrashIcon,
 } from '@heroicons/react/solid'
 import DeleteServer from '../features/servers/DeleteServer';
+import LeaveServer from '../features/servers/LeaveServer';
 
 export default function ServerName(): JSX.Element {
     const { selectedServer } = useAppSelector(selectServers);
 
     const [openCreateChannel, setOpenCreateChannel] = useState(false);
     const [openDeleteServer, setOpenDeleteServer] = useState(false);
+    const [openLeaveServer, setOpenLeaveServer] = useState(false);
 
     return (
         <div className="flex items-center h-12 border-b border-gray-800">
@@ -30,13 +32,14 @@ export default function ServerName(): JSX.Element {
                     </DropdownItem>
                 </div>
                 <div className="py-1">
-                    <DropdownItem onClick={() => ({})} icon={ArrowCircleLeftIcon}>
+                    <DropdownItem onClick={() => setOpenLeaveServer(true)} icon={ArrowCircleLeftIcon}>
                         Leave Server
                     </DropdownItem>
                 </div>
             </Dropdown>
             <CreateChannel open={openCreateChannel} setOpen={setOpenCreateChannel} selectedServer={selectedServer} />
             <DeleteServer open={openDeleteServer} setOpen={setOpenDeleteServer} selectedServer={selectedServer} />
+            <LeaveServer open={openLeaveServer} setOpen={setOpenLeaveServer} selectedServer={selectedServer} />
         </div>
     );
 }
