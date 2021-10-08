@@ -3,7 +3,7 @@ import { addChannel, deleteChannelsForServer } from "../features/channels/channe
 import { addMessage, deleteMessagesForChannel } from "../features/messages/messagesSlice";
 import { addServer, deleteServer, getServersAsync } from "../features/servers/serversSlice";
 import { getUserAsync, setIsConnected, setIsWebsocketClosed } from "../features/user/userSlice";
-import { addUser, deleteUsersForServer } from "../features/users/usersSlice";
+import { addUser, deleteUserForServer, deleteUsersForServer } from "../features/users/usersSlice";
 import { WebsocketMessage, WebsocketMessageType } from "../types";
 
 export class GeplauderWebsocket {
@@ -115,6 +115,11 @@ export class GeplauderWebsocket {
                 for (const channel of channels) {
                     this.storeApi.dispatch(deleteMessagesForChannel(channel.id));
                 }
+
+                break;
+            }
+            case WebsocketMessageType.DeleteUser: {
+                this.storeApi.dispatch(deleteUserForServer({ user_id: message.payload.user_id, server_id: message.payload.server_id }));
 
                 break;
             }
