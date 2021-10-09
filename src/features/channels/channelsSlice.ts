@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { Channel } from "../../types";
-import { getMessagesAsync } from "../messages/messagesSlice";
 import { fetchChannels, postChannel } from "./channelsAPI";
 
 export interface ChannelState {
@@ -16,12 +15,8 @@ const initialState: ChannelState = {
 
 export const getChannelsAsync = createAsyncThunk(
     "channels/getChannelsAsync",
-    async ({ serverId }: { serverId: string }, { dispatch }) => {
+    async ({ serverId }: { serverId: string }) => {
         const response = await fetchChannels(serverId);
-
-        for (const channel of response.data) {
-            dispatch(getMessagesAsync({ channelId: channel.id }));
-        }
 
         return { serverId, data: response.data };
     }

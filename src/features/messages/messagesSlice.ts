@@ -34,8 +34,6 @@ export const messagesSlice = createSlice({
         addMessage: (state, action: PayloadAction<Message>) => {
             if (state.messages[action.payload.channel_id]) {
                 state.messages[action.payload.channel_id].push(action.payload);
-            } else {
-                state.messages[action.payload.channel_id] = [action.payload];
             }
         },
         clearMessages: (state) => {
