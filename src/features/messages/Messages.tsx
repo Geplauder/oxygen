@@ -2,14 +2,15 @@ import React, { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ChannelName from '../../components/ChannelName';
 import MessageBox from '../../components/MessageBox';
-import { selectChannels } from '../channels/channelsSlice';
+import { selectCurrentChannels, selectSelectedChannel } from '../channels/channelsSlice';
 import { getMessagesAsync, selectMessages } from './messagesSlice';
 import Message from './Message';
 
 export default function Messages(): JSX.Element {
     const dispatch = useAppDispatch();
 
-    const { selectedChannel } = useAppSelector(selectChannels);
+    const currentChannels = useAppSelector(selectCurrentChannels);
+    const selectedChannel = useAppSelector(selectSelectedChannel);
     const { messages } = useAppSelector(selectMessages);
 
     const messagesEnd = useRef<HTMLDivElement | null>(null);
@@ -22,7 +23,7 @@ export default function Messages(): JSX.Element {
         if (messagesEnd.current !== null) {
             messagesEnd.current.scrollIntoView();
         }
-    }, [messages, selectedChannel]);
+    }, [messages, currentChannels]);
 
     return (
         <div className='flex bg-messages flex-col flex-grow h-screen'>
