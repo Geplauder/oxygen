@@ -16,7 +16,7 @@ export default function Servers(): JSX.Element {
             <div className="flex flex-col overflow-y-auto items-center space-y-4 py-4 bg-servers w-20 h-screen no-scrollbar">
                 {servers && servers.map((server, idx) => (
                     <Tooltip key={idx} content={server.name} placement="right" >
-                        <div onClick={() => dispatch(selectServer(server))} className="cursor-pointer">
+                        <div onClick={() => dispatch(selectServer(idx))} className="cursor-pointer">
                             <Jdenticon value={server.id} className={classNames('w-16 h-16 rounded-full', { 'border-2': server.id === selectedServer?.id })} />
                         </div>
                     </Tooltip>

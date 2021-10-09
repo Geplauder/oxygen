@@ -9,12 +9,12 @@ import { deleteLeaveServer, deleteServer as deleteServerApi, fetchServers, postS
 
 export interface ServerState {
     servers: Server[];
-    selectedServer: Server | null;
+    selectedServer: number,
 }
 
 const initialState: ServerState = {
     servers: [],
-    selectedServer: null,
+    selectedServer: 0,
 };
 
 export const getServersAsync = createAsyncThunk(
@@ -67,27 +67,25 @@ export const serversSlice = createSlice({
     name: "servers",
     initialState,
     reducers: {
-        selectServer: (state, action: PayloadAction<Server>) => {
+        selectServer: (state, action: PayloadAction<number>) => {
             state.selectedServer = action.payload;
         },
         addServer: (state, action: PayloadAction<Server>) => {
             state.servers.push(action.payload);
         },
         deleteServer: (state, action: PayloadAction<string>) => {
+            const serverIndex = state.servers.findIndex(x => x.id === action.payload);
+
             state.servers = state.servers.filter(x => x.id !== action.payload);
 
-            if (state.selectedServer?.id === action.payload) {
-                state.selectedServer = state.servers[0];
+            if (state.selectedServer === serverIndex) {
+                state.selectedServer = 0;
             }
         }
     },
     extraReducers: (builder) => {
         builder
             .addCase(getServersAsync.fulfilled, (state, action) => {
-                if (action.payload.length > 0 && state.selectedServer === null) {
-                    state.selectedServer = action.payload[0];
-                }
-
                 state.servers = action.payload;
             });
     }
@@ -95,6 +93,6 @@ export const serversSlice = createSlice({
 
 export const { selectServer, addServer, deleteServer } = serversSlice.actions;
 
-export const selectServers = (state: RootState): { servers: Server[], selectedServer: Server | null } => state.servers;
+export const selectServers = (state: RootState): { servers: Server[], selectedServer: Server | null } => { return { servers: state.servers.servers, selectedServer: state.servers.servers[state.servers.selectedServer] ?? null } }
 
 export default serversSlice.reducer;
