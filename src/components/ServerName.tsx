@@ -11,8 +11,10 @@ import {
 } from '@heroicons/react/solid'
 import DeleteServer from '../features/servers/DeleteServer';
 import LeaveServer from '../features/servers/LeaveServer';
+import { selectUser } from '../features/user/userSlice';
 
 export default function ServerName(): JSX.Element {
+    const { user } = useAppSelector(selectUser);
     const { selectedServer } = useAppSelector(selectServers);
 
     const [openCreateChannel, setOpenCreateChannel] = useState(false);
@@ -23,19 +25,23 @@ export default function ServerName(): JSX.Element {
         <div className="flex items-center h-12 border-b border-gray-800">
             <p className='flex-1 mx-4 text-white text-xl font-semibold select-none truncate'>{selectedServer?.name}</p>
             <Dropdown>
-                <div className='py-1'>
-                    <DropdownItem onClick={() => setOpenCreateChannel(true)} icon={PlusIcon}>
-                        Create Channel
-                    </DropdownItem>
-                    <DropdownItem onClick={() => setOpenDeleteServer(true)} icon={TrashIcon}>
-                        Delete Server
-                    </DropdownItem>
-                </div>
-                <div className="py-1">
-                    <DropdownItem onClick={() => setOpenLeaveServer(true)} icon={ArrowCircleLeftIcon}>
-                        Leave Server
-                    </DropdownItem>
-                </div>
+                {selectedServer?.owner_id === user?.id && (
+                    <div className='py-1'>
+                        <DropdownItem onClick={() => setOpenCreateChannel(true)} icon={PlusIcon}>
+                            Create Channel
+                        </DropdownItem>
+                        <DropdownItem onClick={() => setOpenDeleteServer(true)} icon={TrashIcon} danger={true}>
+                            Delete Server
+                        </DropdownItem>
+                    </div>
+                )}
+                {selectedServer?.owner_id !== user?.id && (
+                    <div className="py-1">
+                        <DropdownItem onClick={() => setOpenLeaveServer(true)} icon={ArrowCircleLeftIcon} danger={true}>
+                            Leave Server
+                        </DropdownItem>
+                    </div>
+                )}
             </Dropdown>
             <CreateChannel open={openCreateChannel} setOpen={setOpenCreateChannel} selectedServer={selectedServer} />
             <DeleteServer open={openDeleteServer} setOpen={setOpenDeleteServer} selectedServer={selectedServer} />

@@ -1,9 +1,8 @@
-import React, { FormEvent, Fragment, useRef, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { postChannelAsync } from "./channelsSlice";
 import { Server } from "../../types";
-import { selectUser } from "../user/userSlice";
 
 export default function CreateChannel({
     selectedServer,
@@ -16,12 +15,10 @@ export default function CreateChannel({
 }): JSX.Element {
     const dispatch = useAppDispatch();
 
-    const { user } = useAppSelector(selectUser);
-
     const [channelName, setChannelName] = useState("New Channel");
     const inputRef = useRef(null);
 
-    if (selectedServer === null || user?.id !== selectedServer.owner_id) {
+    if (selectedServer === null) {
         return <div />;
     }
 

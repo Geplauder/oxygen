@@ -1,19 +1,16 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationIcon } from '@heroicons/react/outline';
 import React, { Fragment, useRef } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import { Server } from '../../types';
-import { selectUser } from '../user/userSlice';
 import { deleteLeaveServerAsync } from './serversSlice';
 
 export default function LeaveServer({ selectedServer, open, setOpen }: { selectedServer: Server | null, open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
     const dispatch = useAppDispatch();
 
-    const { user } = useAppSelector(selectUser);
-
     const cancelButtonRef = useRef(null);
 
-    if (selectedServer === null || user?.id === selectedServer.owner_id) {
+    if (selectedServer === null) {
         return <div />;
     }
 
