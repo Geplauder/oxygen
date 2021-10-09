@@ -9,6 +9,21 @@ export default function CreateServer({ open, setOpen }: { open: boolean, setOpen
     const [serverName, setServerName] = useState('New Server');
     const cancelButtonRef = useRef(null);
 
+    const createServer = () => {
+        dispatch(postServerAsync({ name: serverName }));
+        setOpen(false);
+    };
+
+    const handleSubmit = (event: React.KeyboardEvent) => {
+        if (event.key !== "Enter") {
+            return;
+        }
+
+        event.preventDefault();
+
+        createServer();
+    };
+
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
@@ -56,6 +71,7 @@ export default function CreateServer({ open, setOpen }: { open: boolean, setOpen
                                                         className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                                         value={serverName}
                                                         onChange={e => setServerName(e.target.value)}
+                                                        onKeyDown={(e) => handleSubmit(e)}
                                                     />
                                                 </div>
                                             </div>
@@ -67,7 +83,7 @@ export default function CreateServer({ open, setOpen }: { open: boolean, setOpen
                                 <button
                                     type="button"
                                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                    onClick={() => { dispatch(postServerAsync({ name: serverName })); setOpen(false); }}
+                                    onClick={createServer}
                                 >
                                     Create
                                 </button>
