@@ -16,14 +16,17 @@ export default function Channels(): JSX.Element {
 
     return (
         <div className='flex w-full'>
-            <div className='bg-channels w-64 flex flex-col'>
+            <div className='bg-main border-r border-main-black w-64 flex flex-col'>
                 <ServerName />
-                <div className='flex flex-1 overflow-y-auto scrollbar scrollbar-hidden flex-col space-y-2 ml-2 mr-0.5 my-2'>
+                <div className='flex flex-1 overflow-y-auto scrollbar scrollbar-hidden flex-col space-y-2 my-2'>
                     {selectedServer && currentChannels && currentChannels.channels.map((channel, idx) => (
                         <div key={idx} onClick={() => dispatch(selectChannel({ serverId: selectedServer.id, index: idx }))}
-                            className={classNames('rounded-md cursor-pointer font-semibold px-2 py-1 mr-1 hover:bg-channels-highlight',
-                                currentChannels.selectedChannel === idx ? 'text-white bg-channels-selected hover:bg-channels-selected' : 'text-channels-text')}>
-                            <p className='text-lg select-none'>
+                            className={classNames('text-white cursor-pointer font-semibold py-1.5 border-l-2 border-transparent',
+                                currentChannels.selectedChannel === idx
+                                    ? 'bg-main-accent bg-opacity-25 border-l-2 border-main-accent'
+                                    : 'hover:bg-main-accent hover:bg-opacity-10 hover:border-l-2 hover:border-main-accent hover:border-opacity-50')}
+                        >
+                            <p className='px-4 text-lg select-none'>
                                 <span># </span>
                                 {channel.name}
                             </p>

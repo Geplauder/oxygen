@@ -22,7 +22,7 @@ export default function MessageBox({ selectedChannel }: { selectedChannel: Chann
         <div className="mb-4 flex items-center">
             <div className='mx-4 w-full'>
                 <input type="text"
-                    className='w-full h-12 rounded-lg bg-textbox text-white border-none focus:ring-transparent placeholder-[#909399]'
+                    className='w-full h-12 rounded-lg bg-[#121418] text-white border-none focus:ring-transparent placeholder-[#909399]'
                     placeholder={'Message #' + selectedChannel.name}
                     value={message}
                     onChange={e => setMessage(e.target.value)}

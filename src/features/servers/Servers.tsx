@@ -13,11 +13,13 @@ export default function Servers(): JSX.Element {
 
     return (
         <>
-            <div className="flex flex-col overflow-y-auto items-center space-y-4 py-4 bg-servers w-20 h-screen no-scrollbar">
+            <div className="flex flex-col overflow-y-auto items-center space-y-4 py-4 bg-main w-[6.5rem] h-screen no-scrollbar border-r border-main-black">
                 {servers && servers.map((server, idx) => (
                     <Tooltip key={idx} content={server.name} placement="right" >
                         <div onClick={() => dispatch(selectServer(idx))} className="cursor-pointer">
-                            <Jdenticon value={server.id} className={classNames('w-16 h-16 rounded-full', { 'border-2': server.id === selectedServer?.id })} />
+                            <div className={classNames('flex items-center justify-center w-[4.5rem] h-[4.5rem] bg-main rounded-full', server.id === selectedServer?.id ? 'border-[3px] border-main-accent' : 'hover:border-2 hover:border-white')}>
+                                <Jdenticon value={server.id} className='w-14 h-14 rounded-full' />
+                            </div>
                         </div>
                     </Tooltip>
                 ))}

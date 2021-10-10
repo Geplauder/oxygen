@@ -26,9 +26,9 @@ export default function Messages(): JSX.Element {
     }, [messages, currentChannels]);
 
     return (
-        <div className='flex bg-messages flex-col flex-grow h-screen'>
+        <div className='flex bg-main-dark flex-col flex-grow h-screen'>
             <ChannelName selectedChannel={selectedChannel} />
-            <div className='flex-1 overflow-y-auto space-y-2 pb-2 scrollbar mr-1'>
+            <div className='flex-1 overflow-y-auto space-y-2 pb-2 scrollbar'>
                 {selectedChannel && messages[selectedChannel.id] && messages[selectedChannel.id].map((message, idx) => (
                     <Message key={idx} message={message} />
                 ))}

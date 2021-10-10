@@ -22,7 +22,7 @@ export default function ServerName(): JSX.Element {
     const [openLeaveServer, setOpenLeaveServer] = useState(false);
 
     return (
-        <div className="flex items-center h-12 border-b border-gray-800">
+        <div className="flex items-center h-12">
             <p className='flex-1 mx-4 text-white text-xl font-semibold select-none truncate'>{selectedServer?.name}</p>
             <Dropdown>
                 {selectedServer?.owner_id === user?.id && (
