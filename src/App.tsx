@@ -4,6 +4,7 @@ import { AuthenticatedRoute } from "./app/router";
 import Login from "./features/auth/Login";
 import Register from "./features/auth/Register";
 import Index from "./pages/Index";
+import Settings from "./pages/Settings";
 
 function App(): JSX.Element {
   return (<Router>
@@ -15,6 +16,9 @@ function App(): JSX.Element {
         <Route path="/register">
           <Register />
         </Route>
+        <AuthenticatedRoute path="/settings">
+          <Settings />
+        </AuthenticatedRoute>
         <AuthenticatedRoute path="/">
           <Index />
         </AuthenticatedRoute>
