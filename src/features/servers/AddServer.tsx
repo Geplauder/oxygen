@@ -35,7 +35,7 @@ export default function AddServer(): JSX.Element {
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                         >
-                            <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                            <Dialog.Overlay className="fixed inset-0 bg-gray-800 bg-opacity-75 transition-opacity" />
                         </Transition.Child>
 
                         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
@@ -50,14 +50,14 @@ export default function AddServer(): JSX.Element {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                            <div className="inline-block align-bottom bg-main rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                                 <div>
                                     <div className="mt-3 text-center sm:mt-5">
-                                        <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                                        <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-white">
                                             Add Server
                                         </Dialog.Title>
                                         <div className="mt-2">
-                                            <p className="text-sm text-gray-500">
+                                            <p className="text-sm text-gray-100">
                                                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius aliquam laudantium explicabo
                                                 pariatur iste dolorem animi vitae error totam. At sapiente aliquam accusamus facere veritatis.
                                             </p>
