@@ -5,7 +5,7 @@ import UserAvatar from '../user/UserAvatar';
 
 export default function Message({ message }: { message: MessageObject }): JSX.Element {
     return (
-        <div className='flex space-x-4 px-4 py-2 mr-1 hover:bg-messages-highlight'>
+        <div className='flex space-x-4 px-4 py-2 hover:bg-main-accent hover:bg-opacity-10 border-l-2 border-transparent hover:border-main-accent hover:border-opacity-50'>
             <div>
                 <UserAvatar user={message.user} size='normal' />
             </div>

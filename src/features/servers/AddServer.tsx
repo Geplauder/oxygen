@@ -16,8 +16,8 @@ export default function AddServer(): JSX.Element {
         <>
             <Tooltip placement="right" content="Add Server">
                 <button onClick={() => setOpen(true)}>
-                    <div className='flex items-center justify-center transition bg-messages hover:bg-channels w-16 h-16 rounded-full'>
-                        <PlusSmIcon className='text-white w-10 h-10' />
+                    <div className='flex items-center justify-center transition bg-main-accent bg-opacity-20 hover:bg-opacity-40 w-14 h-14 rounded-full'>
+                        <PlusSmIcon className='text-main-accent w-10 h-10' />
                     </div>
                 </button>
             </Tooltip>

@@ -5,6 +5,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        main: {
+          DEFAULT: '#1B1E21',
+          dark: '#161A1D',
+          black: '#0E1515',
+          accent: '#5290E2'
+        },
         servers: {
           DEFAULT: '#2c2e30',
         },
