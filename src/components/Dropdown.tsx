@@ -6,7 +6,7 @@ export default function Dropdown({ children }: { children: React.ReactNode }): J
     return (
         <Menu as="div" className="relative inline-block text-left">
             <div>
-                <Menu.Button className="inline-flex items-center p-2 mr-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-full text-white hover:bg-main-accent hover:bg-opacity-25">
+                <Menu.Button className="inline-flex items-center p-2 mr-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-full text-white hover:bg-indigo-500 hover:bg-opacity-25">
                     <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
                 </Menu.Button>
             </div>

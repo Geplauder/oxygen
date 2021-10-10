@@ -14,7 +14,7 @@ export default function Users(): JSX.Element {
         <div className='flex bg-main border-l border-main-black w-64'>
             <div className='flex-1 overflow-y-scroll scrollbar scrollbar-hidden mr-0.5'>
                 {selectedServer && users[selectedServer.id] && users[selectedServer.id].map((user, idx) => (
-                    <div key={idx} className='my-2 py-1 hover:bg-main-accent hover:bg-opacity-10 border-l-2 border-transparent hover:border-main-accent hover:border-opacity-50'>
+                    <div key={idx} className='my-2 py-1 hover:bg-indigo-500 hover:bg-opacity-10 border-l-2 border-transparent hover:border-indigo-500 hover:border-opacity-50'>
                         <div className='flex items-center space-x-4 px-4'>
                             <div>
                                 <UserAvatar user={user} size='small' />
