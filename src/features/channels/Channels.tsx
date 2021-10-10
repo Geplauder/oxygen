@@ -23,8 +23,8 @@ export default function Channels(): JSX.Element {
                         <div key={idx} onClick={() => dispatch(selectChannel({ serverId: selectedServer.id, index: idx }))}
                             className={classNames('text-white cursor-pointer font-semibold py-1.5 border-l-2 border-transparent',
                                 currentChannels.selectedChannel === idx
-                                    ? 'bg-main-accent bg-opacity-25 border-l-2 border-main-accent'
-                                    : 'hover:bg-main-accent hover:bg-opacity-10 hover:border-l-2 hover:border-main-accent hover:border-opacity-50')}
+                                    ? 'bg-indigo-500 bg-opacity-25 border-l-2 border-indigo-500'
+                                    : 'hover:bg-indigo-500 hover:bg-opacity-10 hover:border-l-2 hover:border-indigo-500 hover:border-opacity-50')}
                         >
                             <p className='px-4 text-lg select-none'>
                                 <span># </span>

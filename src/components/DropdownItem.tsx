@@ -13,7 +13,7 @@ export default function DropdownItem({ children, icon, onClick, danger = false }
                 <button
                     onClick={onClick}
                     className={classNames(
-                        { 'bg-main-accent bg-opacity-10': active },
+                        { 'bg-indigo-500 bg-opacity-10': active },
                         danger ? 'text-red-500' : 'text-white',
                         'group flex items-center px-4 py-2 w-full text-sm'
                     )}
