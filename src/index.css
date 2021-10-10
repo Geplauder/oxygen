@@ -18,12 +18,12 @@
 
 .scrollbar::-webkit-scrollbar-track {
     border-radius: 10px;
-    background-color: #3f4245;
+    background-color: #2d2f31;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: #2c2e30;
+    background-color: #222425;
 }
 
 .scrollbar-hidden::-webkit-scrollbar {
