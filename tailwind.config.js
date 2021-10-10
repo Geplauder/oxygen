@@ -27,6 +27,13 @@ module.exports = {
         },
         textbox: {
           DEFAULT: '#54575c'
+        },
+        button: {
+          highlight: '#5a5d61'
+        },
+        contextmenu: {
+          DEFAULT: '#18191d',
+          highlight: '#3480eb'
         }
       }
     }
