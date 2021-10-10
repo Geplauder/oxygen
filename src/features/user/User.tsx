@@ -30,7 +30,7 @@ export default function User(): JSX.Element {
                     <Tooltip placement="top" content="Logout">
                         <button
                             type="button"
-                            className="inline-flex items-center p-2 mr-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-full text-white hover:bg-indigo-500 hover:bg-opacity-25"
+                            className="inline-flex items-center p-2 mr-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-full text-white transition-colors hover:bg-indigo-500 hover:bg-opacity-25"
                             onClick={executeLogout}
                         >
                             <LogoutIcon className="h-5 w-5" aria-hidden="true" />
