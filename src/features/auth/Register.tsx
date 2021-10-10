@@ -59,31 +59,26 @@ export default function Register(): JSX.Element {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen flex items-center justify-center bg-main py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
                 <div>
-                    <img
-                        className="mx-auto h-12 w-auto"
-                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                        alt=""
-                    />
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign up</h2>
-                    <p className="mt-2 text-center text-sm text-gray-600">
+                    <h2 className="mt-6 text-center text-3xl font-extrabold text-white">Sign up</h2>
+                    <p className="mt-2 text-center text-sm text-gray-100">
                         Or{' '}
-                        <Link to='/login' className="font-medium text-indigo-600 hover:text-indigo-500">
+                        <Link to='/login' className="font-medium text-indigo-500 hover:text-indigo-400">
                             Sign in
                         </Link>
                     </p>
                 </div>
 
                 {error && (
-                    <div className="rounded-md bg-red-50 p-4">
+                    <div className="rounded-md bg-red-600 text-white p-4">
                         <div className="flex">
                             <div className="flex-shrink-0">
-                                <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
+                                <XCircleIcon className="h-5 w-5" aria-hidden="true" />
                             </div>
                             <div className="ml-3">
-                                <h3 className="text-sm font-medium text-red-800">{error}</h3>
+                                <h3 className="text-sm font-medium">{error}</h3>
                             </div>
                         </div>
                     </div>
@@ -98,7 +93,7 @@ export default function Register(): JSX.Element {
                             type="text"
                             name="username"
                             id="username"
-                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                            className="bg-main-dark text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400 block w-full sm:text-sm border-main-black rounded-md"
                             placeholder="Username"
                             value={username}
                             onChange={e => setUsername(e.target.value)}
@@ -115,7 +110,7 @@ export default function Register(): JSX.Element {
                             type="email"
                             autoComplete="email"
                             required
-                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                            className="bg-main-dark text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400 block w-full sm:text-sm border-main-black rounded-md"
                             placeholder="Email address"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
@@ -133,7 +128,7 @@ export default function Register(): JSX.Element {
                                 type="password"
                                 autoComplete="password"
                                 required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                className="bg-main-dark text-white appearance-none rounded-none relative block w-full px-3 py-2 border border-main-black placeholder-gray-400 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Password"
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
@@ -149,7 +144,7 @@ export default function Register(): JSX.Element {
                                 type="password"
                                 autoComplete="password"
                                 required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                className="bg-main-dark text-white appearance-none rounded-none relative block w-full px-3 py-2 border border-main-black placeholder-gray-400 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Confirm password"
                                 value={confirmPassword}
                                 onChange={e => setConfirmPassword(e.target.value)}
