@@ -2,7 +2,7 @@ import React from 'react';
 import { LogoutIcon, CogIcon } from '@heroicons/react/outline';
 import { XCircleIcon } from '@heroicons/react/solid';
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router';
-import UserSettings from '../components/UserSettings';
+import UserSettings from '../components/settings/UserSettings';
 import { NavLink } from 'react-router-dom';
 import { useAppDispatch } from '../app/hooks';
 import { invalidateToken } from '../features/auth/authSlice';

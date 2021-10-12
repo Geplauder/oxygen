@@ -1,9 +1,10 @@
 import React from 'react';
-import { useAppSelector } from '../app/hooks';
-import UserAvatar from '../features/user/UserAvatar';
-import { selectUser } from '../features/user/userSlice';
-import DangerButton from './buttons/DangerButton';
-import PrimaryButton from './buttons/PrimaryButton';
+import { useAppSelector } from '../../app/hooks';
+import UserAvatar from '../../features/user/UserAvatar';
+import { selectUser } from '../../features/user/userSlice';
+import DangerButton from '../buttons/DangerButton';
+import PrimaryButton from '../buttons/PrimaryButton';
+import UpdateUserField from './UpdateUserField';
 
 export default function UserSettings(): JSX.Element {
     const { user } = useAppSelector(selectUser);
@@ -20,9 +21,8 @@ export default function UserSettings(): JSX.Element {
                     <dd className="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
                         <span className="flex-grow">{user.username}</span>
                         <span className="ml-4 flex-shrink-0">
-                            <PrimaryButton>
-                                Update
-                            </PrimaryButton>
+                            <UpdateUserField field='name' displayField='Username' inputType='text' />
+                            {/* <UpdateUsername /> */}
                         </span>
                     </dd>
                 </div>
@@ -47,9 +47,8 @@ export default function UserSettings(): JSX.Element {
                     <dd className="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
                         <span className="flex-grow">***</span>
                         <span className="ml-4 flex-shrink-0">
-                            <PrimaryButton>
-                                Update
-                            </PrimaryButton>
+                            <UpdateUserField field='email' displayField='Email' inputType='email' />
+                            {/* <UpdateEmail /> */}
                         </span>
                     </dd>
                 </div>
@@ -58,9 +57,8 @@ export default function UserSettings(): JSX.Element {
                     <dd className="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
                         <span className="flex-grow">***</span>
                         <span className="ml-4 flex-shrink-0">
-                            <PrimaryButton>
-                                Update
-                            </PrimaryButton>
+                            <UpdateUserField field='password' displayField='Password' inputType='password' requireConfirmation={true} />
+                            {/* <UpdatePassword /> */}
                         </span>
                     </dd>
                 </div>
