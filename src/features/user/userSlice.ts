@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { User } from "../../types";
-import { fetchUser } from "./userAPI";
+import { fetchUser, postUpdateUser } from "./userAPI";
 
 export interface UserState {
     user: User | null;
@@ -21,6 +21,19 @@ export const getUserAsync = createAsyncThunk(
         const response = await fetchUser();
 
         return response.data;
+    }
+);
+
+export const postUpdateUserAsync = createAsyncThunk(
+    "user/postUpdateUserAsync",
+    async (payload: { name?: string, email?: string, password?: string, currentPassword: string }, { dispatch, rejectWithValue }) => {
+        try {
+            await postUpdateUser(payload);
+        } catch (error: any) {
+            return rejectWithValue({ status: error.response.status });
+        }
+
+        dispatch(getUserAsync());
     }
 );
 
