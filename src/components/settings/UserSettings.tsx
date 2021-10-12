@@ -22,7 +22,6 @@ export default function UserSettings(): JSX.Element {
                         <span className="flex-grow">{user.username}</span>
                         <span className="ml-4 flex-shrink-0">
                             <UpdateUserField field='name' displayField='Username' inputType='text' />
-                            {/* <UpdateUsername /> */}
                         </span>
                     </dd>
                 </div>
@@ -48,7 +47,6 @@ export default function UserSettings(): JSX.Element {
                         <span className="flex-grow">***</span>
                         <span className="ml-4 flex-shrink-0">
                             <UpdateUserField field='email' displayField='Email' inputType='email' />
-                            {/* <UpdateEmail /> */}
                         </span>
                     </dd>
                 </div>
@@ -58,7 +56,6 @@ export default function UserSettings(): JSX.Element {
                         <span className="flex-grow">***</span>
                         <span className="ml-4 flex-shrink-0">
                             <UpdateUserField field='password' displayField='Password' inputType='password' requireConfirmation={true} />
-                            {/* <UpdatePassword /> */}
                         </span>
                     </dd>
                 </div>
