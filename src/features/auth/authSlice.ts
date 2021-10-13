@@ -41,14 +41,14 @@ export const loginSlice = createSlice({
     reducers: {
         hydrate: (state, action: PayloadAction<{ token: string }>) => {
             if (axios.defaults.headers) {
-                axios.defaults.headers.Authorization = `Bearer ${action.payload.token}`;
+                axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
             }
 
             state.token = action.payload.token;
         },
         invalidateToken: (state) => {
             if (axios.defaults.headers) {
-                delete axios.defaults.headers.Authorization;
+                delete axios.defaults.headers.common['Authorization'];
             }
 
             state.token = null;
@@ -60,7 +60,7 @@ export const loginSlice = createSlice({
                 const payload = action.payload as { token: string };
 
                 if (axios.defaults.headers) {
-                    axios.defaults.headers.Authorization = `Bearer ${payload.token}`;
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${payload.token}`;
                 }
 
                 state.token = payload.token;
