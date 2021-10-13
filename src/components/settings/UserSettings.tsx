@@ -2,8 +2,7 @@ import React from 'react';
 import { useAppSelector } from '../../app/hooks';
 import UserAvatar from '../../features/user/UserAvatar';
 import { selectUser } from '../../features/user/userSlice';
-import DangerButton from '../buttons/DangerButton';
-import PrimaryButton from '../buttons/PrimaryButton';
+import { DangerButton, PrimaryButton } from '../buttons/Buttons';
 import UpdateUserField from './UpdateUserField';
 
 export default function UserSettings(): JSX.Element {

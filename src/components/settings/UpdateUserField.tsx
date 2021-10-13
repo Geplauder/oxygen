@@ -3,7 +3,7 @@ import { XCircleIcon } from '@heroicons/react/solid';
 import React, { Fragment, useRef, useState } from 'react';
 import { useAppDispatch } from '../../app/hooks';
 import { postUpdateUserAsync } from '../../features/user/userSlice';
-import PrimaryButton from '../buttons/PrimaryButton';
+import { PrimaryButton, SecondaryButton } from '../buttons/Buttons';
 
 export default function UpateUserField({ field, displayField, inputType, requireConfirmation = false }: { field: string, displayField: string, inputType: React.HTMLInputTypeAttribute, requireConfirmation?: boolean }): JSX.Element {
     const dispatch = useAppDispatch();
@@ -167,20 +167,12 @@ export default function UpateUserField({ field, displayField, inputType, require
                                     </div>
                                 </div>
                                 <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                    <button
-                                        type="button"
-                                        className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                        onClick={updateValue}
-                                    >
+                                    <PrimaryButton onClick={updateValue}>
                                         Update
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                        onClick={() => setOpen(false)}
-                                    >
+                                    </PrimaryButton>
+                                    <SecondaryButton className='mr-3' onClick={() => setOpen(false)}>
                                         Cancel
-                                    </button>
+                                    </SecondaryButton>
                                 </div>
                             </div>
                         </Transition.Child>
