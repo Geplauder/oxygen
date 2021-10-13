@@ -1,13 +1,17 @@
 import { Dialog } from '@headlessui/react';
 import { ExclamationIcon } from '@heroicons/react/outline';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useAppDispatch } from '../../app/hooks';
+import ErrorBox from '../../components/ErrorBox';
 import { ActionModal } from '../../components/Modal';
-import { Server } from '../../types';
+import { ErrorResponse, Server } from '../../types';
 import { deleteServerAsync } from './serversSlice';
 
 export default function DeleteServer({ selectedServer, open, setOpen }: { selectedServer: Server | null, open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
     const dispatch = useAppDispatch();
+
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
 
     const cancelButtonRef = useRef(null);
 
@@ -15,13 +19,39 @@ export default function DeleteServer({ selectedServer, open, setOpen }: { select
         return <div />;
     }
 
-    const deleteServer = () => {
-        dispatch(deleteServerAsync({ serverId: selectedServer.id }));
-        setOpen(false);
+    const deleteServer = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+
+            const status = await dispatch(deleteServerAsync({ serverId: selectedServer.id }));
+
+            if (status.type === deleteServerAsync.rejected.type) {
+                const errorResponse = status.payload as ErrorResponse;
+
+                switch (errorResponse.status) {
+                    case 403: {
+                        setError('You do not have permission to delete this server.');
+
+                        return;
+                    }
+                    case 500: {
+                        setError('Whoops, something went wrong. Please try again later.');
+
+                        return;
+                    }
+                }
+            }
+
+            setOpen(false);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
-        <ActionModal open={open} setOpen={setOpen} initialFocus={cancelButtonRef} actionName='Delete' onAction={deleteServer}>
+        <ActionModal open={open} setOpen={setOpen} initialFocus={cancelButtonRef} actionName='Delete' onAction={deleteServer} isLoading={isLoading}>
+            <ErrorBox error={error} />
             <div className="px-4 pt-5 pb-4 sm:flex sm:items-start">
                 <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-500 sm:mx-0 sm:h-10 sm:w-10">
                     <ExclamationIcon className="h-6 w-6 text-red-100" aria-hidden="true" />

@@ -37,22 +37,34 @@ export const getServersAsync = createAsyncThunk(
 
 export const postServerAsync = createAsyncThunk(
     "servers/postServerAsync",
-    async ({ name }: { name: string }) => {
-        await postServer(name);
+    async ({ name }: { name: string }, { rejectWithValue }) => {
+        try {
+            await postServer(name);
+        } catch (error: any) {
+            return rejectWithValue({ status: error.response.status, data: error.response.data });
+        }
     }
 );
 
 export const putJoinServerAsync = createAsyncThunk(
     "servers/putJoinServerAsync",
-    async ({ serverId }: { serverId: string }) => {
-        await putJoinServer(serverId);
+    async ({ serverId }: { serverId: string }, { rejectWithValue }) => {
+        try {
+            await putJoinServer(serverId);
+        } catch (error: any) {
+            return rejectWithValue({ status: error.response.status, data: error.response.data });
+        }
     }
 );
 
 export const deleteServerAsync = createAsyncThunk(
     "servers/deleteServerAsync",
-    async ({ serverId }: { serverId: string }) => {
-        await deleteServerApi(serverId);
+    async ({ serverId }: { serverId: string }, { rejectWithValue }) => {
+        try {
+            await deleteServerApi(serverId);
+        } catch (error: any) {
+            return rejectWithValue({ status: error.response.status, data: error.response.data });
+        }
     }
 );
 
