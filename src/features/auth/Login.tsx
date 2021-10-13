@@ -93,6 +93,7 @@ export default function Login(): JSX.Element {
                                 placeholder="Email address"
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
+                                onKeyDown={handleSubmit}
                             />
                         </div>
                         <div>
