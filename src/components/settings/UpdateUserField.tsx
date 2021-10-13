@@ -8,6 +8,7 @@ import { PrimaryButton, SecondaryButton } from '../buttons/Buttons';
 export default function UpateUserField({ field, displayField, inputType, requireConfirmation = false }: { field: string, displayField: string, inputType: React.HTMLInputTypeAttribute, requireConfirmation?: boolean }): JSX.Element {
     const dispatch = useAppDispatch();
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
     const [open, setOpen] = useState(false);
@@ -17,37 +18,42 @@ export default function UpateUserField({ field, displayField, inputType, require
     const valueRef = useRef(null);
 
     const updateValue = async () => {
-        setError(null);
+        try {
+            setIsLoading(true);
+            setError(null);
 
-        if (value.trim().length === 0 || currentPassword.trim().length === 0 || (requireConfirmation && confirmValue.trim().length === 0)) {
-            setError('Please fill out all fields.');
+            if (value.trim().length === 0 || currentPassword.trim().length === 0 || (requireConfirmation && confirmValue.trim().length === 0)) {
+                setError('Please fill out all fields.');
 
-            return;
-        }
-
-        const status = await dispatch(postUpdateUserAsync({ [field]: value, currentPassword }));
-
-        if (status.type === postUpdateUserAsync.rejected.type) {
-            switch ((status.payload as any).status) {
-                case 400: {
-                    setError(`Please enter a valid ${field}.`);
-                    break;
-                }
-                case 403: {
-                    setError('The current password you entered is wrong.');
-                    break;
-                }
-                case 500: {
-                    setError('Whoops, something went wrong. Please try again later.');
-                    break;
-                }
+                return;
             }
-        } else {
-            setValue('');
-            setConfirmValue('');
-            setCurrentPassword('');
 
-            setOpen(false);
+            const status = await dispatch(postUpdateUserAsync({ [field]: value, currentPassword }));
+
+            if (status.type === postUpdateUserAsync.rejected.type) {
+                switch ((status.payload as any).status) {
+                    case 400: {
+                        setError(`Please enter a valid ${field}.`);
+                        break;
+                    }
+                    case 403: {
+                        setError('The current password you entered is wrong.');
+                        break;
+                    }
+                    case 500: {
+                        setError('Whoops, something went wrong. Please try again later.');
+                        break;
+                    }
+                }
+            } else {
+                setValue('');
+                setConfirmValue('');
+                setCurrentPassword('');
+
+                setOpen(false);
+            }
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -167,7 +173,7 @@ export default function UpateUserField({ field, displayField, inputType, require
                                     </div>
                                 </div>
                                 <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                    <PrimaryButton onClick={updateValue}>
+                                    <PrimaryButton onClick={updateValue} isLoading={isLoading}>
                                         Update
                                     </PrimaryButton>
                                     <SecondaryButton className='mr-3' onClick={() => setOpen(false)}>
