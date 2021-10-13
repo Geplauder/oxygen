@@ -22,8 +22,12 @@ export const getChannelsAsync = createAsyncThunk(
 
 export const postChannelAsync = createAsyncThunk(
     "channels/postChannelAsync",
-    async ({ serverId, name }: { serverId: string, name: string }) => {
-        await postChannel(serverId, name);
+    async ({ serverId, name }: { serverId: string, name: string }, { rejectWithValue }) => {
+        try {
+            await postChannel(serverId, name);
+        } catch (error: any) {
+            return rejectWithValue({ status: error.response.status, data: error.response.data });
+        }
     }
 )
 

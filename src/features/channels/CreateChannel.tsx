@@ -2,8 +2,9 @@ import React, { useRef, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { useAppDispatch } from "../../app/hooks";
 import { postChannelAsync } from "./channelsSlice";
-import { Server } from "../../types";
+import { ErrorResponse, Server } from "../../types";
 import { ActionModal } from "../../components/Modal";
+import ErrorBox from "../../components/ErrorBox";
 
 export default function CreateChannel({
     selectedServer,
@@ -16,6 +17,9 @@ export default function CreateChannel({
 }): JSX.Element {
     const dispatch = useAppDispatch();
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+
     const [channelName, setChannelName] = useState("New Channel");
     const inputRef = useRef(null);
 
@@ -23,26 +27,61 @@ export default function CreateChannel({
         return <div />;
     }
 
-    const createChannel = () => {
-        dispatch(
-            postChannelAsync({ serverId: selectedServer?.id, name: channelName })
-        );
-        setOpen(false);
+    const createChannel = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+
+            if (channelName.trim().length === 0) {
+                setError('Please fill out all fields.');
+
+                return;
+            }
+
+            const status = await dispatch(postChannelAsync({ serverId: selectedServer?.id, name: channelName }));
+
+            if (status.type === postChannelAsync.rejected.type) {
+                const errorResponse = status.payload as ErrorResponse;
+
+                switch (errorResponse.status) {
+                    case 400: {
+                        setError(errorResponse.data);
+
+                        return;
+                    }
+                    case 403: {
+                        setError('You do not have permission to create a channel in this server.');
+
+                        return;
+                    }
+                    case 500: {
+                        setError('Whoops, something went wrong. Please try again later.');
+
+                        return;
+                    }
+                }
+            }
+
+            setOpen(false);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    const handleSubmit = (event: React.KeyboardEvent) => {
+    const handleSubmit = async (event: React.KeyboardEvent) => {
         if (event.key !== "Enter") {
             return;
         }
 
         event.preventDefault();
 
-        createChannel();
+        await createChannel();
     };
 
     return (
-        <ActionModal open={open} setOpen={setOpen} initialFocus={inputRef} actionName='Create' onAction={createChannel}>
+        <ActionModal open={open} setOpen={setOpen} initialFocus={inputRef} actionName='Create' onAction={createChannel} isLoading={isLoading}>
             <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <ErrorBox className='mb-4' error={error} />
                 <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                         <Dialog.Title

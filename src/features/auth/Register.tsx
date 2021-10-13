@@ -3,6 +3,7 @@ import { Link, Redirect, useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { PrimaryButton } from '../../components/buttons/Buttons';
 import ErrorBox from '../../components/ErrorBox';
+import { ErrorResponse } from '../../types';
 import { registerAsync, selectToken } from './authSlice';
 
 export default function Register(): JSX.Element {
@@ -43,9 +44,11 @@ export default function Register(): JSX.Element {
             const status = await dispatch(registerAsync({ name: username, email, password }));
 
             if (status.type === registerAsync.rejected.type) {
-                switch ((status.payload as any).status) {
+                const errorResponse = status.payload as ErrorResponse;
+
+                switch (errorResponse.status) {
                     case 400: {
-                        setError((status.payload as any).data);
+                        setError(errorResponse.data);
 
                         return;
                     }

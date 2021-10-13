@@ -2,6 +2,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useRef, useState } from 'react';
 import { useAppDispatch } from '../../app/hooks';
 import { postUpdateUserAsync } from '../../features/user/userSlice';
+import { ErrorResponse } from '../../types';
 import { PrimaryButton, SecondaryButton } from '../buttons/Buttons';
 import ErrorBox from '../ErrorBox';
 
@@ -31,7 +32,9 @@ export default function UpateUserField({ field, displayField, inputType, require
             const status = await dispatch(postUpdateUserAsync({ [field]: value, currentPassword }));
 
             if (status.type === postUpdateUserAsync.rejected.type) {
-                switch ((status.payload as any).status) {
+                const errorResponse = status.payload as ErrorResponse;
+
+                switch (errorResponse.status) {
                     case 400: {
                         setError(`Please enter a valid ${field}.`);
                         break;
