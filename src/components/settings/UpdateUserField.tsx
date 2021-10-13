@@ -120,6 +120,7 @@ export default function UpateUserField({ field, displayField, inputType, require
                                                             className="bg-main-dark text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-main-black rounded-md"
                                                             value={value}
                                                             onChange={e => setValue(e.target.value)}
+                                                            onKeyDown={handleSubmit}
                                                             ref={valueRef}
                                                         />
                                                     </div>
@@ -137,6 +138,7 @@ export default function UpateUserField({ field, displayField, inputType, require
                                                                 className="bg-main-dark text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-main-black rounded-md"
                                                                 value={confirmValue}
                                                                 onChange={e => setConfirmValue(e.target.value)}
+                                                                onKeyDown={handleSubmit}
                                                             />
                                                         </div>
                                                     </div>

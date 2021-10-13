@@ -101,6 +101,7 @@ export default function Register(): JSX.Element {
                             placeholder="Username"
                             value={username}
                             onChange={e => setUsername(e.target.value)}
+                            onKeyDown={handleSubmit}
                         />
                     </div>
 
@@ -118,6 +119,7 @@ export default function Register(): JSX.Element {
                             placeholder="Email address"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
+                            onKeyDown={handleSubmit}
                         />
                     </div>
 
@@ -136,6 +138,7 @@ export default function Register(): JSX.Element {
                                 placeholder="Password"
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
+                                onKeyDown={handleSubmit}
                             />
                         </div>
                         <div>
