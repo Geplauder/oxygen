@@ -1,5 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, FunctionComponent } from 'react';
+import { PrimaryButton, SecondaryButton } from './buttons/Buttons';
 
 type ModalProps = {
     open: boolean,
@@ -47,31 +48,24 @@ export const Modal: FunctionComponent<ModalProps> = ({ children, open, setOpen, 
 
 type ActionModalProps = ModalProps & {
     actionName: string,
+    isLoading?: boolean,
     onAction: () => void,
     onCancel?: () => void,
 };
 
-export const ActionModal: FunctionComponent<ActionModalProps> = ({ children, open, setOpen, initialFocus, actionName, onAction, onCancel }): JSX.Element => {
+export const ActionModal: FunctionComponent<ActionModalProps> = ({ children, open, setOpen, initialFocus, actionName, isLoading = false, onAction, onCancel }): JSX.Element => {
     return (
         <Modal open={open} setOpen={setOpen} initialFocus={initialFocus}>
             <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 {children}
             </div>
             <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button
-                    type="button"
-                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={onAction}
-                >
+                <PrimaryButton isLoading={isLoading} onClick={onAction}>
                     {actionName}
-                </button>
-                <button
-                    type="button"
-                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={onCancel ? onCancel : () => setOpen(false)}
-                >
+                </PrimaryButton>
+                <SecondaryButton className='mr-3' onClick={onCancel ? onCancel : () => setOpen(false)}>
                     Cancel
-                </button>
+                </SecondaryButton>
             </div>
         </Modal>
     );
