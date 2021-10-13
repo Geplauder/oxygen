@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { LockClosedIcon, XCircleIcon } from "@heroicons/react/solid";
+import { XCircleIcon } from "@heroicons/react/solid";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { loginAsync, selectToken } from "./authSlice";
 import { Link, Redirect } from "react-router-dom";
+import { PrimaryButton } from "../../components/buttons/Buttons";
 
 export default function Login(): JSX.Element {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
     const [email, setEmail] = useState('');
@@ -18,25 +20,46 @@ export default function Login(): JSX.Element {
 
     const dispatch = useAppDispatch();
 
-    const executeLogin = async (event: React.MouseEvent) => {
-        event.preventDefault();
+    const executeLogin = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
 
-        setError(null);
+            if (email.trim().length === 0 || password.trim().length === 0) {
+                setError('Please fill out all fields.');
 
-        const status = await dispatch(loginAsync({ email, password }));
+                return;
+            }
 
-        if (status.type === loginAsync.rejected.type) {
-            switch ((status.payload as any).status) {
-                case 401: {
-                    setError('Wrong email and/or password.');
-                    return;
-                }
-                case 500: {
-                    setError('Whoops, something went wrong. Please try again later.');
-                    return;
+            const status = await dispatch(loginAsync({ email, password }));
+
+            if (status.type === loginAsync.rejected.type) {
+                switch ((status.payload as any).status) {
+                    case 401: {
+                        setError('Wrong email and/or password.');
+
+                        return;
+                    }
+                    case 500: {
+                        setError('Whoops, something went wrong. Please try again later.');
+
+                        return;
+                    }
                 }
             }
+        } finally {
+            setIsLoading(false);
         }
+    };
+
+    const handleSubmit = async (event: React.KeyboardEvent) => {
+        if (event.key !== "Enter") {
+            return;
+        }
+
+        event.preventDefault();
+
+        await executeLogin();
     };
 
     return (
@@ -97,21 +120,15 @@ export default function Login(): JSX.Element {
                                 placeholder="Password"
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
+                                onKeyDown={handleSubmit}
                             />
                         </div>
                     </div>
 
                     <div>
-                        <button
-                            type="submit"
-                            onClick={executeLogin}
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                                <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
-                            </span>
+                        <PrimaryButton className='w-full flex justify-center' onClick={executeLogin} isLoading={isLoading}>
                             Sign in
-                        </button>
+                        </PrimaryButton>
                     </div>
                 </form>
             </div>
