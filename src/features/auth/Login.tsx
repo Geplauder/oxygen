@@ -4,6 +4,7 @@ import { loginAsync, selectToken } from "./authSlice";
 import { Link, Redirect } from "react-router-dom";
 import { PrimaryButton } from "../../components/buttons/Buttons";
 import ErrorBox from "../../components/ErrorBox";
+import { ErrorResponse } from "../../types";
 
 export default function Login(): JSX.Element {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -34,7 +35,9 @@ export default function Login(): JSX.Element {
             const status = await dispatch(loginAsync({ email, password }));
 
             if (status.type === loginAsync.rejected.type) {
-                switch ((status.payload as any).status) {
+                const errorResponse = status.payload as ErrorResponse;
+
+                switch (errorResponse.status) {
                     case 401: {
                         setError('Wrong email and/or password.');
 
