@@ -2,6 +2,7 @@ import { LockClosedIcon, XCircleIcon } from '@heroicons/react/solid';
 import React, { useState } from 'react';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { PrimaryButton } from '../../components/buttons/Buttons';
 import { registerAsync, selectToken } from './authSlice';
 
 export default function Register(): JSX.Element {
@@ -19,43 +20,57 @@ export default function Register(): JSX.Element {
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    const executeSignup = async (event: React.MouseEvent) => {
-        event.preventDefault();
+    const executeSignup = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
 
-        setError(null);
+            if (username.trim().length === 0 || email.trim().length === 0 || password.trim().length === 0 || confirmPassword.trim().length === 0) {
+                setError('Please fill out all fields.');
 
-        if (username.trim().length === 0 || email.trim().length === 0 || password.trim().length === 0 || confirmPassword.trim().length === 0) {
-            setError('Please fill out all fields.');
+                return;
+            }
 
-            return;
-        }
+            if (password !== confirmPassword) {
+                setError('Passwords do not match.');
 
-        if (password !== confirmPassword) {
-            setError('Passwords do not match.');
+                return;
+            }
 
-            return;
-        }
+            const status = await dispatch(registerAsync({ name: username, email, password }));
 
-        const status = await dispatch(registerAsync({ name: username, email, password }));
+            if (status.type === registerAsync.rejected.type) {
+                switch ((status.payload as any).status) {
+                    case 400: {
+                        setError((status.payload as any).data);
 
-        if (status.type === registerAsync.rejected.type) {
-            switch ((status.payload as any).status) {
-                case 400: {
-                    setError((status.payload as any).data);
+                        return;
+                    }
+                    case 500: {
+                        setError('Whoops, something went wrong. Please try again later.');
 
-                    return;
-                }
-                case 500: {
-                    setError('Whoops, something went wrong. Please try again later.');
-
-                    return;
+                        return;
+                    }
                 }
             }
+
+            history.push('/login');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleSubmit = async (event: React.KeyboardEvent) => {
+        if (event.key !== "Enter") {
+            return;
         }
 
-        history.push('/login');
+        event.preventDefault();
+
+        await executeSignup();
     };
 
     return (
@@ -148,21 +163,15 @@ export default function Register(): JSX.Element {
                                 placeholder="Confirm password"
                                 value={confirmPassword}
                                 onChange={e => setConfirmPassword(e.target.value)}
+                                onKeyDown={handleSubmit}
                             />
                         </div>
                     </div>
 
                     <div>
-                        <button
-                            type="submit"
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={executeSignup}
-                        >
-                            <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                                <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
-                            </span>
+                        <PrimaryButton className='w-full flex justify-center' onClick={executeSignup} isLoading={isLoading}>
                             Sign up
-                        </button>
+                        </PrimaryButton>
                     </div>
                 </form>
             </div>
