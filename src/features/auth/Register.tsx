@@ -1,8 +1,8 @@
-import { LockClosedIcon, XCircleIcon } from '@heroicons/react/solid';
 import React, { useState } from 'react';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { PrimaryButton } from '../../components/buttons/Buttons';
+import ErrorBox from '../../components/ErrorBox';
 import { registerAsync, selectToken } from './authSlice';
 
 export default function Register(): JSX.Element {
@@ -86,18 +86,7 @@ export default function Register(): JSX.Element {
                     </p>
                 </div>
 
-                {error && (
-                    <div className="rounded-md bg-red-600 text-white p-4">
-                        <div className="flex">
-                            <div className="flex-shrink-0">
-                                <XCircleIcon className="h-5 w-5" aria-hidden="true" />
-                            </div>
-                            <div className="ml-3">
-                                <h3 className="text-sm font-medium">{error}</h3>
-                            </div>
-                        </div>
-                    </div>
-                )}
+                <ErrorBox error={error} />
 
                 <form className="mt-8 space-y-6" action="#" method="POST">
                     <div>

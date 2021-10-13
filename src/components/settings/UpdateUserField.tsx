@@ -1,9 +1,9 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { XCircleIcon } from '@heroicons/react/solid';
 import React, { Fragment, useRef, useState } from 'react';
 import { useAppDispatch } from '../../app/hooks';
 import { postUpdateUserAsync } from '../../features/user/userSlice';
 import { PrimaryButton, SecondaryButton } from '../buttons/Buttons';
+import ErrorBox from '../ErrorBox';
 
 export default function UpateUserField({ field, displayField, inputType, requireConfirmation = false }: { field: string, displayField: string, inputType: React.HTMLInputTypeAttribute, requireConfirmation?: boolean }): JSX.Element {
     const dispatch = useAppDispatch();
@@ -102,18 +102,7 @@ export default function UpateUserField({ field, displayField, inputType, require
                                 <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                     <div className="sm:flex sm:items-start">
                                         <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                            {error && (
-                                                <div className="rounded-md bg-red-50 p-4 mb-4">
-                                                    <div className="flex">
-                                                        <div className="flex-shrink-0">
-                                                            <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
-                                                        </div>
-                                                        <div className="ml-3">
-                                                            <h3 className="text-sm font-medium text-red-800">{error}</h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
+                                        <ErrorBox error={error} />
 
                                             <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-white">
                                                 Update {displayField}
