@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { XCircleIcon } from "@heroicons/react/solid";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { loginAsync, selectToken } from "./authSlice";
 import { Link, Redirect } from "react-router-dom";
 import { PrimaryButton } from "../../components/buttons/Buttons";
+import ErrorBox from "../../components/ErrorBox";
 
 export default function Login(): JSX.Element {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -75,18 +75,7 @@ export default function Login(): JSX.Element {
                     </p>
                 </div>
 
-                {error && (
-                    <div className="rounded-md bg-red-50 p-4">
-                        <div className="flex">
-                            <div className="flex-shrink-0">
-                                <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
-                            </div>
-                            <div className="ml-3">
-                                <h3 className="text-sm font-medium text-red-800">{error}</h3>
-                            </div>
-                        </div>
-                    </div>
-                )}
+                <ErrorBox error={error} />
 
                 <form className="mt-8 space-y-6">
                     <div className="rounded-md shadow-sm -space-y-px">
