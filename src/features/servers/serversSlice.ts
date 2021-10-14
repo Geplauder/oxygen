@@ -5,7 +5,7 @@ import { Server } from "../../types";
 import { clearChannels, getChannelsAsync } from "../channels/channelsSlice";
 import { clearMessages } from "../messages/messagesSlice";
 import { clearUsers, getUsersAsync } from "../users/usersSlice";
-import { deleteLeaveServer, deleteServer as deleteServerApi, fetchServers, postServer, putJoinServer } from "./serversAPI";
+import { deleteLeaveServer, deleteServer as deleteServerApi, fetchServers, postServer, postUpdateServer, putJoinServer } from "./serversAPI";
 
 export interface ServerState {
     servers: Server[];
@@ -73,7 +73,18 @@ export const deleteLeaveServerAsync = createAsyncThunk(
     async ({ serverId }: { serverId: string }) => {
         await deleteLeaveServer(serverId);
     }
-)
+);
+
+export const postUpdateServerAsync = createAsyncThunk(
+    "servers/postUpdateServerAsync",
+    async (payload: { serverId: string, name?: string }, { rejectWithValue }) => {
+        try {
+            await postUpdateServer(payload);
+        } catch (error: any) {
+            return rejectWithValue({ status: error.response.status });
+        }
+    }
+);
 
 export const serversSlice = createSlice({
     name: "servers",
