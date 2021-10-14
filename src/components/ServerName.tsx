@@ -6,20 +6,26 @@ import Dropdown from './Dropdown';
 import DropdownItem from './DropdownItem';
 import {
     ArrowCircleLeftIcon,
+    CogIcon,
     PlusIcon,
-    TrashIcon,
 } from '@heroicons/react/solid'
-import DeleteServer from '../features/servers/DeleteServer';
 import LeaveServer from '../features/servers/LeaveServer';
 import { selectUser } from '../features/user/userSlice';
+import { useHistory } from 'react-router';
 
 export default function ServerName(): JSX.Element {
+    const history = useHistory();
+
     const { user } = useAppSelector(selectUser);
     const { selectedServer } = useAppSelector(selectServers);
 
     const [openCreateChannel, setOpenCreateChannel] = useState(false);
     const [openDeleteServer, setOpenDeleteServer] = useState(false);
     const [openLeaveServer, setOpenLeaveServer] = useState(false);
+
+    const openServerSettings = () => {
+        history.push('/server-settings/server');
+    };
 
     return (
         <div className="flex items-center h-12">
@@ -30,8 +36,8 @@ export default function ServerName(): JSX.Element {
                         <DropdownItem onClick={() => setOpenCreateChannel(true)} icon={PlusIcon}>
                             Create Channel
                         </DropdownItem>
-                        <DropdownItem onClick={() => setOpenDeleteServer(true)} icon={TrashIcon} danger={true}>
-                            Delete Server
+                        <DropdownItem onClick={openServerSettings} icon={CogIcon}>
+                            Server Settings
                         </DropdownItem>
                     </div>
                 )}
@@ -44,7 +50,6 @@ export default function ServerName(): JSX.Element {
                 )}
             </Dropdown>
             <CreateChannel open={openCreateChannel} setOpen={setOpenCreateChannel} selectedServer={selectedServer} />
-            <DeleteServer open={openDeleteServer} setOpen={setOpenDeleteServer} selectedServer={selectedServer} />
             <LeaveServer open={openLeaveServer} setOpen={setOpenLeaveServer} selectedServer={selectedServer} />
         </div>
     );
