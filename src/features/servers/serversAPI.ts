@@ -22,3 +22,9 @@ export function deleteServer(serverId: string): Promise<AxiosResponse> {
 export function deleteLeaveServer(serverId: string): Promise<AxiosResponse> {
     return axios.delete(`servers/${serverId}/users`);
 }
+
+export function postUpdateServer({ serverId, name }: { serverId: string, name?: string }): Promise<AxiosResponse> {
+    return axios.post(`servers/${serverId}`, {
+        name,
+    });
+}
