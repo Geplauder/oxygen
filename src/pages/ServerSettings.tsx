@@ -3,6 +3,7 @@ import { CogIcon } from '@heroicons/react/outline';
 import { Route, useHistory, useRouteMatch } from 'react-router';
 import { Settings, SettingsContent, SettingsLink, SettingsNavigation, SettingsNavigationBottom, SettingsNavigationTop } from '../components/settings/BaseSettings';
 import ServerInfoSettings from '../components/settings/ServerInfoSettings';
+import DeleteServer from '../features/servers/DeleteServer';
 
 export default function UserSettings(): JSX.Element {
     const history = useHistory();
@@ -21,6 +22,7 @@ export default function UserSettings(): JSX.Element {
                     </SettingsLink>
                 </SettingsNavigationTop>
                 <SettingsNavigationBottom>
+                    <DeleteServer />
                 </SettingsNavigationBottom>
             </SettingsNavigation>
             <SettingsContent onGoBack={goBack}>
