@@ -5,7 +5,7 @@ import { selectUser } from '../../features/user/userSlice';
 import { DangerButton, PrimaryButton } from '../buttons/Buttons';
 import UpdateUserField from './UpdateUserField';
 
-export default function UserSettings(): JSX.Element {
+export default function UserInfoSettings(): JSX.Element {
     const { user } = useAppSelector(selectUser);
 
     if (user === null) {
