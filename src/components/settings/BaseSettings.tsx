@@ -2,6 +2,26 @@ import React from 'react';
 import { XCircleIcon } from '@heroicons/react/solid';
 import { Switch } from 'react-router';
 import { NavLink } from 'react-router-dom';
+import classNames from 'classnames';
+
+export const SettingsButton = ({ children, onClick, icon, isDanger = false }: { children: React.ReactNode, onClick: () => void, icon: React.ElementType, isDanger?: boolean }): JSX.Element => {
+    const iconElement = React.createElement(icon, {
+        className: 'mr-3 flex-shrink-0 h-6 w-6',
+    });
+
+    return (
+        <button
+            onClick={onClick}
+            className={classNames(
+                'w-full group border-transparent border-l-2 py-2 px-3 flex items-center text-sm font-medium hover:bg-indigo-500 hover:bg-opacity-10 hover:border-l-2 hover:border-indigo-500 hover:border-opacity-50',
+                isDanger ? 'text-red-500' : 'text-white'
+            )}
+        >
+            {iconElement}
+            {children}
+        </button>
+    );
+};
 
 export const SettingsLink = ({ children, to, icon }: { children: React.ReactNode, to: string, icon: React.ElementType }): JSX.Element => {
     const iconElement = React.createElement(icon, {
@@ -17,7 +37,7 @@ export const SettingsLink = ({ children, to, icon }: { children: React.ReactNode
             {iconElement}
             {children}
         </NavLink>
-    )
+    );
 };
 
 export const Settings = ({ children }: { children: React.ReactNode }): JSX.Element => {

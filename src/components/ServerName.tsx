@@ -20,7 +20,6 @@ export default function ServerName(): JSX.Element {
     const { selectedServer } = useAppSelector(selectServers);
 
     const [openCreateChannel, setOpenCreateChannel] = useState(false);
-    const [openDeleteServer, setOpenDeleteServer] = useState(false);
     const [openLeaveServer, setOpenLeaveServer] = useState(false);
 
     const openServerSettings = () => {
