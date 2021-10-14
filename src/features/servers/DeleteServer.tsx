@@ -1,6 +1,5 @@
 import { Dialog } from '@headlessui/react';
 import { ExclamationIcon } from '@heroicons/react/outline';
-import { TrashIcon } from '@heroicons/react/solid';
 import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -9,13 +8,12 @@ import { ActionModal } from '../../components/Modal';
 import { ErrorResponse } from '../../types';
 import { deleteServerAsync, selectServers } from './serversSlice';
 
-export default function DeleteServer(): JSX.Element {
+export default function DeleteServer({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
     const dispatch = useAppDispatch();
     const history = useHistory();
 
     const { selectedServer } = useAppSelector(selectServers);
 
-    const [open, setOpen] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -58,13 +56,7 @@ export default function DeleteServer(): JSX.Element {
 
     return (
         <>
-            <button
-                className="group w-full border-transparent border-l-2 py-2 px-3 flex items-center text-sm font-medium text-red-500 hover:bg-indigo-500 hover:bg-opacity-10 hover:border-l-2 hover:border-indigo-500 hover:border-opacity-50"
-                onClick={() => setOpen(true)}
-            >
-                <TrashIcon className="mr-3 h-6 w-6" aria-hidden="true" />
-                Delete Server
-            </button>
+            <span>Delete Server</span>
             <ActionModal open={open} setOpen={setOpen} initialFocus={cancelButtonRef} actionName='Delete' onAction={deleteServer} isLoading={isLoading}>
                 <ErrorBox error={error} />
                 <div className="px-4 pt-5 pb-4 sm:flex sm:items-start">
