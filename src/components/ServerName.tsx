@@ -30,17 +30,20 @@ export default function ServerName(): JSX.Element {
         <div className="flex items-center h-12">
             <p className='flex-1 mx-4 text-white text-xl font-semibold select-none truncate'>{selectedServer?.name}</p>
             <Dropdown>
-                {selectedServer?.owner_id === user?.id && (
-                    <div className='py-1'>
-                        <DropdownItem onClick={() => setOpenCreateChannel(true)} icon={PlusIcon}>
-                            Create Channel
-                        </DropdownItem>
-                        <DropdownItem onClick={openServerSettings} icon={CogIcon}>
-                            Server Settings
-                        </DropdownItem>
-                    </div>
-                )}
-                {selectedServer?.owner_id !== user?.id && (
+                {selectedServer?.owner_id === user?.id ? (
+                    <>
+                        <div className='py-1'>
+                            <DropdownItem onClick={() => setOpenCreateChannel(true)} icon={PlusIcon}>
+                                Create Channel
+                            </DropdownItem>
+                        </div>
+                        <div className='py-1'>
+                            <DropdownItem onClick={openServerSettings} icon={CogIcon}>
+                                Server Settings
+                            </DropdownItem>
+                        </div>
+                    </>
+                ) : (
                     <div className="py-1">
                         <DropdownItem onClick={() => setOpenLeaveServer(true)} icon={ArrowCircleLeftIcon} danger={true}>
                             Leave Server
