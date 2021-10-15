@@ -104,6 +104,11 @@ export const serversSlice = createSlice({
             if (state.selectedServer === serverIndex) {
                 state.selectedServer = 0;
             }
+        },
+        updateServer: (state, action: PayloadAction<Server>) => {
+            const serverIndex = state.servers.findIndex(x => x.id === action.payload.id);
+
+            state.servers[serverIndex] = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -114,7 +119,7 @@ export const serversSlice = createSlice({
     }
 });
 
-export const { selectServer, addServer, deleteServer } = serversSlice.actions;
+export const { selectServer, addServer, deleteServer, updateServer } = serversSlice.actions;
 
 export const selectServers = (state: RootState): { servers: Server[], selectedServer: Server | null } => { return { servers: state.servers.servers, selectedServer: state.servers.servers[state.servers.selectedServer] ?? null } }
 
