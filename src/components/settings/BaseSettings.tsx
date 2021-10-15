@@ -1,5 +1,5 @@
 import React from 'react';
-import { XCircleIcon } from '@heroicons/react/solid';
+import { XIcon } from '@heroicons/react/solid';
 import { Switch } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
@@ -13,7 +13,7 @@ export const SettingsButton = ({ children, onClick, icon, isDanger = false }: { 
         <button
             onClick={onClick}
             className={classNames(
-                'w-full group border-transparent border-l-2 py-2 px-3 flex items-center text-sm font-medium hover:bg-indigo-500 hover:bg-opacity-10 hover:border-l-2 hover:border-indigo-500 hover:border-opacity-50',
+                'w-full group border-transparent border-l-2 py-2 px-3 flex items-center text-sm font-medium transition-colors hover:bg-indigo-500 hover:bg-opacity-10 hover:border-l-2 hover:border-indigo-500 hover:border-opacity-50',
                 isDanger ? 'text-red-500' : 'text-white'
             )}
         >
@@ -31,7 +31,7 @@ export const SettingsLink = ({ children, to, icon }: { children: React.ReactNode
     return (
         <NavLink
             to={to}
-            className='group border-transparent border-l-2 py-2 px-3 flex items-center text-sm font-medium text-white hover:bg-indigo-500 hover:bg-opacity-10 hover:border-l-2 hover:border-indigo-500 hover:border-opacity-50'
+            className='group border-transparent border-l-2 py-2 px-3 flex items-center text-sm font-medium text-white transition-colors hover:bg-indigo-500 hover:bg-opacity-10 hover:border-l-2 hover:border-indigo-500 hover:border-opacity-50'
             activeClassName='bg-indigo-500 bg-opacity-25 border-indigo-600'
         >
             {iconElement}
@@ -59,10 +59,10 @@ export const SettingsContent = ({ children, onGoBack }: { children: React.ReactN
                             <div className="ml-4 flex items-center md:ml-6">
                                 <button
                                     type="button"
-                                    className="rounded-full p-1 text-white hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    className="rounded-full p-2 text-white hover:text-gray-200 transition-colors hover:bg-indigo-500 hover:bg-opacity-25"
                                     onClick={onGoBack}
                                 >
-                                    <XCircleIcon className="h-6 w-6" aria-hidden="true" />
+                                    <XIcon className="h-6 w-6" aria-hidden="true" />
                                 </button>
                             </div>
                         </div>
