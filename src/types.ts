@@ -46,6 +46,7 @@ export enum WebsocketMessageType {
     NewUser = "NewUser",
     DeleteServer = "DeleteServer",
     DeleteUser = "DeleteUser",
+    UpdateServer = "UpdateServer",
 }
 
 export type WebsocketMessage = {
@@ -76,6 +77,9 @@ export type WebsocketMessage = {
 } | {
     type: WebsocketMessageType.DeleteUser,
     payload: WebsocketDeleteUser,
+} | {
+    type: WebsocketMessageType.UpdateServer,
+    payload: WebsocketUpdateServer,
 }
 
 export type WebsocketIdentify = {
@@ -111,4 +115,8 @@ export type WebsocketDeleteServer = {
 export type WebsocketDeleteUser = {
     server_id: string,
     user_id: string,
+}
+
+export type WebsocketUpdateServer = {
+    server: Server,
 }
