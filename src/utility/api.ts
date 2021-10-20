@@ -3,7 +3,7 @@ import axios from "axios";
 import { invalidateToken } from "../features/auth/authSlice";
 
 export const setupAxios = (store: EnhancedStore, bearer: string | null) => {
-    axios.defaults.baseURL = import.meta.env.VITE_BACKEND_BASE_URL;
+    axios.defaults.baseURL = process.env.VITE_BACKEND_BASE_URL;
 
     if (bearer && axios.defaults.headers) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${bearer}`;

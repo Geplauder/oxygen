@@ -4,7 +4,7 @@ import { hydrate, invalidateToken, loginAsync } from "../features/auth/authSlice
 import { GeplauderWebsocket } from "../utility/geplauderWebsocket";
 
 export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
-    const websocket = new GeplauderWebsocket(import.meta.env.VITE_WEBSOCKET_BASE_URL + 'ws', storeApi);
+    const websocket = new GeplauderWebsocket(process.env.VITE_WEBSOCKET_BASE_URL + 'ws', storeApi);
 
     return next => action => {
         switch (action.type) {
