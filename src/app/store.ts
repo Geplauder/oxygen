@@ -6,8 +6,9 @@ import serversReducer from '../features/servers/serversSlice';
 import channelsReducer from '../features/channels/channelsSlice';
 import messagesReducer from '../features/messages/messagesSlice';
 import { websocketMiddleware } from '../middlewares/websocket';
+import { CurriedGetDefaultMiddleware } from '@reduxjs/toolkit/dist/getDefaultMiddleware';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   users: usersReducer,
@@ -16,9 +17,11 @@ const rootReducer = combineReducers({
   messages: messagesReducer,
 });
 
+export const rootMiddleware = (getDefaultMiddleware: CurriedGetDefaultMiddleware) => getDefaultMiddleware().concat(websocketMiddleware);
+
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(websocketMiddleware),
+  middleware: rootMiddleware,
 });
 
 store.subscribe(() => {
