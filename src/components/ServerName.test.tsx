@@ -6,7 +6,6 @@ import faker from 'faker';
 import ServerName from './ServerName';
 import { Provider } from 'react-redux';
 import { addServer } from '../features/servers/serversSlice';
-import configureStore from 'redux-mock-store';
 
 describe('ServerName', () => {
     it('renders server name', () => {
