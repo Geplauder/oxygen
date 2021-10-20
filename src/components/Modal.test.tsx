@@ -11,14 +11,14 @@ window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverM
 
 describe('Modal', () => {
     it('opens when open prop is true', () => {
-        render(<Modal open={true} setOpen={() => {}}>foobar</Modal>);
+        render(<Modal open={true} setOpen={() => ({})}>foobar</Modal>);
 
         const textElement = screen.getByText(/foobar/i);
         expect(textElement).toBeInTheDocument();
     });
 
     it('is not open when open prop is false', () => {
-        render(<Modal open={false} setOpen={() => {}}>foobar</Modal>);
+        render(<Modal open={false} setOpen={() => ({})}>foobar</Modal>);
 
         const textElement = screen.queryByText(/foobar/i);
         expect(textElement).not.toBeInTheDocument();
@@ -29,7 +29,7 @@ describe('ActionModal', () => {
     it('closes on cancel button click', () => {
         const setOpenMock = jest.fn();
 
-        render(<ActionModal actionName='foo' open={true} setOpen={setOpenMock} onAction={() => {}} />);
+        render(<ActionModal actionName='foo' open={true} setOpen={setOpenMock} onAction={() => ({})} />);
 
         fireEvent.click(screen.getByText(/Cancel/i));
 
@@ -39,7 +39,7 @@ describe('ActionModal', () => {
     it('calls onCancel callback on cancel button click', () => {
         const onCancelMock = jest.fn();
 
-        render(<ActionModal actionName='foo' open={true} setOpen={() => {}} onCancel={onCancelMock} onAction={() => {}} />);
+        render(<ActionModal actionName='foo' open={true} setOpen={() => ({})} onCancel={onCancelMock} onAction={() => ({})} />);
 
         fireEvent.click(screen.getByText(/Cancel/i));
 
@@ -49,7 +49,7 @@ describe('ActionModal', () => {
     it('calls onAction callback on action button click', () => {
         const onActionMock = jest.fn();
 
-        render(<ActionModal actionName='foo' open={true} setOpen={() => {}} onAction={onActionMock} />);
+        render(<ActionModal actionName='foo' open={true} setOpen={() => ({})} onAction={onActionMock} />);
 
         fireEvent.click(screen.getByText(/foo/i));
 

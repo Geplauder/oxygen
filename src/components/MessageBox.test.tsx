@@ -28,8 +28,10 @@ describe('MessageBox', () => {
 
     it('sets message on input change', () => {
         const setState = jest.fn();
+        
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const useStateMock: any = (initState: any) => [initState, setState];
-        const x = jest.spyOn(React, 'useState').mockImplementation(useStateMock);
+        jest.spyOn(React, 'useState').mockImplementation(useStateMock);
 
         render(<MessageBox selectedChannel={CHANNEL} />);
 
