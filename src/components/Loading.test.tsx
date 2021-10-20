@@ -10,7 +10,7 @@ jest.mock('jdenticon', () => ({
     update: () => null,
 }));
 
-window.HTMLElement.prototype.scrollIntoView = () => {};
+window.HTMLElement.prototype.scrollIntoView = () => ({});
 
 const getStore = (isConnected: boolean): Partial<RootState> => ({
     user: {

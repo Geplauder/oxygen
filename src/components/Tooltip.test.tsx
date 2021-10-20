@@ -2,7 +2,6 @@ import React from 'react';
 
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Tooltip from './Tooltip';
-import { act } from 'react-dom/test-utils';
 
 describe('Tooltip', () => {
     it('renders provided text on hover', async () => {
