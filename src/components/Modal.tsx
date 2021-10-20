@@ -5,7 +5,7 @@ import { PrimaryButton, SecondaryButton } from './buttons/Buttons';
 type ModalProps = {
     open: boolean,
     setOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    initialFocus: React.MutableRefObject<HTMLElement | null>,
+    initialFocus?: React.MutableRefObject<HTMLElement | null>,
 };
 
 export const Modal: FunctionComponent<ModalProps> = ({ children, open, setOpen, initialFocus }): JSX.Element => {
