@@ -20,6 +20,11 @@ function render(
     return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
 }
 
+export const intersectionObserverMock = () => ({
+    observe: () => null,
+    disconnect: () => null,
+});
+
 export * from '@testing-library/react';
 
 export { render }

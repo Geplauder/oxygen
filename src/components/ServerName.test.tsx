@@ -1,15 +1,12 @@
 import React from 'react';
 
-import { render, screen, fireEvent } from '../utility/testUtils';
+import { render, screen, fireEvent, intersectionObserverMock } from '../utility/testUtils';
 import { createMemoryHistory } from 'history';
 import faker from 'faker';
 import ServerName from './ServerName';
 import { RootState } from '../app/store';
 import { Router } from 'react-router';
 
-const intersectionObserverMock = () => ({
-    observe: () => null
-})
 window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
 
 const getStore = (asOwner: boolean, serverName = faker.name.firstName()): Partial<RootState> => {

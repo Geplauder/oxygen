@@ -5,6 +5,7 @@ import faker from 'faker';
 import { RootState } from '../app/store';
 import Index from '../pages/Index';
 import Loading from './Loading';
+import { act } from 'react-dom/test-utils';
 
 jest.mock('jdenticon', () => ({
     update: () => null,
@@ -68,7 +69,10 @@ describe('Loading', () => {
         const textElement1 = screen.queryByText(/This takes longer than usual 😟/i);
         expect(textElement1).not.toBeInTheDocument();
 
-        jest.runAllTimers();
+        // We need act() as it updates the component
+        act(() => {
+            jest.runAllTimers();
+        });
 
         const textElement2 = screen.getByText(/This takes longer than usual 😟/i);
         expect(textElement2).toBeInTheDocument();
