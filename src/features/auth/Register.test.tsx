@@ -372,4 +372,23 @@ describe('Register', () => {
 
         expect(history.location.pathname).toBe('/');
     });
+
+    it('shows error when password and confirm password do not match', () => {
+        const history = createMemoryHistory();
+
+        render(
+            <Router history={history}>
+                <Register />
+            </Router>
+        );
+
+        fireEvent.change(screen.getByTestId('username'), { target: { value: 'foobar' } });
+        fireEvent.change(screen.getByTestId('email-address'), { target: { value: 'foobar' } });
+        fireEvent.change(screen.getByTestId('password'), { target: { value: 'foobar' } });
+        fireEvent.change(screen.getByTestId('confirm-password'), { target: { value: 'barfoo' } });
+        fireEvent.click(screen.getByRole('button'));
+
+        const textElement = screen.getByText(/Passwords do not match./i);
+        expect(textElement).toBeInTheDocument();
+    });
 });
