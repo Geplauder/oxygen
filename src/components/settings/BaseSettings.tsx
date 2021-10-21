@@ -61,6 +61,7 @@ export const SettingsContent = ({ children, onGoBack }: { children?: React.React
                                     type="button"
                                     className="rounded-full p-2 text-white hover:text-gray-200 transition-colors hover:bg-indigo-500 hover:bg-opacity-25"
                                     onClick={onGoBack}
+                                    data-testid='settings-go-back'
                                 >
                                     <XIcon className="h-6 w-6" aria-hidden="true" />
                                 </button>
