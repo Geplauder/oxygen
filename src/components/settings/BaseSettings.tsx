@@ -4,11 +4,7 @@ import { Switch } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 
-export const SettingsButton = ({ children, onClick, icon, isDanger = false }: { children: React.ReactNode, onClick: () => void, icon: React.ElementType, isDanger?: boolean }): JSX.Element => {
-    const iconElement = React.createElement(icon, {
-        className: 'mr-3 flex-shrink-0 h-6 w-6',
-    });
-
+export const SettingsButton = ({ children, onClick, icon, isDanger = false }: { children?: React.ReactNode, onClick: () => void, icon?: React.ElementType, isDanger?: boolean }): JSX.Element => {
     return (
         <button
             onClick={onClick}
@@ -17,24 +13,28 @@ export const SettingsButton = ({ children, onClick, icon, isDanger = false }: { 
                 isDanger ? 'text-red-500' : 'text-white'
             )}
         >
-            {iconElement}
+            {icon && (
+                React.createElement(icon, {
+                    className: 'mr-3 flex-shrink-0 h-6 w-6',
+                })
+            )}
             {children}
         </button>
     );
 };
 
-export const SettingsLink = ({ children, to, icon }: { children: React.ReactNode, to: string, icon: React.ElementType }): JSX.Element => {
-    const iconElement = React.createElement(icon, {
-        className: 'text-white mr-3 flex-shrink-0 h-6 w-6',
-    });
-
+export const SettingsLink = ({ children, to, icon }: { children?: React.ReactNode, to: string, icon?: React.ElementType }): JSX.Element => {
     return (
         <NavLink
             to={to}
             className='group border-transparent border-l-2 py-2 px-3 flex items-center text-sm font-medium text-white transition-colors hover:bg-indigo-500 hover:bg-opacity-10 hover:border-l-2 hover:border-indigo-500 hover:border-opacity-50'
             activeClassName='bg-indigo-500 bg-opacity-25 border-indigo-600'
         >
-            {iconElement}
+            {icon && (
+                React.createElement(icon, {
+                    className: 'text-white mr-3 flex-shrink-0 h-6 w-6',
+                })
+            )}
             {children}
         </NavLink>
     );
@@ -48,7 +48,7 @@ export const Settings = ({ children }: { children: React.ReactNode }): JSX.Eleme
     );
 }
 
-export const SettingsContent = ({ children, onGoBack }: { children: React.ReactNode, onGoBack: () => void }): JSX.Element => {
+export const SettingsContent = ({ children, onGoBack }: { children?: React.ReactNode, onGoBack: () => void }): JSX.Element => {
     return (
         <div className="flex-1 flex flex-col">
             <main className="flex-1 overflow-y-auto focus:outline-none">
