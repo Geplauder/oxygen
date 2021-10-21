@@ -26,7 +26,7 @@ export default function Channels(): JSX.Element {
                                     ? 'bg-indigo-500 bg-opacity-25 border-l-2 border-indigo-500'
                                     : 'hover:bg-indigo-500 hover:bg-opacity-10 hover:border-l-2 hover:border-indigo-500 hover:border-opacity-50')}
                         >
-                            <p className='px-4 text-lg select-none'>
+                            <p className='px-4 text-lg select-none' data-testid={`channel-entry-${idx}`}>
                                 <span># </span>
                                 {channel.name}
                             </p>
