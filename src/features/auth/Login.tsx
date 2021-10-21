@@ -97,6 +97,7 @@ export default function Login(): JSX.Element {
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
                                 onKeyDown={handleSubmit}
+                                data-testid='email-address'
                             />
                         </div>
                         <div>
@@ -114,6 +115,7 @@ export default function Login(): JSX.Element {
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 onKeyDown={handleSubmit}
+                                data-testid='password'
                             />
                         </div>
                     </div>
