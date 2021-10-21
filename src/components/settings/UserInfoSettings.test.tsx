@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { render, screen, fireEvent } from '../../utility/testUtils';
+import { render, screen } from '../../utility/testUtils';
 import faker from 'faker';
 import { RootState } from '../../app/store';
 import UserInfoSettings from './UserInfoSettings';
