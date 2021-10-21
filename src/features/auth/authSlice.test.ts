@@ -3,7 +3,6 @@ import { hydrate, invalidateToken, loginAsync, registerAsync, selectToken } from
 import faker from 'faker';
 import axios from 'axios';
 import { configureStore } from '@reduxjs/toolkit';
-import { useAppSelector } from '../../app/hooks';
 
 const LOGIN_SUCCESSFUL_RESPONSE = {
     data: {
