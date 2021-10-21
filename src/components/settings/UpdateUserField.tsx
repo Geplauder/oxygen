@@ -99,6 +99,7 @@ export default function UpateUserField({ field, displayField, inputType, require
                                             onChange={e => setValue(e.target.value)}
                                             onKeyDown={handleSubmit}
                                             ref={valueRef}
+                                            data-testid="field-value"
                                         />
                                     </div>
                                 </div>
@@ -116,6 +117,7 @@ export default function UpateUserField({ field, displayField, inputType, require
                                                 value={confirmValue}
                                                 onChange={e => setConfirmValue(e.target.value)}
                                                 onKeyDown={handleSubmit}
+                                                data-testid="confirm-value"
                                             />
                                         </div>
                                     </div>
@@ -133,6 +135,7 @@ export default function UpateUserField({ field, displayField, inputType, require
                                             value={currentPassword}
                                             onChange={e => setCurrentPassword(e.target.value)}
                                             onKeyDown={(e) => handleSubmit(e)}
+                                            data-testid="current-password"
                                         />
                                     </div>
                                 </div>
