@@ -105,6 +105,7 @@ export default function Register(): JSX.Element {
                             value={username}
                             onChange={e => setUsername(e.target.value)}
                             onKeyDown={handleSubmit}
+                            data-testid='username'
                         />
                     </div>
 
@@ -123,6 +124,7 @@ export default function Register(): JSX.Element {
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                             onKeyDown={handleSubmit}
+                            data-testid='email-address'
                         />
                     </div>
 
@@ -142,6 +144,7 @@ export default function Register(): JSX.Element {
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 onKeyDown={handleSubmit}
+                                data-testid='password'
                             />
                         </div>
                         <div>
@@ -159,6 +162,7 @@ export default function Register(): JSX.Element {
                                 value={confirmPassword}
                                 onChange={e => setConfirmPassword(e.target.value)}
                                 onKeyDown={handleSubmit}
+                                data-testid='confirm-password'
                             />
                         </div>
                     </div>
