@@ -5,7 +5,6 @@ import { ActionModal, Modal } from './Modal';
 
 window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
 
-
 describe('Modal', () => {
     it('opens when open prop is true', () => {
         render(<Modal open={true} setOpen={() => ({})}>foobar</Modal>);

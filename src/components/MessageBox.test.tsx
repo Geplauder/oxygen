@@ -28,7 +28,7 @@ describe('MessageBox', () => {
 
     it('sets message on input change', () => {
         const setState = jest.fn();
-        
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const useStateMock: any = (initState: any) => [initState, setState];
         jest.spyOn(React, 'useState').mockImplementation(useStateMock);
@@ -41,7 +41,6 @@ describe('MessageBox', () => {
     });
 
     it('dispatches postMessageAsync action on enter keypress', () => {
-        
         const dispatchMock = jest.fn();
         store.dispatch = dispatchMock;
 
@@ -55,7 +54,7 @@ describe('MessageBox', () => {
     });
 
     it('does not dispatch postMessageAsync action on enter keypress if message is empty', () => {
-        
+
         const dispatchMock = jest.fn();
         store.dispatch = dispatchMock;
 
@@ -68,7 +67,7 @@ describe('MessageBox', () => {
     });
 
     it('does not dispatch postMessageAsync action if keypress is not enter', () => {
-        
+
         const dispatchMock = jest.fn();
         store.dispatch = dispatchMock;
 
