@@ -49,7 +49,19 @@ describe('Loading', () => {
         expect(textElement).not.toBeInTheDocument();
     });
 
-    it('clears localstorage when button is pressed', () => {
+    it('clears localstorage and reloads page when button is pressed', () => {
+        const locationReloadMock = jest.fn();
+
+        // Prevent unimplemented location issue from jest
+        global.window = Object.create(window);
+        Object.defineProperty(window, 'location', {
+            value: {
+                ...window.location,
+                reload: locationReloadMock,
+            },
+            writable: true
+        });
+
         render(<Loading />);
 
         localStorage.setItem('foo', 'bar');
@@ -59,6 +71,7 @@ describe('Loading', () => {
         fireEvent.click(buttonElement);
 
         expect(localStorage.length).toBe(0);
+        expect(locationReloadMock).toBeCalledTimes(1);
     });
 
     it('shows extra text after 5 seconds', () => {
