@@ -1,4 +1,6 @@
 # Oxygen
+[![codecov](https://codecov.io/gh/Geplauder/oxygen/branch/main/graph/badge.svg?token=283ID65C5O)](https://codecov.io/gh/Geplauder/oxygen)
+![](../../actions/workflows/ci.yml/badge.svg)
 
 Oxygen is the web frontend for Geplauder, built with Typescript, Vite, React, Redux Toolkit and TailwindCSS.
 
@@ -12,6 +14,7 @@ To configure this project, copy the `.env.example` to `.env.local` and set the p
 | Command         | Description                                            |
 | --------------- | ------------------------------------------------------ |
 | `npm i`         | Install dependencies                                   |
+| `npm test `     | Run jest tests                                         |
 | `npm run dev`   | Start frontend development mode, reloads automatically |
 | `npm run lint`  | Run ESLint                                             |
 | `npm run build` | Build the frontend                                     |
