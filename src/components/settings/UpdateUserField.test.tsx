@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { render, screen, fireEvent, intersectionObserverMock } from '../../utility/testUtils';
+import { render, screen, fireEvent, intersectionObserverMock, waitFor } from '../../utility/testUtils';
 import UpdateUserField from './UpdateUserField';
 import { store } from '../../app/store';
 
@@ -29,9 +29,9 @@ describe('UpdateUserField', () => {
         expect(inputElement).toBeInTheDocument();
     });
 
-    it('dispatches postUpdateUserEvent event on update button pressed', () => {
+    it('dispatches postUpdateUserEvent event on update button pressed', async () => {
         const dispatchMock = jest.fn().mockImplementation(() =>
-            new Promise(() => ({
+            Promise.resolve(() => ({
                 status: {
                     type: 'ok',
                 }
@@ -47,14 +47,16 @@ describe('UpdateUserField', () => {
         fireEvent.click(screen.getAllByText(/Update/i).at(-1) as Element);
 
         // TODO: Expect specific postUpdateUserEvent function call
-        expect(dispatchMock).toHaveBeenCalledWith(
-            expect.any(Function)
-        );
+        await waitFor(() => {
+            expect(dispatchMock).toHaveBeenCalledWith(
+                expect.any(Function)
+            );
+        });
     });
 
-    it('dispatches postUpdateUserEvent event on enter key pressed in input', () => {
+    it('dispatches postUpdateUserEvent event on enter key pressed in input', async () => {
         const dispatchMock = jest.fn().mockImplementation(() =>
-            new Promise(() => ({
+            Promise.resolve(() => ({
                 status: {
                     type: 'ok',
                 }
@@ -70,14 +72,16 @@ describe('UpdateUserField', () => {
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
 
         // TODO: Expect specific postUpdateUserEvent function call
-        expect(dispatchMock).toHaveBeenCalledWith(
-            expect.any(Function)
-        );
+        await waitFor(() => {
+            expect(dispatchMock).toHaveBeenCalledWith(
+                expect.any(Function)
+            );
+        });
     });
 
-    it('does not dispatch postUpdateUserEvent event when key pressed is not enter in input', () => {
+    it('does not dispatch postUpdateUserEvent event when key pressed is not enter in input', async () => {
         const dispatchMock = jest.fn().mockImplementation(() =>
-            new Promise(() => ({
+            Promise.resolve(() => ({
                 status: {
                     type: 'ok',
                 }
@@ -93,9 +97,11 @@ describe('UpdateUserField', () => {
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'foo' });
 
         // TODO: Expect specific postUpdateUserEvent function call
-        expect(dispatchMock).not.toHaveBeenCalledWith(
-            expect.any(Function)
-        );
+        await waitFor(() => {
+            expect(dispatchMock).not.toHaveBeenCalledWith(
+                expect.any(Function)
+            );
+        });
     });
 
     it('shows error when value is empty', () => {

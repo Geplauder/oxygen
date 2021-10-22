@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { render, screen, fireEvent, intersectionObserverMock } from '../../utility/testUtils';
+import { render, screen, fireEvent, intersectionObserverMock, waitFor } from '../../utility/testUtils';
 import UpdateServerField from './UpdateServerField';
 import { store } from '../../app/store';
+import { postUpdateServerAsync } from '../../features/servers/serversSlice';
 
 window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
 
@@ -20,9 +21,9 @@ describe('UpdateServerField', () => {
         expect(textElement).toBeInTheDocument();
     });
 
-    it('dispatches postUpdateServerAsync event on update button pressed', () => {
+    it('dispatches postUpdateServerAsync event on update button pressed', async () => {
         const dispatchMock = jest.fn().mockImplementation(() =>
-            new Promise(() => ({
+            Promise.resolve(() => ({
                 status: {
                     type: 'ok',
                 }
@@ -37,14 +38,16 @@ describe('UpdateServerField', () => {
         fireEvent.click(screen.getAllByText(/Update/i).at(-1) as Element);
 
         // TODO: Expect specific postUpdateServerAsync function call
-        expect(dispatchMock).toHaveBeenCalledWith(
-            expect.any(Function)
-        );
+        await waitFor(() => {
+            expect(dispatchMock).toHaveBeenCalledWith(
+                expect.any(Function)
+            );
+        });
     });
 
-    it('dispatches postUpdateServerAsync event on enter key pressed in input', () => {
+    it('dispatches postUpdateServerAsync event on enter key pressed in input', async () => {
         const dispatchMock = jest.fn().mockImplementation(() =>
-            new Promise(() => ({
+            Promise.resolve(() => ({
                 status: {
                     type: 'ok',
                 }
@@ -59,14 +62,16 @@ describe('UpdateServerField', () => {
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
 
         // TODO: Expect specific postUpdateServerAsync function call
-        expect(dispatchMock).toHaveBeenCalledWith(
-            expect.any(Function)
-        );
+        await waitFor(() => {
+            expect(dispatchMock).toHaveBeenCalledWith(
+                expect.any(Function)
+            );
+        });
     });
 
-    it('does not dispatch postUpdateServerAsync event when key pressed is not enter in input', () => {
+    it('does not dispatch postUpdateServerAsync event when key pressed is not enter in input', async () => {
         const dispatchMock = jest.fn().mockImplementation(() =>
-            new Promise(() => ({
+            Promise.resolve(() => ({
                 status: {
                     type: 'ok',
                 }
@@ -81,9 +86,11 @@ describe('UpdateServerField', () => {
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'foo' });
 
         // TODO: Expect specific postUpdateServerAsync function call
-        expect(dispatchMock).not.toHaveBeenCalledWith(
-            expect.any(Function)
-        );
+        await waitFor(() => {
+            expect(dispatchMock).not.toHaveBeenCalledWith(
+                expect.any(Function)
+            );
+        });
     });
 
     it('shows error when value is empty', () => {
