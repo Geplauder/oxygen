@@ -1,14 +1,16 @@
 import { Dialog } from '@headlessui/react';
 import { ExclamationIcon } from '@heroicons/react/outline';
 import React, { useRef, useState } from 'react';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ErrorBox from '../../components/ErrorBox';
 import { ActionModal } from '../../components/Modal';
-import { ErrorResponse, Server } from '../../types';
-import { deleteLeaveServerAsync } from './serversSlice';
+import { ErrorResponse } from '../../types';
+import { deleteLeaveServerAsync, selectServers } from './serversSlice';
 
-export default function LeaveServer({ selectedServer, open, setOpen }: { selectedServer: Server | null, open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
+export default function LeaveServer({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
     const dispatch = useAppDispatch();
+
+    const { selectedServer } = useAppSelector(selectServers);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
