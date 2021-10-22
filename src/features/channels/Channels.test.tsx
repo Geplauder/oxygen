@@ -5,8 +5,6 @@ import { render, screen, fireEvent } from '../../utility/testUtils';
 import Channels from './Channels';
 import { configureStore } from '@reduxjs/toolkit';
 import { selectChannel } from './channelsSlice';
-import { selectServers } from '../servers/serversSlice';
-import { Server } from '../../types';
 
 jest.mock('jdenticon', () => ({
     update: () => null,
