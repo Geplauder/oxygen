@@ -1,13 +1,13 @@
 import { Dialog } from '@headlessui/react';
 import React, { useRef, useState } from 'react';
 import { useAppDispatch } from '../../app/hooks';
-import { postUpdateUserAsync } from '../../features/user/userSlice';
+import { postUpdateChannelAsync } from '../../features/channels/channelsSlice';
 import { ErrorResponse } from '../../types';
 import { PrimaryButton } from '../buttons/Buttons';
 import ErrorBox from '../ErrorBox';
 import { ActionModal } from '../Modal';
 
-export default function UpdateUserField({ field, displayField, inputType, requireConfirmation = false }: { field: string, displayField: string, inputType: React.HTMLInputTypeAttribute, requireConfirmation?: boolean }): JSX.Element {
+export default function UpdateChannelField({ channelId, field, displayField, inputType }: { channelId: string, field: string, displayField: string, inputType: React.HTMLInputTypeAttribute }): JSX.Element {
     const dispatch = useAppDispatch();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -15,8 +15,6 @@ export default function UpdateUserField({ field, displayField, inputType, requir
 
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState('');
-    const [confirmValue, setConfirmValue] = useState('');
-    const [currentPassword, setCurrentPassword] = useState('');
     const valueRef = useRef(null);
 
     const updateValue = async () => {
@@ -24,15 +22,15 @@ export default function UpdateUserField({ field, displayField, inputType, requir
             setIsLoading(true);
             setError(null);
 
-            if (value.trim().length === 0 || currentPassword.trim().length === 0 || (requireConfirmation && confirmValue.trim().length === 0)) {
+            if (value.trim().length === 0) {
                 setError('Please fill out all fields.');
 
                 return;
             }
 
-            const status = await dispatch(postUpdateUserAsync({ [field]: value, currentPassword }));
+            const status = await dispatch(postUpdateChannelAsync({ channelId, [field]: value }));
 
-            if (status.type === postUpdateUserAsync.rejected.type) {
+            if (status.type === postUpdateChannelAsync.rejected.type) {
                 const errorResponse = status.payload as ErrorResponse;
 
                 switch (errorResponse.status) {
@@ -41,7 +39,7 @@ export default function UpdateUserField({ field, displayField, inputType, requir
                         break;
                     }
                     case 403: {
-                        setError('The current password you entered is wrong.');
+                        setError('You do not have permission to update this channel.');
                         break;
                     }
                     case 500: {
@@ -51,8 +49,6 @@ export default function UpdateUserField({ field, displayField, inputType, requir
                 }
             } else {
                 setValue('');
-                setConfirmValue('');
-                setCurrentPassword('');
 
                 setOpen(false);
             }
@@ -99,43 +95,6 @@ export default function UpdateUserField({ field, displayField, inputType, requir
                                             onChange={e => setValue(e.target.value)}
                                             onKeyDown={handleSubmit}
                                             ref={valueRef}
-                                            data-testid="field-value"
-                                        />
-                                    </div>
-                                </div>
-                                {requireConfirmation && (
-                                    <div>
-                                        <label htmlFor="confirm-new-value" className="block text-sm font-medium text-gray-100">
-                                            Confirm New {displayField}
-                                        </label>
-                                        <div className="mt-1">
-                                            <input
-                                                type={inputType}
-                                                name="confirm-new-value"
-                                                id="confirm-new-value"
-                                                className="bg-main-dark text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-main-black rounded-md"
-                                                value={confirmValue}
-                                                onChange={e => setConfirmValue(e.target.value)}
-                                                onKeyDown={handleSubmit}
-                                                data-testid="confirm-value"
-                                            />
-                                        </div>
-                                    </div>
-                                )}
-                                <div>
-                                    <label htmlFor="current-password" className="block text-sm font-medium text-gray-100">
-                                        Current Password
-                                    </label>
-                                    <div className="mt-1">
-                                        <input
-                                            type="password"
-                                            name="current-password"
-                                            id="current-password"
-                                            className="bg-main-dark text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-main-black rounded-md"
-                                            value={currentPassword}
-                                            onChange={e => setCurrentPassword(e.target.value)}
-                                            onKeyDown={(e) => handleSubmit(e)}
-                                            data-testid="current-password"
                                         />
                                     </div>
                                 </div>

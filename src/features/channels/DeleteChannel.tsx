@@ -2,10 +2,11 @@ import { Dialog } from '@headlessui/react';
 import { ExclamationIcon } from '@heroicons/react/outline';
 import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import ErrorBox from '../../components/ErrorBox';
 import { ActionModal } from '../../components/Modal';
 import { Channel, ErrorResponse } from '../../types';
+import { deleteChannelAsync } from './channelsSlice';
 
 export default function DeleteServer({ channel, open, setOpen }: { channel: Channel, open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
     const dispatch = useAppDispatch();
@@ -17,7 +18,34 @@ export default function DeleteServer({ channel, open, setOpen }: { channel: Chan
     const cancelButtonRef = useRef(null);
 
     const deleteChannel = async () => {
-        // TODO
+        try {
+            setIsLoading(true);
+            setError(null);
+
+            const status = await dispatch(deleteChannelAsync({ channelId: channel.id }));
+
+            if (status.type === deleteChannelAsync.rejected.type) {
+                const errorResponse = status.payload as ErrorResponse;
+
+                switch (errorResponse.status) {
+                    case 403: {
+                        setError('You do not have permission to delete this channel.');
+
+                        return;
+                    }
+                    case 500: {
+                        setError('Whoops, something went wrong. Please try again later.');
+
+                        return;
+                    }
+                }
+            }
+
+            setOpen(false);
+            history.push('/');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
