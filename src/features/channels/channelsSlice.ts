@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { Channel } from "../../types";
-import { fetchChannels, postChannel } from "./channelsAPI";
+import { deleteChannel, fetchChannels, postChannel, postUpdateChannel } from "./channelsAPI";
 
 export interface ChannelState {
     channels: { [serverId: string]: { channels: Channel[], selectedChannel: number } },
@@ -30,6 +30,28 @@ export const postChannelAsync = createAsyncThunk(
         }
     }
 )
+
+export const deleteChannelAsync = createAsyncThunk(
+    "channels/deleteChannelAsync",
+    async ({ channelId }: { channelId: string }, { rejectWithValue }) => {
+        try {
+            await deleteChannel(channelId);
+        } catch (error: any) {
+            return rejectWithValue({ status: error.response.status, data: error.response.data });
+        }
+    }
+);
+
+export const postUpdateChannelAsync = createAsyncThunk(
+    "channels/postUpdateChannelAsync",
+    async (payload: { channelId: string, name?: string }, { rejectWithValue }) => {
+        try {
+            await postUpdateChannel(payload);
+        } catch (error: any) {
+            return rejectWithValue({ status: error.response.status });
+        }
+    }
+);
 
 export const channelsSlice = createSlice({
     name: "channels",

@@ -10,3 +10,13 @@ export function postChannel(serverId: string, name: string): Promise<AxiosRespon
         name,
     });
 }
+
+export function deleteChannel(channelId: string): Promise<AxiosResponse> {
+    return axios.delete(`channels/${channelId}`);
+}
+
+export function postUpdateChannel({ channelId, name }: { channelId: string, name?: string }): Promise<AxiosResponse> {
+    return axios.post(`channels/${channelId}`, {
+        name,
+    });
+}
