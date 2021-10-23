@@ -7,7 +7,7 @@ import { PrimaryButton } from '../buttons/Buttons';
 import ErrorBox from '../ErrorBox';
 import { ActionModal } from '../Modal';
 
-export default function UpateServerField({ serverId, field, displayField, inputType }: { serverId: string, field: string, displayField: string, inputType: React.HTMLInputTypeAttribute }): JSX.Element {
+export default function UpdateServerField({ serverId, field, displayField, inputType }: { serverId: string, field: string, displayField: string, inputType: React.HTMLInputTypeAttribute }): JSX.Element {
     const dispatch = useAppDispatch();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
