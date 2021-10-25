@@ -1,5 +1,5 @@
 import { MiddlewareAPI } from "redux";
-import { addChannel, deleteChannelsForServer, updateChannel } from "../features/channels/channelsSlice";
+import { addChannel, deleteChannel, deleteChannelsForServer, updateChannel } from "../features/channels/channelsSlice";
 import { addMessage, deleteMessagesForChannel } from "../features/messages/messagesSlice";
 import { addServer, deleteServer, getServersAsync, updateServer } from "../features/servers/serversSlice";
 import { getUserAsync, setIsConnected, setIsWebsocketClosed } from "../features/user/userSlice";
@@ -115,6 +115,14 @@ export class GeplauderWebsocket {
                 for (const channel of channels) {
                     this.storeApi.dispatch(deleteMessagesForChannel(channel.id));
                 }
+
+                break;
+            }
+            case WebsocketMessageType.DeleteChannel: {
+                const channel = this.storeApi.getState().channels.channels[message.payload.server_id];
+
+                this.storeApi.dispatch(deleteChannel({ serverId: message.payload.server_id, channelId: message.payload.channel_id }));
+                this.storeApi.dispatch(deleteMessagesForChannel(channel.id));
 
                 break;
             }
