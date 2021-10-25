@@ -1,32 +1,15 @@
 import React from 'react';
 
-import { render, screen } from '../../utility/testUtils';
-import faker from 'faker';
+import { getDummyStore, render, screen } from '../../utility/testUtils';
 import ServerInfoSettings from './ServerInfoSettings';
-import { RootState } from '../../app/store';
-
-const getStore = (serverName: string): Partial<RootState> => ({
-    servers: {
-        servers: [
-            {
-                id: faker.datatype.uuid(),
-                name: serverName,
-                owner_id: faker.datatype.uuid(),
-                created_at: faker.date.past().toString(),
-                updated_at: faker.date.past().toString(),
-            }
-        ],
-        selectedServer: 0
-    },
-});
 
 describe('ServerInfoSettings', () => {
     it('shows selected server name', () => {
-        const serverName = faker.name.firstName();
+        const { preloadedState, dummyData } = getDummyStore();
 
-        render(<ServerInfoSettings />, { preloadedState: getStore(serverName) });
+        render(<ServerInfoSettings />, { preloadedState });
 
-        const textElement = screen.getByText(new RegExp(serverName, "i"));
+        const textElement = screen.getByText(new RegExp(dummyData.server.name, "i"));
         expect(textElement).toBeInTheDocument();
     });
 

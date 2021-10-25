@@ -1,34 +1,19 @@
 import React from 'react';
 
-import { render, screen } from '../../utility/testUtils';
-import faker from 'faker';
-import { RootState } from '../../app/store';
+import { getDummyStore, render, screen } from '../../utility/testUtils';
 import UserInfoSettings from './UserInfoSettings';
 
 jest.mock('jdenticon', () => ({
     update: () => null,
 }));
 
-const getStore = (name: string): Partial<RootState> => ({
-    user: {
-        user: {
-            id: faker.datatype.uuid(),
-            username: name,
-            created_at: faker.date.past().toString(),
-            updated_at: faker.date.past().toString(),
-        },
-        isConnected: true,
-        isWebsocketClosed: false,
-    }
-});
-
 describe('UserInfoSettings', () => {
     it('shows current user name', () => {
-        const name = faker.name.firstName();
+        const { preloadedState, dummyData } = getDummyStore();
 
-        render(<UserInfoSettings />, { preloadedState: getStore(name) });
+        render(<UserInfoSettings />, { preloadedState });
 
-        const textElement = screen.getByText(new RegExp(name, "i"));
+        const textElement = screen.getByText(new RegExp(dummyData.user.username, "i"));
         expect(textElement).toBeInTheDocument();
     });
 

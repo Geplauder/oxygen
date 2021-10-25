@@ -1,26 +1,11 @@
 import React from 'react';
 
-import { render, screen } from '../utility/testUtils';
-import faker from 'faker';
-import { RootState } from '../app/store';
+import { getDummyStore, render, screen } from '../utility/testUtils';
 import ConnectionState from './ConnectionState';
-
-const getStore = (isWebsocketClosed: boolean): Partial<RootState> => ({
-    user: {
-        user: {
-            id: faker.datatype.uuid(),
-            username: faker.name.firstName(),
-            created_at: faker.date.past().toString(),
-            updated_at: faker.date.past().toString(),
-        },
-        isConnected: true,
-        isWebsocketClosed,
-    }
-});
 
 describe('ConnectionState', () => {
     it('shows when isWebsocketClosed is true', () => {
-        const preloadedState = getStore(true);
+        const { preloadedState } = getDummyStore({ isWebsocketClosed: true });
 
         render(<ConnectionState />, { preloadedState });
 
@@ -29,7 +14,7 @@ describe('ConnectionState', () => {
     });
 
     it('does not show when isWebsocketClosed is false', () => {
-        const preloadedState = getStore(false);
+        const { preloadedState } = getDummyStore({ isWebsocketClosed: false });
 
         render(<ConnectionState />, { preloadedState });
 
