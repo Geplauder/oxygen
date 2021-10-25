@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { Channel } from "../../types";
-import { deleteChannel, fetchChannels, postChannel, postUpdateChannel } from "./channelsAPI";
+import { deleteChannel as deleteChannelApi, fetchChannels, postChannel, postUpdateChannel } from "./channelsAPI";
 
 export interface ChannelState {
     channels: { [serverId: string]: { channels: Channel[], selectedChannel: number } },
@@ -35,7 +35,7 @@ export const deleteChannelAsync = createAsyncThunk(
     "channels/deleteChannelAsync",
     async ({ channelId }: { channelId: string }, { rejectWithValue }) => {
         try {
-            await deleteChannel(channelId);
+            await deleteChannelApi(channelId);
         } catch (error: any) {
             return rejectWithValue({ status: error.response.status, data: error.response.data });
         }
@@ -75,6 +75,16 @@ export const channelsSlice = createSlice({
         clearChannels: (state) => {
             state.channels = {};
         },
+        deleteChannel: (state, action: PayloadAction<{serverId: string, channelId: string }>) => {
+            const serverChannels = state.channels[action.payload.serverId];
+            const channelIndex = serverChannels.channels.findIndex(x => x.id === action.payload.channelId);
+
+            serverChannels.channels = serverChannels.channels.filter(x => x.id !== action.payload.channelId);
+
+            if (serverChannels.selectedChannel === channelIndex) {
+                serverChannels.selectedChannel = 0;
+            }
+        },
         deleteChannelsForServer: (state, action: PayloadAction<string>) => {
             delete state.channels[action.payload];
         },
@@ -95,7 +105,7 @@ export const channelsSlice = createSlice({
     }
 });
 
-export const { selectChannel, addChannel, clearChannels, deleteChannelsForServer, updateChannel } = channelsSlice.actions;
+export const { selectChannel, addChannel, clearChannels, deleteChannelsForServer, deleteChannel, updateChannel } = channelsSlice.actions;
 
 export const selectChannels = (state: RootState): { [serverId: string]: { channels: Channel[], selectedChannel: number } } => state.channels.channels;
 
