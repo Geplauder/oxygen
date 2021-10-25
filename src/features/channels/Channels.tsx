@@ -44,7 +44,7 @@ export default function Channels(): JSX.Element {
                             </p>
                             {user?.id === selectedServer.owner_id && (
                                 <button onClick={(e) => openChannelSettings(e, channel)} className={classNames(currentChannels.selectedChannel === idx ? 'block' : 'hidden', 'mr-2 group-hover:block')}>
-                                    <CogIcon className='w-4 h-4' />
+                                    <CogIcon className='w-4 h-4' data-testid='channel-edit' />
                                 </button>
                             )}
                         </div>
