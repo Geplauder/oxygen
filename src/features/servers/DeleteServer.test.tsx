@@ -1,12 +1,10 @@
 import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Router } from 'react-router';
-import { render, screen, fireEvent, intersectionObserverMock, waitFor, getDummyStore } from '../../utility/testUtils';
+import { render, screen, fireEvent, waitFor, getDummyStore } from '../../utility/testUtils';
 import DeleteServer from './DeleteServer';
 import { configureStore } from '@reduxjs/toolkit';
 import { rootMiddleware, rootReducer } from '../../app/store';
-
-window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
 
 describe('DeleteServer', () => {
     it('is open when open prop is true', () => {

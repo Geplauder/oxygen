@@ -5,12 +5,6 @@ import Index from '../pages/Index';
 import Loading from './Loading';
 import { act } from 'react-dom/test-utils';
 
-jest.mock('jdenticon', () => ({
-    update: () => null,
-}));
-
-window.HTMLElement.prototype.scrollIntoView = () => ({});
-
 describe('Loading', () => {
     afterEach(() => {
         jest.useRealTimers();

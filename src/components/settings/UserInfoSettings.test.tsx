@@ -3,10 +3,6 @@ import React from 'react';
 import { getDummyStore, render, screen } from '../../utility/testUtils';
 import UserInfoSettings from './UserInfoSettings';
 
-jest.mock('jdenticon', () => ({
-    update: () => null,
-}));
-
 describe('UserInfoSettings', () => {
     it('shows current user name', () => {
         const { preloadedState, dummyData } = getDummyStore();

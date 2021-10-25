@@ -13,7 +13,6 @@ type DummyStoreOptions = {
 };
 
 export function getDummyStore({ userIsOwner = true, isConnected = true, isWebsocketClosed = false }: DummyStoreOptions = {}): { dummyData: { user: User, server: Server, firstChannel: Channel, secondChannel: Channel }, preloadedState: Partial<RootState> } {
-    // export function getDummyStore(userIsOwner = true, isWebsocketClosed = false): { dummyData: { user: User, server: Server, firstChannel: Channel, secondChannel: Channel }, preloadedState: Partial<RootState> } {
     const user = {
         id: faker.datatype.uuid(),
         username: faker.name.firstName(),
@@ -93,11 +92,6 @@ function render(
 
     return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
 }
-
-export const intersectionObserverMock = () => ({
-    observe: () => null,
-    disconnect: () => null,
-});
 
 export * from '@testing-library/react';
 

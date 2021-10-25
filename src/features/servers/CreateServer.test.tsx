@@ -1,9 +1,7 @@
 import React from 'react';
-import { render, screen, fireEvent, intersectionObserverMock, waitFor } from '../../utility/testUtils';
+import { render, screen, fireEvent, waitFor } from '../../utility/testUtils';
 import CreateServer from './CreateServer';
 import { store } from '../../app/store';
-
-window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
 
 describe('CreateServer', () => {
     it('is open when open prop is true', () => {
