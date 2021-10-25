@@ -1,11 +1,9 @@
 import React from 'react';
 
-import { render, screen, fireEvent, intersectionObserverMock, getDummyStore } from '../utility/testUtils';
+import { render, screen, fireEvent, getDummyStore } from '../utility/testUtils';
 import { createMemoryHistory } from 'history';
 import ServerName from './ServerName';
 import { Router } from 'react-router';
-
-window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
 
 describe('ServerName', () => {
     it('renders server name', () => {

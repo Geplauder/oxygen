@@ -1,8 +1,6 @@
 import React from 'react';
-import { render, screen, fireEvent, intersectionObserverMock, waitFor } from '../../utility/testUtils';
+import { render, screen, fireEvent, waitFor } from '../../utility/testUtils';
 import AddServer from './AddServer';
-
-window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
 
 describe('AddServer', () => {
     it('opens modal on button click', () => {

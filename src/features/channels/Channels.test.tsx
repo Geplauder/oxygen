@@ -1,16 +1,9 @@
 import React from 'react';
-import { rootMiddleware, rootReducer, RootState } from '../../app/store';
-import faker from 'faker';
+import { rootMiddleware, rootReducer } from '../../app/store';
 import { render, screen, fireEvent, getDummyStore } from '../../utility/testUtils';
 import Channels from './Channels';
 import { configureStore } from '@reduxjs/toolkit';
 import { selectChannel } from './channelsSlice';
-
-jest.mock('jdenticon', () => ({
-    update: () => null,
-}));
-
-window.HTMLElement.prototype.scrollIntoView = () => ({});
 
 describe('Channels', () => {
     it('shows name for all channels', () => {

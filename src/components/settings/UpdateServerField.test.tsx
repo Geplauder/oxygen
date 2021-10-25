@@ -1,11 +1,8 @@
 import React from 'react';
 
-import { render, screen, fireEvent, intersectionObserverMock, waitFor } from '../../utility/testUtils';
+import { render, screen, fireEvent, waitFor } from '../../utility/testUtils';
 import UpdateServerField from './UpdateServerField';
 import { store } from '../../app/store';
-import { postUpdateServerAsync } from '../../features/servers/serversSlice';
-
-window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
 
 describe('UpdateServerField', () => {
     afterEach(() => {

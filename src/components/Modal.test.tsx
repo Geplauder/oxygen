@@ -1,9 +1,7 @@
 import React from 'react';
 
-import { render, screen, fireEvent, intersectionObserverMock } from '../utility/testUtils';
+import { render, screen, fireEvent } from '../utility/testUtils';
 import { ActionModal, Modal } from './Modal';
-
-window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
 
 describe('Modal', () => {
     it('opens when open prop is true', () => {
