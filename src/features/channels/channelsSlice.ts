@@ -77,6 +77,11 @@ export const channelsSlice = createSlice({
         },
         deleteChannelsForServer: (state, action: PayloadAction<string>) => {
             delete state.channels[action.payload];
+        },
+        updateChannel: (state, action: PayloadAction<Channel>) => {
+            const channelIndex = state.channels[action.payload.server_id].channels.findIndex(x => x.id === action.payload.id);
+
+            state.channels[action.payload.server_id].channels[channelIndex] = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -90,7 +95,7 @@ export const channelsSlice = createSlice({
     }
 });
 
-export const { selectChannel, addChannel, clearChannels, deleteChannelsForServer } = channelsSlice.actions;
+export const { selectChannel, addChannel, clearChannels, deleteChannelsForServer, updateChannel } = channelsSlice.actions;
 
 export const selectChannels = (state: RootState): { [serverId: string]: { channels: Channel[], selectedChannel: number } } => state.channels.channels;
 
