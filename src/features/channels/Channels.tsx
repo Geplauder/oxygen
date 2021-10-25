@@ -4,6 +4,7 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ServerName from '../../components/ServerName';
+import Tooltip from '../../components/Tooltip';
 import { Channel } from '../../types';
 import Messages from '../messages/Messages';
 import { selectServers } from '../servers/serversSlice';
@@ -43,9 +44,11 @@ export default function Channels(): JSX.Element {
                                 {channel.name}
                             </p>
                             {user?.id === selectedServer.owner_id && (
-                                <button onClick={(e) => openChannelSettings(e, channel)} className={classNames(currentChannels.selectedChannel === idx ? 'block' : 'hidden', 'mr-2 group-hover:block')}>
-                                    <CogIcon className='w-4 h-4' data-testid='channel-edit' />
-                                </button>
+                                <Tooltip content='Edit Channel' placement='top' className='flex items-center justify-center'>
+                                    <button onClick={(e) => openChannelSettings(e, channel)} className={classNames(currentChannels.selectedChannel === idx ? 'block' : 'hidden', 'mr-2 group-hover:block')}>
+                                        <CogIcon className='w-4 h-4' data-testid='channel-edit' />
+                                    </button>
+                                </Tooltip>
                             )}
                         </div>
                     ))}
