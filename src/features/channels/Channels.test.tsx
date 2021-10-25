@@ -4,6 +4,8 @@ import { render, screen, fireEvent, getDummyStore } from '../../utility/testUtil
 import Channels from './Channels';
 import { configureStore } from '@reduxjs/toolkit';
 import { selectChannel } from './channelsSlice';
+import { createMemoryHistory } from 'history';
+import { Router } from 'react-router';
 
 describe('Channels', () => {
     it('shows name for all channels', () => {
@@ -44,5 +46,39 @@ describe('Channels', () => {
         fireEvent.click(secondElement);
 
         expect(store.dispatch).toHaveBeenCalledWith(selectChannel({ index: 1, serverId }));
+    });
+
+    it('shows edit icon when user is server owner', () => {
+        const { preloadedState } = getDummyStore({ userIsOwner: true });
+
+        render(<Channels />, { preloadedState });
+
+        const editElement = screen.getAllByTestId('channel-edit');
+        expect(editElement.length).toBe(2);
+    });
+
+    it('does not show edit icon when user is not server owner', () => {
+        const { preloadedState } = getDummyStore({ userIsOwner: false });
+
+        render(<Channels />, { preloadedState });
+
+        const editElement = screen.queryByTestId('channel-edit');
+        expect(editElement).not.toBeInTheDocument();
+    });
+
+    it('opens channel settings when channel edit button is clicked', () => {
+        const history = createMemoryHistory();
+        const { preloadedState, dummyData } = getDummyStore({ userIsOwner: true });
+
+        render(
+            <Router history={history}>
+                <Channels />
+            </Router>,
+            { preloadedState }
+        );
+
+        fireEvent.click(screen.getAllByTestId('channel-edit')[0]);
+
+        expect(history.location.pathname).toBe(`/channel-settings/${dummyData.firstChannel.id}/channel`);
     });
 });
