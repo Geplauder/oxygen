@@ -3,6 +3,7 @@ import axios from 'axios';
 import { rootMiddleware, rootReducer, store } from '../../app/store';
 import { addServer, deleteLeaveServerAsync, deleteServer, deleteServerAsync, getServersAsync, postServerAsync, postUpdateServerAsync, putJoinServerAsync, selectServer, updateServer } from './serversSlice';
 import { configureStore } from '@reduxjs/toolkit';
+import { getDummyStore } from '../../utility/testUtils';
 
 const GET_SERVERS_SUCCESSFUL_RESPONSE = {
     data: [
@@ -27,21 +28,6 @@ const GENERIC_SERVER_SUCCESSFUL_RESPONSE = {
     headers: {},
     config: {}
 };
-
-const getStore = () => ({
-    servers: {
-        servers: [
-            {
-                id: faker.datatype.uuid(),
-                name: faker.name.firstName(),
-                owner_id: faker.datatype.uuid(),
-                created_at: faker.date.past().toString(),
-                updated_at: faker.date.past().toString(),
-            }
-        ],
-        selectedServer: 0
-    },
-});
 
 describe('getServersAsync', () => {
     beforeEach(() => {
@@ -162,10 +148,11 @@ describe('postUpdateServerAsync', () => {
 describe('serversSlice', () => {
     describe('selectServer', () => {
         it('sets selected server in state', () => {
+            const { preloadedState } = getDummyStore();
             const store = configureStore({
                 reducer: rootReducer,
                 middleware: rootMiddleware,
-                preloadedState: getStore(),
+                preloadedState,
             });
 
             store.dispatch(selectServer(1));
@@ -176,10 +163,11 @@ describe('serversSlice', () => {
 
     describe('addServer', () => {
         it('stores server in state', () => {
+            const { preloadedState } = getDummyStore();
             const store = configureStore({
                 reducer: rootReducer,
                 middleware: rootMiddleware,
-                preloadedState: getStore(),
+                preloadedState,
             });
 
             store.dispatch(addServer({
@@ -196,16 +184,14 @@ describe('serversSlice', () => {
 
     describe('deleteServer', () => {
         it('removes server from state', () => {
-            const preloadedState = getStore();
-            const serverId = preloadedState.servers.servers[0].id;
-
+            const { preloadedState, dummyData } = getDummyStore();
             const store = configureStore({
                 reducer: rootReducer,
                 middleware: rootMiddleware,
                 preloadedState,
             });
 
-            store.dispatch(deleteServer(serverId));
+            store.dispatch(deleteServer(dummyData.server.id));
 
             expect(store.getState().servers.servers.length).toBe(0);
         });
@@ -213,8 +199,7 @@ describe('serversSlice', () => {
 
     describe('updateServer', () => {
         it('updates server in state', () => {
-            const preloadedState = getStore();
-            const server = preloadedState.servers.servers[0];
+            const { preloadedState, dummyData } = getDummyStore();
 
             const store = configureStore({
                 reducer: rootReducer,
@@ -222,7 +207,7 @@ describe('serversSlice', () => {
                 preloadedState,
             });
 
-            store.dispatch(updateServer({ ...server, name: 'foobar' }));
+            store.dispatch(updateServer({ ...dummyData.server, name: 'foobar' }));
 
             expect(store.getState().servers.servers[0].name).toBe('foobar');
         });

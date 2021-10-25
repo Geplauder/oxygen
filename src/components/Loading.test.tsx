@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { render, screen, fireEvent } from '../utility/testUtils';
-import faker from 'faker';
-import { RootState } from '../app/store';
+import { render, screen, fireEvent, getDummyStore } from '../utility/testUtils';
 import Index from '../pages/Index';
 import Loading from './Loading';
 import { act } from 'react-dom/test-utils';
@@ -13,26 +11,13 @@ jest.mock('jdenticon', () => ({
 
 window.HTMLElement.prototype.scrollIntoView = () => ({});
 
-const getStore = (isConnected: boolean): Partial<RootState> => ({
-    user: {
-        user: {
-            id: faker.datatype.uuid(),
-            username: faker.name.firstName(),
-            created_at: faker.date.past().toString(),
-            updated_at: faker.date.past().toString(),
-        },
-        isConnected: isConnected,
-        isWebsocketClosed: false,
-    }
-});
-
 describe('Loading', () => {
     afterEach(() => {
         jest.useRealTimers();
     });
 
     it('shows when isConnected is false', () => {
-        const preloadedState = getStore(false);
+        const { preloadedState } = getDummyStore({ isConnected: false });
 
         render(<Index />, { preloadedState });
 
@@ -41,7 +26,7 @@ describe('Loading', () => {
     });
 
     it('does not show when isConnected is true', () => {
-        const preloadedState = getStore(true);
+        const { preloadedState } = getDummyStore({ isConnected: true });
 
         render(<Index />, { preloadedState });
 

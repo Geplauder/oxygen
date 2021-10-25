@@ -1,40 +1,23 @@
 import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Router } from 'react-router';
-import { render, screen, fireEvent, intersectionObserverMock, waitFor } from '../../utility/testUtils';
+import { render, screen, fireEvent, intersectionObserverMock, waitFor, getDummyStore } from '../../utility/testUtils';
 import DeleteServer from './DeleteServer';
-import faker from 'faker';
 import { configureStore } from '@reduxjs/toolkit';
 import { rootMiddleware, rootReducer } from '../../app/store';
 
 window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
 
-const getStore = () => ({
-    servers: {
-        servers: [
-            {
-                id: faker.datatype.uuid(),
-                name: faker.name.firstName(),
-                owner_id: faker.datatype.uuid(),
-                created_at: faker.date.past().toString(),
-                updated_at: faker.date.past().toString(),
-            }
-        ],
-        selectedServer: 0
-    },
-})
-
 describe('DeleteServer', () => {
     it('is open when open prop is true', () => {
         const history = createMemoryHistory();
+        const { preloadedState } = getDummyStore();
 
         render(
             <Router history={history}>
                 <DeleteServer open={true} setOpen={() => null} />
             </Router>,
-            {
-                preloadedState: getStore()
-            }
+            { preloadedState }
         );
 
         const textElement = screen.getByText(/Are you sure you want to delete this server\?/i);
@@ -43,14 +26,13 @@ describe('DeleteServer', () => {
 
     it('is not open when open prop is false', () => {
         const history = createMemoryHistory();
+        const { preloadedState } = getDummyStore();
 
         render(
             <Router history={history}>
                 <DeleteServer open={false} setOpen={() => null} />
             </Router>,
-            {
-                preloadedState: getStore()
-            }
+            { preloadedState }
         );
 
         const textElement = screen.queryByText(/Are you sure you want to delete this server\?/i);
@@ -59,12 +41,14 @@ describe('DeleteServer', () => {
 
     it('dispatches deleteServerAsync event on delete button click', async () => {
         const history = createMemoryHistory();
+        const { preloadedState } = getDummyStore();
 
         const store = configureStore({
             reducer: rootReducer,
             middleware: rootMiddleware,
-            preloadedState: getStore(),
+            preloadedState,
         });
+
         const dispatchMock = jest.fn().mockImplementation(() =>
             Promise.resolve(() => ({
                 status: {
@@ -78,9 +62,7 @@ describe('DeleteServer', () => {
             <Router history={history}>
                 <DeleteServer open={true} setOpen={() => null} />
             </Router>,
-            {
-                store
-            }
+            { store }
         );
 
         fireEvent.click(screen.getByText('Delete'));
