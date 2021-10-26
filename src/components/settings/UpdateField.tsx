@@ -1,15 +1,37 @@
 import { Dialog } from '@headlessui/react';
-import React, { useRef, useState } from 'react';
+import { AsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import React, { FunctionComponent, useRef, useState } from 'react';
 import { useAppDispatch } from '../../app/hooks';
+import { postUpdateChannelAsync } from '../../features/channels/channelsSlice';
+import { postUpdateServerAsync } from '../../features/servers/serversSlice';
 import { postUpdateUserAsync } from '../../features/user/userSlice';
 import { ErrorResponse } from '../../types';
 import { PrimaryButton } from '../buttons/Buttons';
 import ErrorBox from '../ErrorBox';
 import { ActionModal } from '../Modal';
 
-export default function UpdateUserField({ field, displayField, inputType, requireConfirmation = false }: { field: string, displayField: string, inputType: React.HTMLInputTypeAttribute, requireConfirmation?: boolean }): JSX.Element {
-    const dispatch = useAppDispatch();
+type UpdateFieldProps = BaseUpdateFieldProps & {
+    callback: (field: string, value: string, currentPassword: string) => Promise<PayloadAction<unknown, string, {
+        arg: {
+            name?: string | undefined;
+            email?: string | undefined;
+            password?: string | undefined;
+            currentPassword: string;
+        };
+        requestId: string;
+        requestStatus: "fulfilled";
+    }, never> | PayloadAction<unknown, string, any, never>>,
+    requirePasswordConfirmation?: boolean,
+};
 
+type BaseUpdateFieldProps = {
+    field: string,
+    displayField: string,
+    inputType: React.HTMLInputTypeAttribute,
+    requireValueConfirmation?: boolean,
+};
+
+export const UpdateField: FunctionComponent<UpdateFieldProps> = ({ callback, field, displayField, inputType, requireValueConfirmation = false, requirePasswordConfirmation = false }): JSX.Element => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -24,13 +46,13 @@ export default function UpdateUserField({ field, displayField, inputType, requir
             setIsLoading(true);
             setError(null);
 
-            if (value.trim().length === 0 || currentPassword.trim().length === 0 || (requireConfirmation && confirmValue.trim().length === 0)) {
+            if (value.trim().length === 0 || (requirePasswordConfirmation && currentPassword.trim().length === 0) || (requireValueConfirmation && confirmValue.trim().length === 0)) {
                 setError('Please fill out all fields.');
 
                 return;
             }
 
-            const status = await dispatch(postUpdateUserAsync({ [field]: value, currentPassword }));
+            const status = await callback(field, value, currentPassword);
 
             if (status.type === postUpdateUserAsync.rejected.type) {
                 const errorResponse = status.payload as ErrorResponse;
@@ -103,7 +125,7 @@ export default function UpdateUserField({ field, displayField, inputType, requir
                                         />
                                     </div>
                                 </div>
-                                {requireConfirmation && (
+                                {requireValueConfirmation && (
                                     <div>
                                         <label htmlFor="confirm-new-value" className="block text-sm font-medium text-gray-100">
                                             Confirm New {displayField}
@@ -122,23 +144,25 @@ export default function UpdateUserField({ field, displayField, inputType, requir
                                         </div>
                                     </div>
                                 )}
-                                <div>
-                                    <label htmlFor="current-password" className="block text-sm font-medium text-gray-100">
-                                        Current Password
-                                    </label>
-                                    <div className="mt-1">
-                                        <input
-                                            type="password"
-                                            name="current-password"
-                                            id="current-password"
-                                            className="bg-main-dark text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-main-black rounded-md"
-                                            value={currentPassword}
-                                            onChange={e => setCurrentPassword(e.target.value)}
-                                            onKeyDown={(e) => handleSubmit(e)}
-                                            data-testid="current-password"
-                                        />
+                                {requirePasswordConfirmation && (
+                                    <div>
+                                        <label htmlFor="current-password" className="block text-sm font-medium text-gray-100">
+                                            Current Password
+                                        </label>
+                                        <div className="mt-1">
+                                            <input
+                                                type="password"
+                                                name="current-password"
+                                                id="current-password"
+                                                className="bg-main-dark text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-main-black rounded-md"
+                                                value={currentPassword}
+                                                onChange={e => setCurrentPassword(e.target.value)}
+                                                onKeyDown={(e) => handleSubmit(e)}
+                                                data-testid="current-password"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -147,3 +171,41 @@ export default function UpdateUserField({ field, displayField, inputType, requir
         </>
     );
 }
+
+export const UpdateUserField: FunctionComponent<BaseUpdateFieldProps> = ({ field, displayField, inputType, requireValueConfirmation = false }): JSX.Element => {
+    const dispatch = useAppDispatch();
+
+    const callback = async (field: string, value: string, currentPassword: string) => {
+        return dispatch(postUpdateUserAsync({ [field]: value, currentPassword }));
+    };
+
+    return <UpdateField callback={callback} field={field} displayField={displayField} inputType={inputType} requireValueConfirmation={requireValueConfirmation} requirePasswordConfirmation={true} />
+};
+
+type UpdateServerFieldProps = BaseUpdateFieldProps & {
+    serverId: string,
+};
+
+export const UpdateServerField: FunctionComponent<UpdateServerFieldProps> = ({ serverId, field, displayField, inputType, requireValueConfirmation = false }): JSX.Element => {
+    const dispatch = useAppDispatch();
+
+    const callback = async (field: string, value: string) => {
+        return dispatch(postUpdateServerAsync({ [field]: value, serverId }));
+    };
+
+    return <UpdateField callback={callback} field={field} displayField={displayField} inputType={inputType} requireValueConfirmation={requireValueConfirmation} requirePasswordConfirmation={false} />
+};
+
+type UpdateChannelFieldProps = BaseUpdateFieldProps & {
+    channelId: string,
+};
+
+export const UpdateChannelField: FunctionComponent<UpdateChannelFieldProps> = ({ channelId, field, displayField, inputType, requireValueConfirmation = false }): JSX.Element => {
+    const dispatch = useAppDispatch();
+
+    const callback = async (field: string, value: string) => {
+        return dispatch(postUpdateChannelAsync({ [field]: value, channelId }));
+    };
+
+    return <UpdateField callback={callback} field={field} displayField={displayField} inputType={inputType} requireValueConfirmation={requireValueConfirmation} requirePasswordConfirmation={false} />
+};

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Channel } from '../../types';
-import UpdateChannelField from './UpdateChannelField';
+import { UpdateChannelField } from './UpdateField';
 
 export default function ChannelInfoSettings({ channel }: { channel: Channel }): JSX.Element {
     return (

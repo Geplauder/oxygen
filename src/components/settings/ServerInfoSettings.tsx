@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { selectServers } from '../../features/servers/serversSlice';
-import UpdateServerField from './UpdateServerField';
+import { UpdateServerField } from './UpdateField';
 
 export default function ServerInfoSettings(): JSX.Element {
     const { selectedServer } = useAppSelector(selectServers);

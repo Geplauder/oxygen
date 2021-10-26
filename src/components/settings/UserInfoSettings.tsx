@@ -3,7 +3,7 @@ import { useAppSelector } from '../../app/hooks';
 import UserAvatar from '../../features/user/UserAvatar';
 import { selectUser } from '../../features/user/userSlice';
 import { DangerButton, PrimaryButton } from '../buttons/Buttons';
-import UpdateUserField from './UpdateUserField';
+import { UpdateUserField } from './UpdateField';
 
 export default function UserInfoSettings(): JSX.Element {
     const { user } = useAppSelector(selectUser);
@@ -54,7 +54,7 @@ export default function UserInfoSettings(): JSX.Element {
                     <dd className="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
                         <span className="flex-grow">***</span>
                         <span className="ml-4 flex-shrink-0">
-                            <UpdateUserField field='password' displayField='Password' inputType='password' requireConfirmation={true} />
+                            <UpdateUserField field='password' displayField='Password' inputType='password' requireValueConfirmation={true} />
                         </span>
                     </dd>
                 </div>
