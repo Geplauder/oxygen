@@ -69,6 +69,13 @@ export function getDummyStore({ userIsOwner = true, isConnected = true, isWebsoc
                     }
                 }
             },
+            users: {
+                users: {
+                    [server.id]: [
+                        user,
+                    ]
+                }
+            },
             user: {
                 user,
                 isConnected,
