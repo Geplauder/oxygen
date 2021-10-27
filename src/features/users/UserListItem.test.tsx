@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDummyStore, render, screen, fireEvent } from '../../utility/testUtils';
+import { getDummyStore, render, screen } from '../../utility/testUtils';
 import UserListItem from './UserListItem';
 
 describe('UserListItem', () => {
