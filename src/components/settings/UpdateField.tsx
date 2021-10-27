@@ -1,5 +1,5 @@
 import { Dialog } from '@headlessui/react';
-import { AsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { PayloadAction } from '@reduxjs/toolkit';
 import React, { FunctionComponent, useRef, useState } from 'react';
 import { useAppDispatch } from '../../app/hooks';
 import { postUpdateChannelAsync } from '../../features/channels/channelsSlice';
