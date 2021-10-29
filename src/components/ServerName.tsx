@@ -26,11 +26,15 @@ export default function ServerName(): JSX.Element {
         history.push('/server-settings/server');
     };
 
+    if (selectedServer === null) {
+        return <div />;
+    }
+
     return (
         <div className="flex items-center h-12">
-            <p className='flex-1 mx-4 text-white text-xl font-semibold select-none truncate'>{selectedServer?.name}</p>
+            <p className='flex-1 mx-4 text-white text-xl font-semibold select-none truncate'>{selectedServer.name}</p>
             <Dropdown>
-                {selectedServer?.owner_id === user?.id ? (
+                {selectedServer.owner_id === user?.id ? (
                     <>
                         <div className='py-1'>
                             <DropdownItem onClick={() => setOpenCreateChannel(true)} icon={PlusIcon}>
