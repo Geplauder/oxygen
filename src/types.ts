@@ -35,6 +35,14 @@ export type Message = {
     created_at: string,
 }
 
+export type ServerInvite = {
+    id: string,
+    server_id: string,
+    code: string,
+    updated_at: string,
+    created_at: string,
+}
+
 export enum WebsocketMessageType {
     Ping = "Ping",
     Pong = "Pong",
