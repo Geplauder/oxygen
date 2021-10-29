@@ -11,8 +11,8 @@ export function postServer(name: string): Promise<AxiosResponse> {
     });
 }
 
-export function putJoinServer(serverId: string): Promise<AxiosResponse> {
-    return axios.put(`servers/${serverId}`);
+export function putJoinServer(inviteCode: string): Promise<AxiosResponse> {
+    return axios.put(`servers/${inviteCode}`);
 }
 
 export function deleteServer(serverId: string): Promise<AxiosResponse> {

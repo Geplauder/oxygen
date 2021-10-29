@@ -12,7 +12,7 @@ export default function JoinServer({ open, setOpen }: { open: boolean, setOpen: 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    const [serverId, setServerId] = useState('Server Id');
+    const [inviteCode, setInviteCode] = useState('');
     const cancelButtonRef = useRef(null);
 
     const joinServer = async () => {
@@ -20,13 +20,13 @@ export default function JoinServer({ open, setOpen }: { open: boolean, setOpen: 
             setIsLoading(true);
             setError(null);
 
-            if (serverId.trim().length === 0) {
+            if (inviteCode.trim().length === 0) {
                 setError('Please fill out all fields.');
 
                 return;
             }
 
-            const status = await dispatch(putJoinServerAsync({ serverId }));
+            const status = await dispatch(putJoinServerAsync({ inviteCode }));
 
             if (status.type === putJoinServerAsync.rejected.type) {
                 const errorResponse = status.payload as ErrorResponse;
@@ -77,7 +77,7 @@ export default function JoinServer({ open, setOpen }: { open: boolean, setOpen: 
                     <div className="mt-2">
                         <div>
                             <label htmlFor="server-id" className="block text-sm font-medium text-gray-100">
-                                Server Id
+                                Invite Code
                             </label>
                             <div className="mt-1">
                                 <input
@@ -85,9 +85,10 @@ export default function JoinServer({ open, setOpen }: { open: boolean, setOpen: 
                                     name="server-id"
                                     id="server-id"
                                     className="bg-main-dark text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-main-black rounded-md"
-                                    value={serverId}
-                                    onChange={e => setServerId(e.target.value)}
+                                    value={inviteCode}
+                                    onChange={e => setInviteCode(e.target.value)}
                                     onKeyDown={(e) => handleSubmit(e)}
+                                    placeholder='Enter invite code'
                                 />
                             </div>
                         </div>
