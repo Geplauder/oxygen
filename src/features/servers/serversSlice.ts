@@ -48,9 +48,9 @@ export const postServerAsync = createAsyncThunk(
 
 export const putJoinServerAsync = createAsyncThunk(
     "servers/putJoinServerAsync",
-    async ({ serverId }: { serverId: string }, { rejectWithValue }) => {
+    async ({ inviteCode }: { inviteCode: string }, { rejectWithValue }) => {
         try {
-            await putJoinServer(serverId);
+            await putJoinServer(inviteCode);
         } catch (error: any) {
             return rejectWithValue({ status: error.response.status, data: error.response.data });
         }

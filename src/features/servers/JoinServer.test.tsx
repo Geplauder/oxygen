@@ -18,7 +18,7 @@ describe('JoinServer', () => {
         expect(textElement).not.toBeInTheDocument();
     });
 
-    it('shows error when server id input is empty', () => {
+    it('shows error when invite code input is empty', () => {
         render(<JoinServer open={true} setOpen={() => null} />);
 
         fireEvent.change(screen.getByRole('textbox'), { target: { value: '' } });
@@ -40,6 +40,7 @@ describe('JoinServer', () => {
 
         render(<JoinServer open={true} setOpen={() => null} />, { store });
 
+        fireEvent.change(screen.getByRole('textbox'), { target: { value: 'foobar' } });
         fireEvent.click(screen.getByText('Join'));
 
         await waitFor(() => {
@@ -61,6 +62,7 @@ describe('JoinServer', () => {
 
         render(<JoinServer open={true} setOpen={() => null} />, { store });
 
+        fireEvent.change(screen.getByRole('textbox'), { target: { value: 'foobar' } });
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
 
         await waitFor(() => {
@@ -82,6 +84,7 @@ describe('JoinServer', () => {
 
         render(<JoinServer open={true} setOpen={() => null} />, { store });
 
+        fireEvent.change(screen.getByRole('textbox'), { target: { value: 'foobar' } });
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'foo' });
 
         await waitFor(() => {

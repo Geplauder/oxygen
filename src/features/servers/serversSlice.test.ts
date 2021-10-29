@@ -85,7 +85,7 @@ describe('putJoinServerAsync', () => {
     it('sends request', async () => {
         axios.put = jest.fn().mockImplementation(() => Promise.resolve(GENERIC_SERVER_SUCCESSFUL_RESPONSE));
 
-        await store.dispatch(putJoinServerAsync({ serverId: 'foobar' }));
+        await store.dispatch(putJoinServerAsync({ inviteCode: 'foobar' }));
 
         expect(axios.put).toHaveBeenCalledWith('servers/foobar');
     });
