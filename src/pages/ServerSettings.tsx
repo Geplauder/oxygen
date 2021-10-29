@@ -4,7 +4,8 @@ import { Route, useHistory, useRouteMatch } from 'react-router';
 import { Settings, SettingsButton, SettingsContent, SettingsLink, SettingsNavigation, SettingsNavigationBottom, SettingsNavigationTop } from '../components/settings/BaseSettings';
 import ServerInfoSettings from '../components/settings/ServerInfoSettings';
 import DeleteServer from '../features/servers/DeleteServer';
-import { TrashIcon } from '@heroicons/react/solid';
+import { TrashIcon, UserAddIcon } from '@heroicons/react/solid';
+import ServerInviteSettings from '../components/settings/ServerInviteSettings';
 
 export default function ServerSettings(): JSX.Element {
     const history = useHistory();
@@ -20,8 +21,11 @@ export default function ServerSettings(): JSX.Element {
         <Settings>
             <SettingsNavigation>
                 <SettingsNavigationTop>
-                    <SettingsLink to={`${url}/server`} icon={CogIcon} >
+                    <SettingsLink to={`${url}/server`} icon={CogIcon}>
                         Server Settings
+                    </SettingsLink>
+                    <SettingsLink to={`${url}/invites`} icon={UserAddIcon}>
+                        Invites
                     </SettingsLink>
                 </SettingsNavigationTop>
                 <SettingsNavigationBottom>
@@ -33,6 +37,9 @@ export default function ServerSettings(): JSX.Element {
             <SettingsContent onGoBack={goBack}>
                 <Route path={`${path}/server`}>
                     <ServerInfoSettings />
+                </Route>
+                <Route path={`${path}/invites`}>
+                    <ServerInviteSettings />
                 </Route>
             </SettingsContent>
         </Settings>
