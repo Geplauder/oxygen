@@ -9,7 +9,7 @@ export default function ServerList(): JSX.Element {
 
     return (
         <>
-            <div className="flex flex-col overflow-y-auto items-center space-y-4 py-4 bg-main w-[6.5rem] h-screen no-scrollbar border-r border-main-black">
+            <div className="flex flex-none flex-col overflow-y-auto items-center space-y-4 py-4 bg-main w-[6.5rem] h-screen no-scrollbar border-r border-main-black">
                 {servers && servers.map((server, idx) => (
                     <ServerListItem server={server} idx={idx} key={idx} />
                 ))}

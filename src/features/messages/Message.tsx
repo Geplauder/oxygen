@@ -13,7 +13,7 @@ export default function Message({ message }: { message: MessageObject }): JSX.El
                 <p className='font-semibold'>
                     {message.user.username} <span className='ml-1 font-normal text-[8pt] text-gray-300 cursor-default'>{moment(message.created_at).calendar()}</span>
                 </p>
-                <p>
+                <p className='break-anywhere'>
                     {message.content}
                 </p>
             </div>
