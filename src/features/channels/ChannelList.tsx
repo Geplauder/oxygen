@@ -12,7 +12,7 @@ export default function ChannelList(): JSX.Element {
 
     return (
         <div className='flex w-full'>
-            <div className='bg-main border-r border-main-black w-64 flex flex-col'>
+            <div className='bg-main border-r border-main-black w-64 flex-none flex flex-col'>
                 <ServerName />
                 <div className='flex flex-1 overflow-y-auto scrollbar scrollbar-hidden flex-col space-y-2 my-2'>
                     {currentChannels && currentChannels.channels.map((channel, idx) => (
