@@ -41,5 +41,12 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/forms'),
+    function({ addUtilities }) {
+      addUtilities({
+        '.break-anywhere': {
+          overflowWrap: 'anywhere',
+        }
+      })
+    }
   ],
 };
