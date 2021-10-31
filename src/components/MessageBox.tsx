@@ -9,7 +9,7 @@ export default function MessageBox({ selectedChannel }: { selectedChannel: Chann
     const [message, setMessage] = useState('');
 
     const sendMessage = async (event: KeyboardEvent) => {
-        if (event.key !== 'Enter' || message.length === 0) {
+        if (event.key !== 'Enter' || message.trim().length === 0) {
             return;
         }
 
