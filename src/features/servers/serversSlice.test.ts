@@ -4,6 +4,7 @@ import { rootMiddleware, rootReducer, store } from '../../app/store';
 import { addServer, deleteLeaveServerAsync, deleteServer, deleteServerAsync, getServersAsync, postServerAsync, postUpdateServerAsync, putJoinServerAsync, selectServer, updateServer } from './serversSlice';
 import { configureStore } from '@reduxjs/toolkit';
 import { getDummyStore } from '../../utility/testUtils';
+import { ServerFlags } from '../../types';
 
 const GET_SERVERS_SUCCESSFUL_RESPONSE = {
     data: [
@@ -174,6 +175,7 @@ describe('serversSlice', () => {
                 id: faker.datatype.uuid(),
                 name: faker.name.firstName(),
                 owner_id: faker.datatype.uuid(),
+                flags: ServerFlags.None,
                 created_at: faker.date.past().toString(),
                 updated_at: faker.date.past().toString(),
             }));

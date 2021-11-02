@@ -4,15 +4,16 @@ import { Provider } from 'react-redux'
 import { rootReducer, rootMiddleware, RootState } from '../app/store';
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import faker from 'faker';
-import { Channel, Server, User } from '../types';
+import { Channel, Server, ServerFlags, User } from '../types';
 
 type DummyStoreOptions = {
     userIsOwner?: boolean,
+    serverIsVerified?: boolean,
     isConnected?: boolean,
     isWebsocketClosed?: boolean,
 };
 
-export function getDummyStore({ userIsOwner = true, isConnected = true, isWebsocketClosed = false }: DummyStoreOptions = {}): { dummyData: { user: User, server: Server, firstChannel: Channel, secondChannel: Channel }, preloadedState: Partial<RootState> } {
+export function getDummyStore({ userIsOwner = true, serverIsVerified = false, isConnected = true, isWebsocketClosed = false }: DummyStoreOptions = {}): { dummyData: { user: User, server: Server, firstChannel: Channel, secondChannel: Channel }, preloadedState: Partial<RootState> } {
     const user = {
         id: faker.datatype.uuid(),
         username: faker.name.firstName(),
@@ -20,10 +21,16 @@ export function getDummyStore({ userIsOwner = true, isConnected = true, isWebsoc
         updated_at: faker.date.past().toString(),
     };
 
+    let flags = ServerFlags.None;
+    if (serverIsVerified) {
+        flags |= ServerFlags.Verified;
+    }
+
     const server = {
         id: faker.datatype.uuid(),
         name: faker.name.firstName(),
         owner_id: userIsOwner ? user.id : faker.datatype.uuid(),
+        flags,
         created_at: faker.date.past().toString(),
         updated_at: faker.date.past().toString(),
     };

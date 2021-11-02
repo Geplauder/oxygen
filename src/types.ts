@@ -14,6 +14,7 @@ export type Server = {
     id: string;
     name: string;
     owner_id: string;
+    flags: ServerFlags,
     updated_at: string,
     created_at: string,
 }
@@ -41,6 +42,11 @@ export type ServerInvite = {
     code: string,
     updated_at: string,
     created_at: string,
+}
+
+export enum ServerFlags {
+    None = 0,
+    Verified = 1 << 0,
 }
 
 export enum WebsocketMessageType {
