@@ -6,12 +6,14 @@ import Dropdown from './Dropdown';
 import DropdownItem from './DropdownItem';
 import {
     ArrowCircleLeftIcon,
+    BadgeCheckIcon,
     CogIcon,
     PlusIcon,
 } from '@heroicons/react/solid'
 import LeaveServer from '../features/servers/LeaveServer';
 import { selectUser } from '../features/user/userSlice';
 import { useHistory } from 'react-router';
+import { ServerFlags } from '../types';
 
 export default function ServerName(): JSX.Element {
     const history = useHistory();
@@ -32,7 +34,12 @@ export default function ServerName(): JSX.Element {
 
     return (
         <div className="flex items-center h-12">
-            <p className='flex-1 mx-4 text-white text-xl font-semibold select-none truncate'>{selectedServer.name}</p>
+            <p className='flex flex-1 mx-4 items-center text-white text-xl font-semibold select-none truncate'>
+                {(selectedServer.flags & ServerFlags.Verified) > 0 && (
+                    <BadgeCheckIcon className='w-5 h-5 mr-1.5 mt-0.5' />
+                )}
+                {selectedServer.name}
+            </p>
             <Dropdown>
                 {selectedServer.owner_id === user?.id ? (
                     <>
