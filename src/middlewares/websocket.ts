@@ -1,6 +1,8 @@
 import { Middleware } from "redux";
 import { RootState } from "../app/store";
 import { hydrate, invalidateToken, loginAsync } from "../features/auth/authSlice";
+import { startTyping } from "../features/channels/channelsSlice";
+import { WebsocketMessageType } from "../types";
 import { GeplauderWebsocket } from "../utility/geplauderWebsocket";
 
 export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
@@ -27,6 +29,16 @@ export const websocketMiddleware: Middleware<unknown, RootState> = storeApi => {
             }
             case invalidateToken.type: {
                 websocket.disconnect();
+                break;
+            }
+            case startTyping.type: {
+                const channel = action.payload;
+                websocket.sendMessage({
+                    type: WebsocketMessageType.StartTyping,
+                    payload: {
+                        channel_id: channel,
+                    }
+                });
                 break;
             }
         }
