@@ -2,6 +2,7 @@ import { MiddlewareAPI } from "redux";
 import { addChannel, deleteChannel, deleteChannelsForServer, updateChannel } from "../features/channels/channelsSlice";
 import { addMessage, deleteMessagesForChannel } from "../features/messages/messagesSlice";
 import { addServer, deleteServer, getServersAsync, updateServer } from "../features/servers/serversSlice";
+import { addTypingUser, removeTypingUser } from "../features/typingUsers/typingUsersSlice";
 import { getUserAsync, setIsConnected, setIsWebsocketClosed } from "../features/user/userSlice";
 import { addUser, deleteUserForServer, deleteUsersForServer } from "../features/users/usersSlice";
 import { WebsocketMessage, WebsocketMessageType } from "../types";
@@ -63,6 +64,10 @@ export class GeplauderWebsocket {
 
     public setToken(token: string): void {
         this.token = token;
+    }
+
+    public sendMessage(message: WebsocketMessage): void {
+        this.websocket?.send(JSON.stringify(message));
     }
 
     private onMessage(event: MessageEvent): void {
@@ -138,6 +143,14 @@ export class GeplauderWebsocket {
             }
             case WebsocketMessageType.UpdateChannel: {
                 this.storeApi.dispatch(updateChannel(message.payload.channel));
+
+                break;
+            }
+            case WebsocketMessageType.UserStartsTyping: {
+                this.storeApi.dispatch(addTypingUser({ user: message.payload.user, channelId: message.payload.channel_id }));
+                setTimeout(() => {
+                    this.storeApi.dispatch(removeTypingUser({ user: message.payload.user, channelId: message.payload.channel_id }));
+                }, 1000 * 2.5);
 
                 break;
             }

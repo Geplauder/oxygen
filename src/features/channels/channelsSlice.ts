@@ -75,7 +75,7 @@ export const channelsSlice = createSlice({
         clearChannels: (state) => {
             state.channels = {};
         },
-        deleteChannel: (state, action: PayloadAction<{serverId: string, channelId: string }>) => {
+        deleteChannel: (state, action: PayloadAction<{ serverId: string, channelId: string }>) => {
             const serverChannels = state.channels[action.payload.serverId];
             const channelIndex = serverChannels.channels.findIndex(x => x.id === action.payload.channelId);
 
@@ -92,7 +92,8 @@ export const channelsSlice = createSlice({
             const channelIndex = state.channels[action.payload.server_id].channels.findIndex(x => x.id === action.payload.id);
 
             state.channels[action.payload.server_id].channels[channelIndex] = action.payload;
-        }
+        },
+        startTyping: (state, action: PayloadAction<string>) => { action }
     },
     extraReducers: (builder) => {
         builder
@@ -105,7 +106,7 @@ export const channelsSlice = createSlice({
     }
 });
 
-export const { selectChannel, addChannel, clearChannels, deleteChannelsForServer, deleteChannel, updateChannel } = channelsSlice.actions;
+export const { selectChannel, addChannel, clearChannels, deleteChannelsForServer, deleteChannel, updateChannel, startTyping } = channelsSlice.actions;
 
 export const selectChannels = (state: RootState): { [serverId: string]: { channels: Channel[], selectedChannel: number } } => state.channels.channels;
 
