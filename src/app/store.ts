@@ -5,6 +5,7 @@ import usersReducer from '../features/users/usersSlice';
 import serversReducer from '../features/servers/serversSlice';
 import channelsReducer from '../features/channels/channelsSlice';
 import messagesReducer from '../features/messages/messagesSlice';
+import typingUsersReducer from '../features/typingUsers/typingUsersSlice';
 import { websocketMiddleware } from '../middlewares/websocket';
 import { CurriedGetDefaultMiddleware } from '@reduxjs/toolkit/dist/getDefaultMiddleware';
 
@@ -15,6 +16,7 @@ export const rootReducer = combineReducers({
   servers: serversReducer,
   channels: channelsReducer,
   messages: messagesReducer,
+  typingUsers: typingUsersReducer,
 });
 
 export const rootMiddleware = (getDefaultMiddleware: CurriedGetDefaultMiddleware) => getDefaultMiddleware().concat(websocketMiddleware);
