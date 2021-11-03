@@ -63,6 +63,8 @@ export enum WebsocketMessageType {
     DeleteUser = "DeleteUser",
     UpdateServer = "UpdateServer",
     UpdateChannel = "UpdateChannel",
+    StartTyping = "StartTyping",
+    UserStartsTyping = "UserStartsTyping",
 }
 
 export type WebsocketMessage = {
@@ -102,6 +104,12 @@ export type WebsocketMessage = {
 } | {
     type: WebsocketMessageType.UpdateChannel,
     payload: WebsocketUpdateChannel,
+} | {
+    type: WebsocketMessageType.StartTyping,
+    payload: WebsocketStartTyping,
+} | {
+    type: WebsocketMessageType.UserStartsTyping,
+    payload: WebsocketUserStartsTyping,
 }
 
 export type WebsocketIdentify = {
@@ -150,4 +158,13 @@ export type WebsocketUpdateServer = {
 
 export type WebsocketUpdateChannel = {
     channel: Channel,
+}
+
+export type WebsocketStartTyping = {
+    channel_id: string,
+}
+
+export type WebsocketUserStartsTyping = {
+    user: User,
+    channel_id: string,
 }
