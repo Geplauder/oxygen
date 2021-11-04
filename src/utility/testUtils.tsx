@@ -11,9 +11,10 @@ type DummyStoreOptions = {
     serverIsVerified?: boolean,
     isConnected?: boolean,
     isWebsocketClosed?: boolean,
+    userIsTyping?: boolean,
 };
 
-export function getDummyStore({ userIsOwner = true, serverIsVerified = false, isConnected = true, isWebsocketClosed = false }: DummyStoreOptions = {}): { dummyData: { user: User, server: Server, firstChannel: Channel, secondChannel: Channel }, preloadedState: Partial<RootState> } {
+export function getDummyStore({ userIsOwner = true, serverIsVerified = false, isConnected = true, isWebsocketClosed = false, userIsTyping = false }: DummyStoreOptions = {}): { dummyData: { user: User, server: Server, firstChannel: Channel, secondChannel: Channel }, preloadedState: Partial<RootState> } {
     const user = {
         id: faker.datatype.uuid(),
         username: faker.name.firstName(),
@@ -87,6 +88,11 @@ export function getDummyStore({ userIsOwner = true, serverIsVerified = false, is
                 user,
                 isConnected,
                 isWebsocketClosed,
+            },
+            typingUsers: {
+                users: {
+                    [firstChannel.id]: userIsTyping ? [user] : []
+                }
             }
         }
     }

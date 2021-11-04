@@ -45,7 +45,7 @@ export default function MessageBox({ selectedChannel }: { selectedChannel: Chann
                     onKeyDown={sendMessage}
                 />
             </div>
-            <span className='w-full text-left text-white text-sm mt-0.5 px-4 h-6'>
+            <span className='w-full text-left text-white text-sm mt-0.5 px-4 h-6' data-testid='users-typing'>
                 {typingUsers.length > 0 && (
                     <>
                         {typingUsers.map<React.ReactNode>((x, idx) => <span key={idx} className='font-bold'>{x.username}</span>).reduce((prev, curr) => [prev, ', ', curr])}

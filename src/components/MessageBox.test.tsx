@@ -33,21 +33,6 @@ describe('MessageBox', () => {
         expect(setState).toHaveBeenCalledWith('foobar');
     });
 
-    // it('dispatches postMessageAsync action on enter keypress', () => {
-    //     const { dummyData } = getDummyStore();
-
-    //     const dispatchMock = jest.fn();
-    //     store.dispatch = dispatchMock;
-
-    //     render(<MessageBox selectedChannel={dummyData.firstChannel} />, { store });
-
-    //     const inputElement = screen.getByRole('textbox');
-    //     fireEvent.change(inputElement, { target: { value: 'foobar' } });
-    //     fireEvent.keyDown(inputElement, { key: 'Enter' });
-
-    //     expect(dispatchMock).toBeCalledTimes(1);
-    // });
-
     it('does not dispatch postMessageAsync action on enter keypress if message is empty', () => {
         const { dummyData } = getDummyStore();
 
@@ -74,5 +59,13 @@ describe('MessageBox', () => {
         fireEvent.keyDown(inputElement, { key: 'Return' });
 
         expect(dispatchMock).toBeCalledTimes(0);
+    });
+
+    it('shows users that are typing in this channel', () => {
+        const { preloadedState, dummyData } = getDummyStore({ userIsTyping: true });
+
+        render(<MessageBox selectedChannel={dummyData.firstChannel} />, { preloadedState });
+
+        expect(screen.getByTestId('users-typing')).toHaveTextContent(dummyData.user.username + ' is typing...');
     });
 });
