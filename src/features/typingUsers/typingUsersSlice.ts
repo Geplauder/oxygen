@@ -16,7 +16,9 @@ export const typingUsersSlice = createSlice({
     reducers: {
         addTypingUser: (state, action: PayloadAction<{ user: User, channelId: string }>) => {
             if (state.users[action.payload.channelId]) {
-                state.users[action.payload.channelId].push(action.payload.user);
+                if (state.users[action.payload.channelId].filter(x => x.id === action.payload.user.id).length === 0) {
+                    state.users[action.payload.channelId].push(action.payload.user);
+                }
             } else {
                 state.users[action.payload.channelId] = [action.payload.user];
             }
