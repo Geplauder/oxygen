@@ -18,6 +18,8 @@ export class GeplauderWebsocket {
 
     private shouldReconnect = true;
 
+    private typingUsersTimeouts: { [channelId: string]: { [userId: string]: NodeJS.Timeout } } = {};
+
     public constructor(websocketUrl: string, storeApi: MiddlewareAPI) {
         this.websocketUrl = websocketUrl;
         this.storeApi = storeApi;
@@ -148,9 +150,20 @@ export class GeplauderWebsocket {
             }
             case WebsocketMessageType.UserStartsTyping: {
                 this.storeApi.dispatch(addTypingUser({ user: message.payload.user, channelId: message.payload.channel_id }));
-                setTimeout(() => {
+
+                if (this.typingUsersTimeouts[message.payload.channel_id] && this.typingUsersTimeouts[message.payload.channel_id][message.payload.user.id]) {
+                    clearTimeout(this.typingUsersTimeouts[message.payload.channel_id][message.payload.user.id]);
+                }
+
+                const timeout = setTimeout(() => {
                     this.storeApi.dispatch(removeTypingUser({ user: message.payload.user, channelId: message.payload.channel_id }));
-                }, 1000 * 2.5);
+                }, 1000 * 3.5);
+
+                if (!this.typingUsersTimeouts[message.payload.channel_id]) {
+                    this.typingUsersTimeouts[message.payload.channel_id] = {};
+                }
+
+                this.typingUsersTimeouts[message.payload.channel_id][message.payload.user.id] = timeout;
 
                 break;
             }
