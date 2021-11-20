@@ -14,6 +14,7 @@ import LeaveServer from '../features/servers/LeaveServer';
 import { selectUser } from '../features/user/userSlice';
 import { useHistory } from 'react-router';
 import { ServerFlags } from '../types';
+import Tooltip from './Tooltip';
 
 export default function ServerName(): JSX.Element {
     const history = useHistory();
@@ -36,7 +37,9 @@ export default function ServerName(): JSX.Element {
         <div className="flex items-center h-12">
             <p className='flex flex-1 mx-4 items-center text-white text-xl font-semibold select-none truncate'>
                 {(selectedServer.flags & ServerFlags.Verified) > 0 && (
-                    <BadgeCheckIcon className='w-5 h-5 mr-1.5 mt-0.5' />
+                    <Tooltip content='Verified' placement='bottom'>
+                        <BadgeCheckIcon className='w-5 h-5 mr-1.5 mt-0.5' />
+                    </Tooltip>
                 )}
                 {selectedServer.name}
             </p>
