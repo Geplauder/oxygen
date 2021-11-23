@@ -15,7 +15,7 @@ export default function MessageBox({ selectedChannel }: { selectedChannel: Chann
 
 
     const sendMessage = async (event: KeyboardEvent) => {
-        if (event.key !== 'Enter' || message.trim().length === 0) {
+        if (event.key !== 'Enter' || event.shiftKey || message.trim().length === 0) {
             return;
         }
 
@@ -24,7 +24,7 @@ export default function MessageBox({ selectedChannel }: { selectedChannel: Chann
         setMessage('');
     }
 
-    const onMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setMessage(event.target.value);
 
         const now = Date.now();
@@ -37,11 +37,16 @@ export default function MessageBox({ selectedChannel }: { selectedChannel: Chann
     return (
         <div className="flex flex-col items-center">
             <div className='px-4 w-full'>
-                <input type="text"
-                    className='w-full h-12 rounded-lg bg-[#121418] text-white border-none placeholder-[#909399] focus:ring-2 focus:ring-indigo-500'
+                <textarea
+                    className='w-full h-10 rounded-lg bg-[#121418] text-white border-none placeholder-[#909399] resize-none focus:ring-2 focus:ring-indigo-500'
                     placeholder={'Message #' + selectedChannel.name}
                     value={message}
                     onChange={onMessageChange}
+                    onKeyPress={e => {
+                        if (e.key === 'Enter' && e.shiftKey === false) {
+                            e.preventDefault();
+                        }
+                    }}
                     onKeyDown={sendMessage}
                 />
             </div>
