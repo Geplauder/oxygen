@@ -3,6 +3,8 @@ import moment from 'moment';
 import { Message as MessageObject } from '../../types';
 import UserAvatar from '../user/UserAvatar';
 import UserPopover from '../users/UserPopover';
+import ReactMarkdown from 'react-markdown';
+import remarkBreaks from 'remark-breaks';
 
 export default function Message({ message }: { message: MessageObject }): JSX.Element {
     return (
@@ -20,7 +22,7 @@ export default function Message({ message }: { message: MessageObject }): JSX.El
                     <span className='ml-2 mt-1 font-normal text-[8pt] text-gray-300 cursor-default'>{moment(message.created_at).calendar()}</span>
                 </div>
                 <p className='break-anywhere'>
-                    {message.content}
+                    <ReactMarkdown children={message.content} remarkPlugins={[remarkBreaks]} />
                 </p>
             </div>
         </div>
