@@ -20,9 +20,11 @@
         "moment": "^2.29.1",
         "react": "^17.0.0",
         "react-dom": "^17.0.0",
+        "react-markdown": "^7.1.0",
         "react-popper": "^2.2.5",
         "react-redux": "^7.2.6",
-        "react-router-dom": "^5.3.0"
+        "react-router-dom": "^5.3.0",
+        "remark-breaks": "^3.0.2"
     },
     "devDependencies": {
         "@testing-library/jest-dom": "^5.15.1",

@@ -10,3 +10,5 @@ window.HTMLElement.prototype.scrollIntoView = () => ({});
 jest.mock('jdenticon', () => ({
     update: () => null,
 }));
+
+jest.mock('remark-breaks', () => ({}));
