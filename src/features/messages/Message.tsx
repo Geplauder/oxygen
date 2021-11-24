@@ -21,11 +21,11 @@ export default function Message({ message }: { message: MessageObject }): JSX.El
                     </UserPopover>
                     <span className='ml-2 mt-1 font-normal text-[8pt] text-gray-300 cursor-default'>{moment(message.created_at).calendar()}</span>
                 </div>
-                <p className='break-anywhere'>
+                <div className='break-anywhere'>
                     <ReactMarkdown remarkPlugins={[remarkBreaks]}>
                         {message.content}
                     </ReactMarkdown>
-                </p>
+                </div>
             </div>
         </div>
     );
