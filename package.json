@@ -23,7 +23,7 @@
         "react-markdown": "^7.1.0",
         "react-popper": "^2.2.5",
         "react-redux": "^7.2.6",
-        "react-router-dom": "^5.3.0",
+        "react-router-dom": "^6.0.2",
         "remark-breaks": "^3.0.2"
     },
     "devDependencies": {
