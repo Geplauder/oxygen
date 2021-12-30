@@ -69,34 +69,44 @@ export enum WebsocketMessageType {
 
 export type WebsocketMessage = {
     type: WebsocketMessageType.Ping,
+    id?: number,
 } | {
     type: WebsocketMessageType.Pong,
+    id?: number,
 } | {
     type: WebsocketMessageType.Identify,
+    id?: number,
     payload: WebsocketIdentify
 } | {
     type: WebsocketMessageType.Ready,
+    id?: number,
     payload: WebsocketReady
 } | {
     type: WebsocketMessageType.NewMessage,
+    id?: number,
     payload: WebsocketNewMessage
 } | {
     type: WebsocketMessageType.NewChannel,
+    id?: number,
     payload: WebsocketNewChannel
 } | {
     type: WebsocketMessageType.NewServer,
+    id?: number,
     payload: WebsocketNewServer,
 } | {
     type: WebsocketMessageType.NewUser,
+    id?: number,
     payload: WebsocketNewUser,
 } | {
     type: WebsocketMessageType.DeleteServer,
+    id?: number,
     payload: WebsocketDeleteServer,
 } | {
     type: WebsocketMessageType.DeleteChannel,
     payload: WebsocketDeleteChannel,
 } | {
     type: WebsocketMessageType.DeleteUser,
+    id?: number,
     payload: WebsocketDeleteUser,
 } | {
     type: WebsocketMessageType.UpdateServer,
