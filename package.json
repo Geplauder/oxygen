@@ -32,7 +32,7 @@
         "@testing-library/user-event": "^13.1.9",
         "@types/enzyme": "^3.10.10",
         "@types/faker": "^5.5.9",
-        "@types/react": "^17.0.36",
+        "@types/react": "^17.0.39",
         "@types/react-dom": "^17.0.11",
         "@types/react-router-dom": "^5.3.2",
         "@typescript-eslint/eslint-plugin": "^4.33.0",
