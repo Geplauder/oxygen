@@ -46,7 +46,7 @@
         "jasmine-ts": "^0.4.0",
         "jest": "^27.3.1",
         "postcss": "^8.4.7",
-        "tailwindcss": "^2.2.19",
+        "tailwindcss": "^3.1.5",
         "ts-jest": "^27.0.7",
         "typescript": "^4.5.2",
         "vite": "^2.6.14"
